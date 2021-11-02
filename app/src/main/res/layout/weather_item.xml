@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weatherCard"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="16dp"
+    android:elevation="5dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="5dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            tools:text="12:00" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/imgWeatherRecycler"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_below="@id/txtTime"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/txtTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgWeatherRecycler"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            tools:text="19" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

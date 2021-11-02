@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/border_activity"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+    <ImageView
+        android:id="@+id/theIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        tools:srcCompat="@drawable/ic_baseline_location_on_black"
+        android:layout_margin="10dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/leDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20/12/2021"
+            android:textSize="13dp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/leTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00 AM"
+            android:textSize="13dp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/leActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Golf with clients"/>
+        <TextView
+            android:id="@+id/leCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:textColor="@color/black"
+            android:text="Bali, Indonesia"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="end">
+        <ImageView
+            android:id="@+id/deleteActivity"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:srcCompat="@drawable/ic_baseline_close_24"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+
+
+</LinearLayout>
