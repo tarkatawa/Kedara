@@ -17,6 +17,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
+import umn.ac.keadaanudara.Friday.WeeklyFridayActivityModel;
+import umn.ac.keadaanudara.Friday.WeeklyFridayDatabaseHelper;
+import umn.ac.keadaanudara.Monday.WeeklyMondayActivityModel;
+import umn.ac.keadaanudara.Monday.WeeklyMondayDatabaseHelper;
+import umn.ac.keadaanudara.Saturday.WeeklySaturdayActivityModel;
+import umn.ac.keadaanudara.Saturday.WeeklySaturdayDatabaseHelper;
+import umn.ac.keadaanudara.Sunday.WeeklySundayActivityModel;
+import umn.ac.keadaanudara.Sunday.WeeklySundayDatabaseHelper;
+import umn.ac.keadaanudara.Thursday.WeeklyThursdayActivityModel;
+import umn.ac.keadaanudara.Thursday.WeeklyThursdayDatabaseHelper;
+import umn.ac.keadaanudara.Tuesday.WeeklyTuesdayActivityModel;
+import umn.ac.keadaanudara.Tuesday.WeeklyTuesdayDatabaseHelper;
+import umn.ac.keadaanudara.Wednesday.WeeklyWednesdayActivityModel;
+import umn.ac.keadaanudara.Wednesday.WeeklyWednesdayDatabaseHelper;
+
 public class InputRepetitive extends AppCompatActivity {
 
     TextView tvTime;

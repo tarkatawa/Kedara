@@ -1,28 +1,25 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Saturday;
 
-public class OneTimeActivityModel {
+public class WeeklySaturdayActivityModel {
     private String activity;
     private String location;
-    private String date;
     private String time;
     private int reminders;
 
-    public OneTimeActivityModel(String activity, String location, String date, String time, int reminders) {
+    public WeeklySaturdayActivityModel(String activity, String location, String time, int reminders) {
         this.activity = activity;
         this.location = location;
-        this.date = date;
         this.time = time;
         this.reminders = reminders;
     }
 
-    public OneTimeActivityModel(){}
+    public WeeklySaturdayActivityModel(){}
 
     @Override
     public String toString() {
-        return "OneActivityModel{" +
+        return "WeeklySaturdayModel{" +
                 "activity='" + activity + '\'' +
                 ", location='" + location + '\'' +
-                ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", reminders=" + reminders +
                 '}';
@@ -34,10 +31,6 @@ public class OneTimeActivityModel {
 
     public String getLocation() {
         return location;
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public String getTime() {
@@ -56,10 +49,6 @@ public class OneTimeActivityModel {
         this.location = location;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public void setTime(String time) {
         this.time = time;
     }
@@ -68,3 +57,6 @@ public class OneTimeActivityModel {
         this.reminders = reminders;
     }
 }
+
+
+

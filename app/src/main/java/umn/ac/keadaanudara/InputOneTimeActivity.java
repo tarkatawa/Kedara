@@ -20,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
+import umn.ac.keadaanudara.OneTime.OneTimeActivityModel;
+import umn.ac.keadaanudara.OneTime.OneTimeDatabaseHelper;
+
 public class InputOneTimeActivity extends AppCompatActivity {
     TextView tvDate, tvTime;
     EditText etActivity, etLocation, etDate, etTime, etReminder;

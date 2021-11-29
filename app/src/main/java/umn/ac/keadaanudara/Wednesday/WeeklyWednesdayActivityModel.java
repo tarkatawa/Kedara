@@ -1,23 +1,23 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Wednesday;
 
-public class WeeklySaturdayActivityModel {
+public class WeeklyWednesdayActivityModel {
     private String activity;
     private String location;
     private String time;
     private int reminders;
 
-    public WeeklySaturdayActivityModel(String activity, String location, String time, int reminders) {
+    public WeeklyWednesdayActivityModel(String activity, String location, String time, int reminders) {
         this.activity = activity;
         this.location = location;
         this.time = time;
         this.reminders = reminders;
     }
 
-    public WeeklySaturdayActivityModel(){}
+    public WeeklyWednesdayActivityModel(){}
 
     @Override
     public String toString() {
-        return "WeeklySaturdayModel{" +
+        return "WeeklyWednesdayModel{" +
                 "activity='" + activity + '\'' +
                 ", location='" + location + '\'' +
                 ", time='" + time + '\'' +
@@ -57,6 +57,5 @@ public class WeeklySaturdayActivityModel {
         this.reminders = reminders;
     }
 }
-
 
 

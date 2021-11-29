@@ -1,4 +1,4 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Monday;
 
 import android.content.ContentValues;
 import android.content.Context;

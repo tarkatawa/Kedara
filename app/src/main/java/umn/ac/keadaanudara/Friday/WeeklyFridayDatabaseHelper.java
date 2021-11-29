@@ -1,4 +1,4 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Friday;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -33,7 +33,7 @@ public class WeeklyFridayDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addOne(umn.ac.keadaanudara.WeeklyFridayActivityModel fridayModel){
+    public boolean addOne(WeeklyFridayActivityModel fridayModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 

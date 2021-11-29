@@ -2,7 +2,6 @@ package umn.ac.keadaanudara;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +16,22 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import umn.ac.keadaanudara.Friday.WeeklyFridayAdapter;
+import umn.ac.keadaanudara.Friday.WeeklyFridayDatabaseHelper;
+import umn.ac.keadaanudara.Monday.WeeklyMondayAdapter;
+import umn.ac.keadaanudara.Monday.WeeklyMondayDatabaseHelper;
+import umn.ac.keadaanudara.OneTime.OneTimeAdapter;
+import umn.ac.keadaanudara.OneTime.OneTimeDatabaseHelper;
+import umn.ac.keadaanudara.Saturday.WeeklySaturdayAdapter;
+import umn.ac.keadaanudara.Saturday.WeeklySaturdayDatabaseHelper;
+import umn.ac.keadaanudara.Sunday.WeeklySundayAdapter;
+import umn.ac.keadaanudara.Sunday.WeeklySundayDatabaseHelper;
+import umn.ac.keadaanudara.Thursday.WeeklyThursdayAdapter;
+import umn.ac.keadaanudara.Thursday.WeeklyThursdayDatabaseHelper;
+import umn.ac.keadaanudara.Tuesday.WeeklyTuesdayAdapter;
+import umn.ac.keadaanudara.Tuesday.WeeklyTuesdayDatabaseHelper;
+import umn.ac.keadaanudara.Wednesday.WeeklyWednesdayDatabaseHelper;
+
 public class ListActivity extends AppCompatActivity {
     Button toRepetitive, toOneTime;
     ImageButton back;
@@ -25,6 +40,7 @@ public class ListActivity extends AppCompatActivity {
     RecyclerView recyclerView, recyclerViewMonday, recyclerViewTuesday, recyclerViewWednesday, recyclerViewThursday, recyclerViewFriday, recyclerViewSaturday, recyclerViewSunday;
     RecyclerView.Adapter programAdapter, programAdapterMonday, programAdapterTuesday, programAdapterWednesday, programAdapterThursday, programAdapterFriday, programAdapterSaturday, programAdapterSunday;
     RecyclerView.LayoutManager layoutmanager, layoutManagerMonday, layoutManagerTuesday, layoutManagerWednesday, layoutManagerThursday, layoutManagerFriday, layoutManagerSaturday, layoutManagerSunday;
+
 
     List<String> activityNameList = new ArrayList<String>();
     List<String> activityLocationList = new ArrayList<String>();
@@ -241,7 +257,7 @@ public class ListActivity extends AppCompatActivity {
         String[] activityLocationStringThursday = activityLocationListThursday.toArray(new String[0]);
         String[] activityTimeStringThursday = activityTimeListThursday.toArray(new String[0]);
 
-        programAdapterThursday = new WeeklyTuesdayAdapter(this, activityNameStringThursday, activityLocationStringThursday, activityTimeStringThursday);
+        programAdapterThursday = new WeeklyThursdayAdapter(this, activityNameStringThursday, activityLocationStringThursday, activityTimeStringThursday);
         recyclerViewThursday.setAdapter(programAdapterThursday);
 
         //----------------------------------------------------------------------------------------------------------
@@ -367,7 +383,7 @@ public class ListActivity extends AppCompatActivity {
                 return;
             }
         });
-        
+
 //        toOneTime = findViewById(R.id.toOneTime);
 //        toOneTime.setOnClickListener(new View.OnClickListener() {
 //            @Override

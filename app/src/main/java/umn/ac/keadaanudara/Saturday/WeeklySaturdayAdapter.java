@@ -1,15 +1,18 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Saturday;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class WeeklyTuesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanudara.WeeklyTuesdayAdapter.ViewHolder>{
+import umn.ac.keadaanudara.R;
+
+public class WeeklySaturdayAdapter extends RecyclerView.Adapter<WeeklySaturdayAdapter.ViewHolder>{
 
     Context context;
     String[] activityNameList;
@@ -21,15 +24,15 @@ public class WeeklyTuesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanuda
         TextView rowLocation;
         TextView rowTime;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             rowName = itemView.findViewById(R.id.lesActivity);
             rowLocation = itemView.findViewById(R.id.lesCity);
-            rowTime = itemView.findViewById(R.id.lesTime);
         }
     }
 
-    public WeeklyTuesdayAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityTimeList){
+    public WeeklySaturdayAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityTimeList){
         this.context = context;
         this.activityNameList = activityNameList;
         this.activityLocationList = activityLocationList;
@@ -38,7 +41,7 @@ public class WeeklyTuesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanuda
 
     @NonNull
     @Override
-    public umn.ac.keadaanudara.WeeklyTuesdayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public WeeklySaturdayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_weekly_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -46,7 +49,7 @@ public class WeeklyTuesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanuda
     }
 
     @Override
-    public void onBindViewHolder(@NonNull umn.ac.keadaanudara.WeeklyTuesdayAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeeklySaturdayAdapter.ViewHolder holder, int position) {
         holder.rowName.setText(activityNameList[position]);
         holder.rowLocation.setText(activityLocationList[position]);
         holder.rowTime.setText(activityTimeList[position]);

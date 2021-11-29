@@ -1,4 +1,4 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.OneTime;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -34,7 +34,7 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addOne(umn.ac.keadaanudara.OneTimeActivityModel oneTimeModel){
+    public boolean addOne(OneTimeActivityModel oneTimeModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -53,7 +53,7 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteOne(umn.ac.keadaanudara.OneTimeActivityModel oneTimeModel){
+    public boolean deleteOne(OneTimeActivityModel oneTimeModel){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryString = "DELETE FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + COLUMN_ACTIVITY_NAME + " = " + oneTimeModel.getActivity();
 

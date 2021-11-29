@@ -1,15 +1,18 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Thursday;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class WeeklyWednesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanudara.WeeklyWednesdayAdapter.ViewHolder>{
+import umn.ac.keadaanudara.R;
+
+public class WeeklyThursdayAdapter extends RecyclerView.Adapter<WeeklyThursdayAdapter.ViewHolder>{
 
     Context context;
     String[] activityNameList;
@@ -29,7 +32,7 @@ public class WeeklyWednesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanu
         }
     }
 
-    public WeeklyWednesdayAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityTimeList){
+    public WeeklyThursdayAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityTimeList){
         this.context = context;
         this.activityNameList = activityNameList;
         this.activityLocationList = activityLocationList;
@@ -38,7 +41,7 @@ public class WeeklyWednesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanu
 
     @NonNull
     @Override
-    public umn.ac.keadaanudara.WeeklyWednesdayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public WeeklyThursdayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_weekly_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -46,7 +49,7 @@ public class WeeklyWednesdayAdapter extends RecyclerView.Adapter<umn.ac.keadaanu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull umn.ac.keadaanudara.WeeklyWednesdayAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeeklyThursdayAdapter.ViewHolder holder, int position) {
         holder.rowName.setText(activityNameList[position]);
         holder.rowLocation.setText(activityLocationList[position]);
         holder.rowTime.setText(activityTimeList[position]);

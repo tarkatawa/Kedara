@@ -1,4 +1,4 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Saturday;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,19 +11,19 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeeklyWednesdayDatabaseHelper extends SQLiteOpenHelper {
-    public static final String WEDNESDAY_ACTIVITY_TABLE = "WEDNESDAY_ACTIVITY_TABLE";
+public class WeeklySaturdayDatabaseHelper extends SQLiteOpenHelper {
+    public static final String SATURDAY_ACTIVITY_TABLE = "SATURDAY_ACTIVITY_TABLE";
     public static final String COLUMN_ACTIVITY_NAME = "ACTIVITY_NAME";
     public static final String COLUMN_ACTIVITY_LOCATION = "ACTIVITY_LOCATION";
     public static final String COLUMN_ACTIVITY_TIME = "ACTIVITY_TIME";
     public static final String COLUMN_ACTIVITY_REMINDER = "ACTIVITY_REMINDER";
 
-    public WeeklyWednesdayDatabaseHelper(@Nullable Context context){
-        super(context, "wednesdayActivity.db", null, 1);
+    public WeeklySaturdayDatabaseHelper(@Nullable Context context){
+        super(context, "saturdayActivity.db", null, 1);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + WEDNESDAY_ACTIVITY_TABLE + " (" + COLUMN_ACTIVITY_NAME + " TEXT, " + COLUMN_ACTIVITY_LOCATION + " TEXT, " + COLUMN_ACTIVITY_TIME + " TEXT, " + COLUMN_ACTIVITY_REMINDER + " INT)";
+        String createTableStatement = "CREATE TABLE " + SATURDAY_ACTIVITY_TABLE + " (" + COLUMN_ACTIVITY_NAME + " TEXT, " + COLUMN_ACTIVITY_LOCATION + " TEXT, " + COLUMN_ACTIVITY_TIME + " TEXT, " + COLUMN_ACTIVITY_REMINDER + " INT)";
 
         db.execSQL(createTableStatement);
     }
@@ -33,16 +33,16 @@ public class WeeklyWednesdayDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addOne(umn.ac.keadaanudara.WeeklyWednesdayActivityModel wednesdayModel){
+    public boolean addOne(WeeklySaturdayActivityModel saturdayModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_ACTIVITY_NAME, wednesdayModel.getActivity());
-        cv.put(COLUMN_ACTIVITY_LOCATION, wednesdayModel.getLocation());
-        cv.put(COLUMN_ACTIVITY_TIME, wednesdayModel.getTime());
-        cv.put(COLUMN_ACTIVITY_REMINDER, wednesdayModel.getReminders());
+        cv.put(COLUMN_ACTIVITY_NAME, saturdayModel.getActivity());
+        cv.put(COLUMN_ACTIVITY_LOCATION, saturdayModel.getLocation());
+        cv.put(COLUMN_ACTIVITY_TIME, saturdayModel.getTime());
+        cv.put(COLUMN_ACTIVITY_REMINDER, saturdayModel.getReminders());
 
-        long insert = db.insert(WEDNESDAY_ACTIVITY_TABLE, null, cv);
+        long insert = db.insert(SATURDAY_ACTIVITY_TABLE, null, cv);
 
         if (insert == -1){
             return false;
@@ -57,7 +57,7 @@ public class WeeklyWednesdayDatabaseHelper extends SQLiteOpenHelper {
         List<String> activityLocationList = new ArrayList<>();
         List<String> activityTimeList = new ArrayList<>();
 
-        String queryString = "SELECT * FROM " + WEDNESDAY_ACTIVITY_TABLE;
+        String queryString = "SELECT * FROM " + SATURDAY_ACTIVITY_TABLE;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
