@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#064CB5"
-    tools:context=".main.Feedback">
+    tools:context=".Main.Feedback">
 
     <TextView
         android:id="@+id/textView"
@@ -71,8 +71,9 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#00C896"
+        android:backgroundTint="#FABE24"
         android:text="Publish"
+        android:textColor="@color/black"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
