@@ -2,9 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Main.MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -504,42 +509,44 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|right"
-        >
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            app:fab_addButtonColorNormal="#5877E8"
-            app:fab_addButtonColorPressed="#5877E8"
-            app:fab_addButtonPlusIconColor="@color/white"
-            app:fab_labelStyle="@style/custom_fab">
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_action1"
+
+</ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|right"
+            >
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/white"
-                app:fab_colorPressed="#F1F1F1"
-                app:fab_size="mini"
-                app:fab_icon="@drawable/ic_360_fab"
-                app:fab_title="Repetitive"
-                />
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_action2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/white"
-                app:fab_colorPressed="#F1F1F1"
-                app:fab_size="mini"
-                app:fab_icon="@drawable/ic_check_fab"
-                app:fab_title="One-time"
-                />
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                app:fab_addButtonColorNormal="#5877E8"
+                app:fab_addButtonColorPressed="#5877E8"
+                app:fab_addButtonPlusIconColor="@color/white"
+                app:fab_labelStyle="@style/custom_fab">
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/white"
+                    app:fab_colorPressed="#F1F1F1"
+                    app:fab_size="mini"
+                    app:fab_icon="@drawable/ic_360_fab"
+                    app:fab_title="Repetitive"
+                    />
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/white"
+                    app:fab_colorPressed="#F1F1F1"
+                    app:fab_size="mini"
+                    app:fab_icon="@drawable/ic_check_fab"
+                    app:fab_title="One-time"
+                    />
 
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-    </RelativeLayout>
+        </RelativeLayout>
 </FrameLayout>

@@ -12,10 +12,10 @@ package="umn.ac.keadaanudara">
     android:supportsRtl="true"
     android:theme="@style/Theme.KeadaanUdara">
     <activity
-        android:name="IntroActivity"
+        android:name=".Main.IntroActivity"
         android:exported="false" />
     <activity
-        android:name="SplashScreenActivity"
+        android:name=".Main.SplashScreenActivity"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -24,22 +24,22 @@ package="umn.ac.keadaanudara">
         </intent-filter>
     </activity>
     <activity
-        android:name="MainActivity"
+        android:name=".Main.MainActivity"
         android:exported="true" />
     <activity
-        android:name="Feedback"
+        android:name=".Main.Feedback"
         android:exported="true"
-        android:parentActivityName="MainActivity">
+        android:parentActivityName=".Main.MainActivity">
     </activity>
     <activity
-        android:name="LocationActivity"
+        android:name=".Main.LocationActivity"
         android:exported="false"
-        android:parentActivityName="MainActivity">
+        android:parentActivityName=".Main.MainActivity">
 
     </activity>
-    <activity android:name=".InputRepetitive"></activity>
-    <activity android:name=".InputOneTimeActivity" />
-    <activity android:name=".ListActivity" />
+    <activity android:name=".Main.InputRepetitive"></activity>
+    <activity android:name=".Main.InputOneTimeActivity" />
+    <activity android:name=".Main.ListActivity" />
 </application>
 
 </manifest>
