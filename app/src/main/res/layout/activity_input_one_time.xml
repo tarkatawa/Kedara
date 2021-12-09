@@ -70,6 +70,7 @@
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
+            android:maxLength="25"
             android:textSize="17dp"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
@@ -95,6 +96,7 @@
             android:paddingLeft="10dp"
             android:hint="   "
             android:textSize="17dp"
+            android:maxLength="25"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
             android:drawableTint="#727272"
@@ -176,6 +178,8 @@
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
             android:drawableTint="#727272"
+            android:maxLength="2"
+            android:inputType="number"
             android:drawableLeft="@drawable/ic_baseline_notifications_none_24"/>
             <TextView
                 android:layout_width="wrap_content"
