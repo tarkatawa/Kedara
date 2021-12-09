@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainActivity"
+    tools:context=".Main.MainActivity"
     android:background="@color/blue" >
 
     <include
@@ -108,10 +108,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:id="@+id/fab_action1"
-            app:fab_colorNormal="#5877E8"
-            app:fab_colorPressed="#5877E8"
-            app:fab_icon="@drawable/ic_baseline_notifications_24"
-            app:fab_size="mini"
+            app:fab_colorNormal="#FABE24"
+            app:fab_colorPressed="#FABE24"
+            app:fab_icon="@drawable/activitie"
             app:fab_title="On Time Activity"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

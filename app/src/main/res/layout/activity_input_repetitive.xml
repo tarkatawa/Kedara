@@ -68,6 +68,8 @@
             android:layout_width="320dp"
             android:layout_height="32dp"
             android:layout_marginBottom="28dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
             android:paddingLeft="10dp"
             android:hint="   "
             android:textSize="17dp"
@@ -94,6 +96,8 @@
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
             android:textSize="17dp"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
@@ -187,13 +191,15 @@
             android:text="Time"
             android:textColor="@color/white"
             />
-        <EditText
+        <TextView
             android:id="@+id/theTime"
             android:layout_width="123dp"
             android:layout_height="32dp"
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
             android:textSize="17dp"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
@@ -215,18 +221,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/theReminder"
                 android:layout_width="72dp"
                 android:layout_height="32dp"
-                android:layout_marginBottom="28dp"
-                android:paddingLeft="10dp"
-                android:hint="   "
-                android:textSize="17dp"
                 android:layout_marginTop="7dp"
+                android:layout_marginBottom="28dp"
                 android:background="@drawable/for_edittext"
+                android:drawableLeft="@drawable/ic_baseline_notifications_none_24"
                 android:drawableTint="#727272"
-                android:drawableLeft="@drawable/ic_baseline_notifications_none_24"/>
+                android:ems="10"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:hint="   "
+                android:paddingLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="17dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -247,7 +259,11 @@
                 android:layout_width="122dp"
                 android:layout_height="48dp"
                 android:text="SAVE"
-                android:backgroundTint="#4B7AF4"/>
+                app:cornerRadius="20dp"
+                android:textAllCaps="false"
+                android:backgroundTint="#FABE24"/>
+
+
         </LinearLayout>
 
 

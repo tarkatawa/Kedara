@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlue"
-    tools:context=".main.SplashScreenActivity">
+    tools:context=".Main.SplashScreenActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/kedara_logo" />
+        app:srcCompat="@drawable/logo_kedara" />
 
     <ImageView
         android:id="@+id/macro_infinity"
@@ -48,6 +48,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/macroni" />
+        app:srcCompat="@drawable/infinity" />
+
+    <TextView
+        android:id="@+id/infinity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="infinity"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/macro_infinity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
