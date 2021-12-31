@@ -57,15 +57,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <EditText
+        android:id="@+id/textInput"
         android:layout_width="343dp"
         android:layout_height="291dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/rectangle_61"
+        android:padding="15dp"
+        android:gravity="top"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/rectangle_61" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
         android:id="@+id/button3"
@@ -77,7 +80,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textInput" />
 
     <TextView
         android:id="@+id/textView5"
@@ -90,6 +93,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:backgroundTint="#064CB5"
+        android:src="@drawable/ic_baseline_arrow_back_ios_new_24"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

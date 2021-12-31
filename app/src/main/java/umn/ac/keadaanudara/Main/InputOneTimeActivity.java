@@ -25,8 +25,8 @@ import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.R;
 
 public class InputOneTimeActivity extends AppCompatActivity {
-    TextView tvDate, tvTime;
-    EditText etActivity, etLocation, etDate, etTime, etReminder;
+    TextView tvDate, theTime, etTime, theDate, etDate;
+    EditText etActivity, etLocation, etReminder;
     Button btnSave;
     ImageButton btnBack;
 
@@ -46,8 +46,9 @@ public class InputOneTimeActivity extends AppCompatActivity {
 
         tvDate = findViewById(R.id.tv_date);
         etDate = findViewById(R.id.theDate);
+        theDate = findViewById(R.id.theDate);
 
-        tvTime = findViewById(R.id.tv_time);
+        theTime = findViewById(R.id.theTime);
         etTime = findViewById(R.id.theTime);
 
         etReminder = findViewById(R.id.theReminder);
@@ -69,7 +70,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
             }
         });
 
-        tvDate.setOnClickListener(new View.OnClickListener(){
+        theDate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -81,11 +82,11 @@ public class InputOneTimeActivity extends AppCompatActivity {
 
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            public void onDateSet(android.widget.DatePicker view, int year, int month, int day) {
                 month = month + 1;
                 String date = day+"/"+month+"/"+year;
 //                tvDate.setText(date);
-                etDate.setText(date);
+                theDate.setText(date);
             }
         };
 
@@ -95,7 +96,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         InputOneTimeActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
                         month = month + 1;
                         String date = day+"/"+month+"/"+year;
                         etDate.setText(date);
@@ -105,26 +106,26 @@ public class InputOneTimeActivity extends AppCompatActivity {
             }
         });
 
-        tvTime.setOnClickListener(new View.OnClickListener() {
+        theTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                TimePickerDialog timePckerDialog = new TimePickerDialog(
                         InputOneTimeActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
                                 t1Hour = hourOfDay;
                                 t1Minute = minute;
-                                //Initialize calendar
+
                                 Calendar calendar = Calendar.getInstance();
-                                calendar.set(0, 0, 0, t1Hour, t1Minute);
-                                etTime.setText(DateFormat.format("hh:mm aa", calendar));
+                                calendar.set(0,0,0, t1Hour, t1Minute);
+
+                                theTime.setText(DateFormat.format("hh:mm aa", calendar));
                             }
                         }, 12, 0, false
                 );
-                timePickerDialog.updateTime(t1Hour, t1Minute);
-
-                timePickerDialog.show();
+                timePckerDialog.updateTime(t1Hour, t1Minute);
+                timePckerDialog.show();
             }
         });
 

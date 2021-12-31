@@ -70,6 +70,8 @@
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
             android:maxLength="25"
             android:textSize="17dp"
             android:layout_marginTop="7dp"
@@ -95,6 +97,8 @@
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
             android:textSize="17dp"
             android:maxLength="25"
             android:layout_marginTop="7dp"
@@ -114,14 +118,16 @@
             android:text="Date"
             android:textColor="@color/white"
             />
-        <EditText
+        <TextView
             android:id="@+id/theDate"
+            android:textColor="@color/black"
             android:layout_width="320dp"
             android:layout_height="32dp"
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
             android:textSize="17dp"
+            android:gravity="center_vertical"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
             android:drawableTint="#727272"
@@ -139,13 +145,14 @@
             android:text="Time"
             android:textColor="@color/white"
             />
-        <EditText
+        <TextView
             android:id="@+id/theTime"
             android:layout_width="123dp"
             android:layout_height="32dp"
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
-            android:hint="   "
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
             android:textSize="17dp"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
@@ -174,6 +181,9 @@
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
             android:hint="   "
+            android:textColor="@color/black"
+            android:ems="10"
+            android:gravity="center_vertical"
             android:textSize="17dp"
             android:layout_marginTop="7dp"
             android:background="@drawable/for_edittext"
@@ -200,8 +210,10 @@
             android:id="@+id/save"
             android:layout_width="122dp"
             android:layout_height="48dp"
-            android:text="SAVE"
-            android:backgroundTint="#4B7AF4"/>
+            android:text="Save"
+            android:textAllCaps="false"
+            app:cornerRadius="20dp"
+            android:backgroundTint="#FABE24"/>
     </LinearLayout>
 
 
