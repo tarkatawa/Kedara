@@ -87,7 +87,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+        //getActivityWeatherInfo();
     }
+
+//    private void getActivityWeatherInfo(){
+//        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_perior) >= HARI INI
+
+        //cursor yang dicek sama API
+        //return
+//    }
 
     private void getToday() {
         Date dateTime = Calendar.getInstance().getTime();

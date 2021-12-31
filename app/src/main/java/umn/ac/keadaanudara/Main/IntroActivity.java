@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,12 +16,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import umn.ac.keadaanudara.R;
 
 public class IntroActivity extends AppCompatActivity {
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String SWITCH1 = "switch1";
 
     private static final int MAX_STEP = 3;
+
+    private boolean switchOnOff;
 
     private Button btn_got_it;
     private String[] title_array = {
@@ -72,6 +78,7 @@ public class IntroActivity extends AppCompatActivity {
         findViewById(R.id.btn_skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveData();
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -159,4 +166,22 @@ public class IntroActivity extends AppCompatActivity {
             container.removeView(view);
         }
     }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(SWITCH1, true);
+
+        editor.apply();
+
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
+    }
+//    public boolean loadData() {
+//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false);
+//
+//        return switchOnOff;
+//    }
+
 }

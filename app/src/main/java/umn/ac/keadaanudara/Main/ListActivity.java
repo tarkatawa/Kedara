@@ -1,11 +1,15 @@
 package umn.ac.keadaanudara.Main;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,9 +35,10 @@ import umn.ac.keadaanudara.DatabaseHelper.WeeklyThursdayDatabaseHelper;
 import umn.ac.keadaanudara.Adapter.WeeklyTuesdayAdapter;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyTuesdayDatabaseHelper;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyWednesdayDatabaseHelper;
+import umn.ac.keadaanudara.Model.OneTimeActivityModel;
 import umn.ac.keadaanudara.R;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements OneTimeAdapter.OnNoteListener {
     Button toRepetitive, toOneTime;
     ImageButton back;
     FloatingActionButton fab1, fab2;
@@ -43,6 +48,7 @@ public class ListActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutmanager, layoutManagerMonday, layoutManagerTuesday, layoutManagerWednesday, layoutManagerThursday, layoutManagerFriday, layoutManagerSaturday, layoutManagerSunday;
 
 
+    //OneTime
     List<String> activityNameList = new ArrayList<String>();
     List<String> activityLocationList = new ArrayList<String>();
     List<String> activityDateList = new ArrayList<String>();
@@ -136,8 +142,13 @@ public class ListActivity extends AppCompatActivity {
         String[] activityDateString = activityDateList.toArray(new String[0]);
         String[] activityTimeString = activityTimeList.toArray(new String[0]);
 
-        programAdapter = new OneTimeAdapter(this, activityNameString, activityLocationString, activityDateString, activityTimeString);
+        programAdapter = new OneTimeAdapter(this, activityNameString, activityLocationString, activityDateString, activityTimeString, this);
         recyclerView.setAdapter(programAdapter);
+//        recyclerView.addOnItemTouchListener(new AdapterView.OnItemClickListener(){
+//
+//        });
+
+
         //----------------------------------------------------------------------------------------------------------
         //Ambil data dari database untuk senin
         WeeklyMondayDatabaseHelper weeklyMondayDatabaseHelper = new WeeklyMondayDatabaseHelper(ListActivity.this);
@@ -408,6 +419,17 @@ public class ListActivity extends AppCompatActivity {
 //        });
 
 
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(ListActivity.this);
+//        OneTimeActivityModel clickedActivity = activityNameList.get(position);
+        oneTimeDatabaseHelper.deleteOne(activityNameList.get(position));
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
 //    public void showToast(String message){

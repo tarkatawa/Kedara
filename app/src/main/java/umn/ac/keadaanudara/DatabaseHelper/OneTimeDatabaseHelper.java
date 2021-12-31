@@ -55,9 +55,10 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteOne(OneTimeActivityModel oneTimeModel){
+//    public boolean deleteOne(OneTimeActivityModel oneTimeModel){
+    public boolean deleteOne(String activity){
         SQLiteDatabase db = this.getWritableDatabase();
-        String queryString = "DELETE FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + COLUMN_ACTIVITY_NAME + " = " + oneTimeModel.getActivity();
+        String queryString = "DELETE FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + COLUMN_ACTIVITY_NAME + " = " + "'"+activity+"'";
 
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -67,7 +68,6 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
         else{
             return false;
         }
-
     }
 
 //    public List<Cursor> getEveryone(){
