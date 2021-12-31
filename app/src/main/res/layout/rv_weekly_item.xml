@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:textColor="@color/black"
-            android:text="Bali, Indonesia"/>
+            android:text="Bali, Indonesia"
+            />
 
     </LinearLayout>
     <LinearLayout

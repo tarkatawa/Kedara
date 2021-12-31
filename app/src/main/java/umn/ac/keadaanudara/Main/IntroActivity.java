@@ -21,12 +21,14 @@ import android.widget.Toast;
 import umn.ac.keadaanudara.R;
 
 public class IntroActivity extends AppCompatActivity {
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String SWITCH1 = "switch1";
 
     private static final int MAX_STEP = 3;
 
-    public static final String session = "session";
+    private boolean switchOnOff;
 
-    private Button btn_got_it, btnskip;
+    private Button btn_got_it;
     private String[] title_array = {
             "Check Weather Conditions", "Have Outdoor activity?",
             "View It In Radar!",
@@ -57,8 +59,6 @@ public class IntroActivity extends AppCompatActivity {
     private void initComponent() {
         ViewPager viewPager = findViewById(R.id.view_pager);
         btn_got_it = findViewById(R.id.btn_got_it);
-        btnskip = findViewById(R.id.btn_skip);
-
 
         bottomProgressDots(0);
 
@@ -70,20 +70,21 @@ public class IntroActivity extends AppCompatActivity {
         btn_got_it.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        btnskip.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveData();
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
     }
+
     private void bottomProgressDots(int index) {
         LinearLayout dotsLayout = findViewById(R.id.layoutDots);
         ImageView[] dots = new ImageView[MAX_STEP];
@@ -128,6 +129,7 @@ public class IntroActivity extends AppCompatActivity {
         }
     };
 
+
     public class MyViewPagerAdapter extends PagerAdapter {
 
         MyViewPagerAdapter() {
@@ -164,4 +166,22 @@ public class IntroActivity extends AppCompatActivity {
             container.removeView(view);
         }
     }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(SWITCH1, true);
+
+        editor.apply();
+
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
+    }
+//    public boolean loadData() {
+//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false);
+//
+//        return switchOnOff;
+//    }
+
 }

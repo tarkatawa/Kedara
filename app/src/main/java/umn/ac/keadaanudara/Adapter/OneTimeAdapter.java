@@ -19,29 +19,42 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
     String[] activityDateList;
     String[] activityTimeList;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    private OnNoteListener mOnNoteListener;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView rowName;
         TextView rowLocation;
         TextView rowDate;
         TextView rowTime;
+        OnNoteListener onNoteListener;
 
-
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
             rowName = itemView.findViewById(R.id.leActivity);
             rowLocation = itemView.findViewById(R.id.leCity);
             rowDate = itemView.findViewById(R.id.leDate);
             rowTime = itemView.findViewById(R.id.leTime);
+            this.onNoteListener = onNoteListener;
 
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListener.onNoteClick(getAdapterPosition());
         }
     }
+    public interface OnNoteListener{
+        void onNoteClick(int position);
+    }
 
-    public OneTimeAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityDateList, String[] activityTimeList){
+    public OneTimeAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityDateList, String[] activityTimeList, OnNoteListener onNoteListener){
         this.context = context;
         this.activityNameList = activityNameList;
         this.activityLocationList = activityLocationList;
         this.activityDateList = activityDateList;
         this.activityTimeList = activityTimeList;
+        this.mOnNoteListener = onNoteListener;
     }
 
     @NonNull
@@ -49,7 +62,7 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
     public OneTimeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_onetime_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view, mOnNoteListener);
         return viewHolder;
     }
 

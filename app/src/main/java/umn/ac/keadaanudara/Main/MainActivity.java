@@ -1,18 +1,26 @@
 package umn.ac.keadaanudara.Main;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +30,20 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
+import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
 import umn.ac.keadaanudara.R;
 
@@ -39,14 +59,17 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private Double lat = -6.2146, lon = 106.8451;
+    private static final int PERMISSION_FINE_LOCATION = 99;
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static final String appid = "8f415b7021ae02e32442cc8555f6d572";
     private String today;
     private TextView txtDate;
-    private WeatherAdapter weatherAdapter = null;
+    RecyclerView recyclerView;
+    private WeatherAdapter weatherAdapter;
     private final ArrayList<Modelmain> modelmain = new ArrayList<>();
+    private LocationModel locationModel = new LocationModel();
     FloatingActionButton fab_action1;
+    LocationRequest locationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +84,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgFeed.setOnClickListener(this);
         imgChangeLocation.setOnClickListener(this);
 
-        weatherAdapter = new WeatherAdapter(modelmain);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerWeather);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(weatherAdapter);
+        recyclerView = findViewById(R.id.recyclerWeather);
 
         txtDate = findViewById(R.id.txtDate);
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(2000);
 
         Date dateNow = Calendar.getInstance().getTime();
         today = (String) DateFormat.format("EEE", dateNow);
 
-        getToday();
-        getCurrentWeather();
-        getListWeather();
+        updateGPS();
 
         fab_action1 = findViewById(R.id.fab_action1);
         fab_action1.setOnClickListener(new View.OnClickListener() {
@@ -84,10 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
                 finish();
-                return;
             }
         });
 
+
+        //getActivityWeatherInfo();
     }
 
     private void getToday() {
@@ -97,7 +119,94 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtDate.setText(formatDate);
     }
 
+    private void updateGPS() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (isGPSEnabled()) {
+                    LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                        @Override
+                        public void onLocationResult(@NonNull LocationResult locationResult) {
+                            super.onLocationResult(locationResult);
+
+                            LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+
+                            if (locationResult.getLocations().size() > 0) {
+                                int index = locationResult.getLocations().size() - 1;
+                                locationModel.setLat(locationResult.getLocations().get(index).getLatitude());
+                                locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
+
+                                getToday();
+                                getCurrentWeather();
+                                getListWeather();
+                            }
+                        }
+                    }, Looper.getMainLooper());
+                } else {
+                    turnOnGPS();
+                }
+            } else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+            }
+        }
+    }
+
+    private void turnOnGPS() {
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
+                .checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    Toast.makeText(MainActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+
+                } catch (ApiException e) {
+
+                    switch (e.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                                resolvableApiException.startResolutionForResult(MainActivity.this, 2);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    private boolean isGPSEnabled() {
+        LocationManager locationManager;
+        boolean isEnabled;
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return isEnabled;
+    }
+
+//    private void getActivityWeatherInfo(){
+//        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_perior) >= HARI INI
+
+        //cursor yang dicek sama API
+        //return
+//    }
+
     private void getCurrentWeather() {
+        double lat = locationModel.getLat();
+        double lon = locationModel.getLon();
         AndroidNetworking.get(BASE_URL + "weather?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -190,7 +299,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getListWeather() {
-
+        double lat = locationModel.getLat();
+        double lon = locationModel.getLon();
         AndroidNetworking.get(BASE_URL + "forecast?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -225,6 +335,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 modelmain.add(modelmain1);
                             }
 
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
+                            recyclerView.setHasFixedSize(true);
+                            weatherAdapter = new WeatherAdapter(modelmain);
+                            recyclerView.setAdapter(weatherAdapter);
                             weatherAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
@@ -275,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -284,5 +398,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lon = Double.parseDouble(data.getStringExtra("lon"));
             }
         }
-    }
+    }*/
 }

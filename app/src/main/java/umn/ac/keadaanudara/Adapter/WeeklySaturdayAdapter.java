@@ -23,7 +23,6 @@ public class WeeklySaturdayAdapter extends RecyclerView.Adapter<WeeklySaturdayAd
         TextView rowLocation;
         TextView rowTime;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             rowName = itemView.findViewById(R.id.lesActivity);
@@ -59,7 +58,4 @@ public class WeeklySaturdayAdapter extends RecyclerView.Adapter<WeeklySaturdayAd
     public int getItemCount() {
         return activityNameList.length;
     }
-
-
-
 }
