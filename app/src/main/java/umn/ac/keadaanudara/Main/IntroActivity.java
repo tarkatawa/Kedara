@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import umn.ac.keadaanudara.R;
 
@@ -22,7 +24,9 @@ public class IntroActivity extends AppCompatActivity {
 
     private static final int MAX_STEP = 3;
 
-    private Button btn_got_it;
+    public static final String session = "session";
+
+    private Button btn_got_it, btnskip;
     private String[] title_array = {
             "Check Weather Conditions", "Have Outdoor activity?",
             "View It In Radar!",
@@ -53,6 +57,8 @@ public class IntroActivity extends AppCompatActivity {
     private void initComponent() {
         ViewPager viewPager = findViewById(R.id.view_pager);
         btn_got_it = findViewById(R.id.btn_got_it);
+        btnskip = findViewById(R.id.btn_skip);
+
 
         bottomProgressDots(0);
 
@@ -64,12 +70,13 @@ public class IntroActivity extends AppCompatActivity {
         btn_got_it.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        findViewById(R.id.btn_skip).setOnClickListener(new View.OnClickListener() {
+        btnskip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
@@ -77,7 +84,6 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
     }
-
     private void bottomProgressDots(int index) {
         LinearLayout dotsLayout = findViewById(R.id.layoutDots);
         ImageView[] dots = new ImageView[MAX_STEP];
@@ -121,7 +127,6 @@ public class IntroActivity extends AppCompatActivity {
 
         }
     };
-
 
     public class MyViewPagerAdapter extends PagerAdapter {
 

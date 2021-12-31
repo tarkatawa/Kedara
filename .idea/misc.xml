@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/drawable-ldpi/fab_label_background.xml" value="0.8083333333333333" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/drawable-mdpi/border_activity.xml" value="0.17962962962962964" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/drawable-mdpi/for_edittext.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/drawable-mdpi/ic_360_fab.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/drawable-mdpi/ic_baseline_360_24.xml" value="0.21614583333333334" />
@@ -12,16 +14,20 @@
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_input_one_time.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_input_repetitive.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_intro.xml" value="0.2" />
-        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_list.xml" value="0.2447418738049713" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_list.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_location.xml" value="0.2" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_popup_delete.xml" value="0.22" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/activity_splash_screen.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/date_item.xml" value="0.2" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/item_intro.xml" value="0.2" />
-        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/location_item.xml" value="0.2" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/location_item.xml" value="0.5" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/pop_up_delete.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/popup.xml" value="0.17714285714285713" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/rv_onetime_item.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/rv_weekly_item.xml" value="0.2" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/rv_weekly_item.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/toolbar.xml" value="0.2" />
+        <entry key="..\:/Users/Fikri Achmadi/AndroidStudioProjects/Kedara baru/Kedara/app/src/main/res/layout/weather_item.xml" value="0.5" />
       </map>
     </option>
   </component>
