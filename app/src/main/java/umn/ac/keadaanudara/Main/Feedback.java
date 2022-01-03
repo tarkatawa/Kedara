@@ -34,7 +34,6 @@ public class Feedback extends AppCompatActivity {
 
         back = findViewById(R.id.back);
         getSupportActionBar().hide();
-        pesanFeedback = findViewById(R.id.textView6);
 
         textInput = findViewById(R.id.textInput);
 

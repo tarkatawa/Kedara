@@ -389,14 +389,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (data != null) {
-                lat = Double.parseDouble(data.getStringExtra("lat"));
-                lon = Double.parseDouble(data.getStringExtra("lon"));
-            }
-        }
-    }*/
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            if (data != null) {
+//                  lat = Double.parseDouble(data.getStringExtra("lat"));
+//                  lon = Double.parseDouble(data.getStringExtra("lon"));
+//            }
+//        }
+//    }
 }

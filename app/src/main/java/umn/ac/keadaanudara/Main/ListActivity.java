@@ -1,12 +1,10 @@
 package umn.ac.keadaanudara.Main;
 
-import android.content.ClipData;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -35,11 +33,10 @@ import umn.ac.keadaanudara.DatabaseHelper.WeeklyThursdayDatabaseHelper;
 import umn.ac.keadaanudara.Adapter.WeeklyTuesdayAdapter;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyTuesdayDatabaseHelper;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyWednesdayDatabaseHelper;
-import umn.ac.keadaanudara.Model.OneTimeActivityModel;
 import umn.ac.keadaanudara.R;
 
 public class ListActivity extends AppCompatActivity implements OneTimeAdapter.OnNoteListener {
-    Button toRepetitive, toOneTime;
+    Button toRepetitive, toOneTime, btndelete, btncancel;
     ImageButton back;
     FloatingActionButton fab1, fab2;
 
@@ -95,6 +92,7 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         getSupportActionBar().hide();
+
         back = findViewById(R.id.back);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -421,15 +419,64 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 
     }
 
-    @Override
-    public void onNoteClick(int position) {
-        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(ListActivity.this);
+//    @Override
+//    public void onNoteClick(int position) {
+//        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(ListActivity.this);
+////        OneTimeActivityModel clickedActivity = activityNameList.get(position);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+//
+//        builder.setMessage("Your activity will be deleted permanently")
+//                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        oneTimeDatabaseHelper.deleteOne(activityNameList.get(position));
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(getIntent());
+//                        overridePendingTransition(0, 0);
+//                    }
+//                }).setNegativeButton("Cancel", null);
+//
+//        AlertDialog alert = builder.create();
+//        alert.show();
+
+@Override
+public void onNoteClick(int position) {
+    OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(ListActivity.this);
 //        OneTimeActivityModel clickedActivity = activityNameList.get(position);
-        oneTimeDatabaseHelper.deleteOne(activityNameList.get(position));
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+
+    Dialog dialog = new Dialog(this);
+    dialog.setContentView(R.layout.activity_popup_delete);
+    dialog.setCancelable(false);
+    dialog.getWindow().getAttributes().windowAnimations = R.style.aniamation;
+
+    btndelete = (Button) dialog.findViewById(R.id.btn_delete);
+    btncancel = (Button) dialog.findViewById(R.id.btn_cancel);
+
+    btndelete.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            oneTimeDatabaseHelper.deleteOne(activityNameList.get(position));
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+
+            Toast.makeText(ListActivity.this, "Deleted", Toast.LENGTH_LONG).show();
+            dialog.dismiss();
+        }
+    });
+
+    btncancel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(ListActivity.this, "Canceled", Toast.LENGTH_LONG). show();
+            dialog.dismiss();
+        }
+    });
+
+    dialog.show();
     }
 
 //    public void showToast(String message){

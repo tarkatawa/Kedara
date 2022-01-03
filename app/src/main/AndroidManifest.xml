@@ -14,9 +14,6 @@ package="umn.ac.keadaanudara">
         android:supportsRtl="true"
         android:theme="@style/Theme.KeadaanUdara">
         <activity
-            android:name=".popup_delete"
-            android:exported="false" />
-        <activity
             android:name=".Main.IntroActivity"
             android:exported="false" />
         <activity
