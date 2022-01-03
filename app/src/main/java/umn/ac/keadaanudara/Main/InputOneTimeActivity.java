@@ -1,5 +1,6 @@
 package umn.ac.keadaanudara.Main;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.text.InputFilter;
+import android.text.Spanned;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +27,7 @@ import java.util.Calendar;
 import umn.ac.keadaanudara.Model.OneTimeActivityModel;
 import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.R;
+
 
 public class InputOneTimeActivity extends AppCompatActivity {
     TextView tvDate, theTime, etTime, theDate, etDate;
@@ -128,6 +133,11 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 timePckerDialog.show();
             }
         });
+
+        @SuppressLint("CutPasteId") EditText et = (EditText) findViewById(R.id.theReminder);
+        et.setFilters(new InputFilter[]{ new InputMax("1", "5")});
+
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
