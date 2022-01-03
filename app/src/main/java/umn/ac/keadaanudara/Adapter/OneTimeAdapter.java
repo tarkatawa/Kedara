@@ -72,7 +72,6 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
         holder.rowLocation.setText(activityLocationList[position]);
         holder.rowDate.setText(activityDateList[position]);
         holder.rowTime.setText(activityTimeList[position]);
-
     }
 
     @Override

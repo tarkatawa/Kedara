@@ -6,13 +6,16 @@ public class OneTimeActivityModel {
     private String date;
     private String time;
     private int reminders;
+    private Double lon, lat;
 
-    public OneTimeActivityModel(String activity, String location, String date, String time, int reminders) {
+    public OneTimeActivityModel(String activity, String location, String date, String time, int reminders, Double lon, Double lat) {
         this.activity = activity;
         this.location = location;
         this.date = date;
         this.time = time;
         this.reminders = reminders;
+        this.lon = lon;
+        this.lat = lat;
     }
 
     public OneTimeActivityModel(){}
@@ -25,6 +28,8 @@ public class OneTimeActivityModel {
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", reminders=" + reminders +
+                ", lon='" + lon + '\'' +
+                ", lat=" + lat +
                 '}';
     }
 
@@ -48,6 +53,14 @@ public class OneTimeActivityModel {
         return reminders;
     }
 
+    public Double getLon() {
+        return lon;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
     public void setActivity(String activity) {
         this.activity = activity;
     }
@@ -67,4 +80,8 @@ public class OneTimeActivityModel {
     public void setReminders(int reminders) {
         this.reminders = reminders;
     }
+
+    public void setLon(Double lon) { this.lon = lon; }
+
+    public void setLat(Double lat) { this.lat = lat; }
 }

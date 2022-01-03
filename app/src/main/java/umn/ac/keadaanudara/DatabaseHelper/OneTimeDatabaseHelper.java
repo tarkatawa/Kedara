@@ -20,13 +20,15 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ACTIVITY_DATE = "ACTIVITY_DATE";
     public static final String COLUMN_ACTIVITY_TIME = "ACTIVITY_TIME";
     public static final String COLUMN_ACTIVITY_REMINDER = "ACTIVITY_REMINDER";
+    public static final String COLUMN_ACTIVITY_LON = "ACTIVITY_LON";
+    public static final String COLUMN_ACTIVITY_LAT = "ACTIVITY_LAT";
 
     public OneTimeDatabaseHelper(@Nullable Context context){
         super(context, "onetimeActivity.db", null, 1);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + ONE_TIME_ACTIVITY_TABLE + " (" + COLUMN_ACTIVITY_NAME + " TEXT, " + COLUMN_ACTIVITY_LOCATION + " TEXT, " + COLUMN_ACTIVITY_DATE + " TEXT, " + COLUMN_ACTIVITY_TIME + " TEXT, " + COLUMN_ACTIVITY_REMINDER + " INT)";
+        String createTableStatement = "CREATE TABLE " + ONE_TIME_ACTIVITY_TABLE + " (" + COLUMN_ACTIVITY_NAME + " TEXT, " + COLUMN_ACTIVITY_LOCATION + " TEXT, " + COLUMN_ACTIVITY_DATE + " TEXT, " + COLUMN_ACTIVITY_TIME + " TEXT, " + COLUMN_ACTIVITY_REMINDER + " INT," + COLUMN_ACTIVITY_LON + " DOUBLE, " + COLUMN_ACTIVITY_LAT + " DOUBLE)";
 
         db.execSQL(createTableStatement);
     }
@@ -45,6 +47,9 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ACTIVITY_DATE, oneTimeModel.getDate());
         cv.put(COLUMN_ACTIVITY_TIME, oneTimeModel.getTime());
         cv.put(COLUMN_ACTIVITY_REMINDER, oneTimeModel.getReminders());
+        cv.put(COLUMN_ACTIVITY_LON, oneTimeModel.getLon());
+        cv.put(COLUMN_ACTIVITY_LAT, oneTimeModel.getLat());
+
 
         long insert = db.insert(ONE_TIME_ACTIVITY_TABLE, null, cv);
 
