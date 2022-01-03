@@ -43,7 +43,6 @@
                 android:text="Activity List"
                 android:textColor="@color/white"
                 android:textSize="20dp"
-                android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.415"
@@ -64,25 +63,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="27dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_baseline_360_24"
-                app:layout_constraintEnd_toStartOf="@+id/textView2"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="REGULAR ACTIVITY"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_baseline_360_24"
                 android:textColor="@color/white"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

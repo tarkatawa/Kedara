@@ -1,6 +1,7 @@
 package umn.ac.keadaanudara.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,8 @@ public class LocationActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        loadCity();
+
         RecyclerView recyclerView = findViewById(R.id.locationRecycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -46,9 +49,52 @@ public class LocationActivity extends AppCompatActivity {
 
         cityAdapter = new CityAdapter(this, cityArrayList);
         recyclerView.setAdapter(cityAdapter);
+
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        recyclerView.addItemDecoration(dividerItemDecoration);
+
         initListener();
 
-        loadCity();
+    }
+
+    private String readJSONDataFromFile() throws IOException {
+
+        InputStream inputStream = null;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try {
+            String jsonString;
+            inputStream = getResources().openRawResource(R.raw.list_location_id);
+            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            while ((jsonString = bufferedReader.readLine()) != null) {
+                stringBuilder.append(jsonString);
+            }
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        return new String(stringBuilder);
+    }
+
+    private void loadCity() {
+        try {
+            String jsonString = readJSONDataFromFile();
+            JSONArray jsonArray = new JSONArray(jsonString);
+
+            for (int i = 0; i<jsonArray.length(); ++i) {
+                JSONObject zeroJsonObject = jsonArray.getJSONObject(i);
+                String kabko = zeroJsonObject.getString("kabko");
+                String lat = zeroJsonObject.getString("lat");
+                String lon = zeroJsonObject.getString("lon");
+
+                City cities = new City(kabko, lat, lon);
+                cityArrayList.add(cities);
+            }
+
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -75,52 +121,14 @@ public class LocationActivity extends AppCompatActivity {
         locationMenuItem.getIcon().setVisible(false, false);
 
         return true;
+
     }
 
-    private void loadCity() {
-        try {
-            String jsonString = readJSONDataFromFile();
-            JSONArray jsonArray = new JSONArray(jsonString);
-
-            for (int i = 0; i<jsonArray.length(); ++i) {
-                JSONObject zeroJsonObject = jsonArray.getJSONObject(i);
-                String kabko = zeroJsonObject.getString("kabko");
-                String lat = zeroJsonObject.getString("lat");
-                String lon = zeroJsonObject.getString("lon");
-
-                City cities = new City(kabko, lat, lon);
-                cityArrayList.add(cities);
-            }
-
-        } catch (JSONException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String readJSONDataFromFile() throws IOException {
-
-        InputStream inputStream = null;
-        StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            String jsonString;
-            inputStream = getResources().openRawResource(R.raw.list_location_id);
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-            while ((jsonString = bufferedReader.readLine()) != null) {
-                stringBuilder.append(jsonString);
-            }
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-        }
-        return new String(stringBuilder);
-    }
-
-    private void initListener() {
+    public void initListener() {
         cityAdapter.setOnItemClickListener((view, position) -> {
             Intent intent = new Intent(LocationActivity.this, MainActivity.class);
             City changeCity = cityArrayList.get(position);
+//            intent.putExtra("kabko", changeCity.getKabko());
             intent.putExtra("lat", changeCity.getLat());
             intent.putExtra("lon", changeCity.getLon());
             setResult(RESULT_OK, intent);
