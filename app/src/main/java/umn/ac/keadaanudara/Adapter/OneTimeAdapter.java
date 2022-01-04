@@ -80,6 +80,4 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
         return activityNameList.length;
     }
 
-
-
 }

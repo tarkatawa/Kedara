@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import umn.ac.keadaanudara.Main.ListActivity;
 import umn.ac.keadaanudara.R;
 import umn.ac.keadaanudara.Model.City;
 
@@ -92,8 +93,10 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityViewHolder
         public CityViewHolder(@NonNull View itemView, OnItemClickListener clickListener) {
             super(itemView);
 
-            itemView.setOnClickListener(this);
             txtLocationName = itemView.findViewById(R.id.txtLocationName);
+            this.onItemClickListener = clickListener;
+
+            itemView.setOnClickListener(this);
         }
 
         @Override

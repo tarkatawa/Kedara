@@ -65,7 +65,7 @@
             />
         <EditText
             android:id="@+id/theActivity"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginBottom="28dp"
             android:gravity="center_vertical"
@@ -92,7 +92,7 @@
             />
         <EditText
             android:id="@+id/theLocation"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginBottom="28dp"
             android:paddingLeft="10dp"
@@ -118,63 +118,63 @@
             android:textColor="@color/white"
             />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp">
             <CheckBox
                 android:id="@+id/senin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="M"
                 android:textColor="@color/white"
                 />
             <CheckBox
                 android:id="@+id/selasa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="T"
                 android:textColor="@color/white"
                 />
             <CheckBox
                 android:id="@+id/rabu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="W"
                 android:textColor="@color/white"
                 />
             <CheckBox
                 android:id="@+id/kamis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="T"
                 android:textColor="@color/white"
                 />
             <CheckBox
                 android:id="@+id/jumat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="F"
                 android:textColor="@color/white"
                 />
             <CheckBox
                 android:id="@+id/sabtu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="S"
                 android:textColor="@color/white"
                 />
             <CheckBox
                 android:id="@+id/minggu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
                 android:button="@drawable/checkbox_custom"
                 android:text="S"
                 android:textColor="@color/white"
