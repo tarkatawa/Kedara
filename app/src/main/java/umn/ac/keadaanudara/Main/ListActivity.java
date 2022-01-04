@@ -1,6 +1,8 @@
 package umn.ac.keadaanudara.Main;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,16 +11,24 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.Locale;
 
+import umn.ac.keadaanudara.Adapter.CompletedAdapter;
 import umn.ac.keadaanudara.Adapter.WeeklyFridayAdapter;
+import umn.ac.keadaanudara.DatabaseHelper.CompletedDatabaseHelper;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyFridayDatabaseHelper;
 import umn.ac.keadaanudara.Adapter.WeeklyMondayAdapter;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyMondayDatabaseHelper;
@@ -33,16 +43,18 @@ import umn.ac.keadaanudara.DatabaseHelper.WeeklyThursdayDatabaseHelper;
 import umn.ac.keadaanudara.Adapter.WeeklyTuesdayAdapter;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyTuesdayDatabaseHelper;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyWednesdayDatabaseHelper;
+import umn.ac.keadaanudara.Model.CompletedActivityModel;
 import umn.ac.keadaanudara.R;
 
-public class ListActivity extends AppCompatActivity implements OneTimeAdapter.OnNoteListener {
+public class ListActivity extends AppCompatActivity implements OneTimeAdapter.OnNoteListener, CompletedAdapter.OnNoteListener {
     Button toRepetitive, toOneTime, btndelete, btncancel;
     ImageButton back;
     FloatingActionButton fab1, fab2;
+    String dateOfToday = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-    RecyclerView recyclerView, recyclerViewMonday, recyclerViewTuesday, recyclerViewWednesday, recyclerViewThursday, recyclerViewFriday, recyclerViewSaturday, recyclerViewSunday;
-    RecyclerView.Adapter programAdapter, programAdapterMonday, programAdapterTuesday, programAdapterWednesday, programAdapterThursday, programAdapterFriday, programAdapterSaturday, programAdapterSunday;
-    RecyclerView.LayoutManager layoutmanager, layoutManagerMonday, layoutManagerTuesday, layoutManagerWednesday, layoutManagerThursday, layoutManagerFriday, layoutManagerSaturday, layoutManagerSunday;
+    RecyclerView recyclerView, recyclerViewCompleted, recyclerViewMonday, recyclerViewTuesday, recyclerViewWednesday, recyclerViewThursday, recyclerViewFriday, recyclerViewSaturday, recyclerViewSunday;
+    RecyclerView.Adapter programAdapter, programAdapterCompleted, programAdapterMonday, programAdapterTuesday, programAdapterWednesday, programAdapterThursday, programAdapterFriday, programAdapterSaturday, programAdapterSunday;
+    RecyclerView.LayoutManager layoutmanager, layoutManagerCompleted, layoutManagerMonday, layoutManagerTuesday, layoutManagerWednesday, layoutManagerThursday, layoutManagerFriday, layoutManagerSaturday, layoutManagerSunday;
 
 
     //OneTime
@@ -50,6 +62,12 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
     List<String> activityLocationList = new ArrayList<String>();
     List<String> activityDateList = new ArrayList<String>();
     List<String> activityTimeList = new ArrayList<String>();
+
+    //Completed
+    List<String> activityNameListCompleted = new ArrayList<String>();
+    List<String> activityLocationListCompleted = new ArrayList<String>();
+    List<String> activityDateListCompleted = new ArrayList<String>();
+    List<String> activityTimeListCompleted = new ArrayList<String>();
 
     //Monday
     List<String> activityNameListMonday = new ArrayList<String>();
@@ -114,6 +132,19 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 
         if(cursor.moveToFirst()){
             do{
+                if(cursor.getString(2) == dateOfToday){
+                    String activityNameCompleted = cursor.getString(0);
+                    String activityLocationCompleted = cursor.getString(1);
+                    String activityDateCompleted = cursor.getString(2);
+                    String activityTimeCompleted = cursor.getString(3);
+
+                    CompletedActivityModel completedActivityModel;
+                    completedActivityModel = new CompletedActivityModel (activityNameCompleted, activityLocationCompleted, activityDateCompleted, activityTimeCompleted, 0, 0.0, 0.0);
+
+                    oneTimeDatabaseHelper.deleteOne(activityNameCompleted);
+                    continue;
+                }
+
                 String activityName = cursor.getString(0);
                 activityNameList.add(activityName);
 
@@ -125,6 +156,8 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 
                 String activityTime = cursor.getString(3);
                 activityTimeList.add(activityTime);
+
+
             }while(cursor.moveToNext());
         }else{ }
         cursor.close();
@@ -146,6 +179,44 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 //
 //        });
 
+        //----------------------------------------------------------------------------------------------------------
+        //Ambil data dari database untuk completed
+        CompletedDatabaseHelper completedDatabaseHelper = new CompletedDatabaseHelper(ListActivity.this);
+        Cursor cursorCompleted = completedDatabaseHelper.getEveryone();
+
+
+
+
+        if(cursorCompleted.moveToFirst()){
+            do{
+                String activityName = cursorCompleted.getString(0);
+                activityNameListCompleted.add(activityName);
+
+                String activityLocation = cursorCompleted.getString(1);
+                activityLocationListCompleted.add(activityLocation);
+
+                String activityDate = cursorCompleted.getString(2);
+                activityDateListCompleted.add(activityDate);
+
+                String activityTime = cursorCompleted.getString(3);
+                activityTimeListCompleted.add(activityTime);
+            }while(cursorCompleted.moveToNext());
+        }else{ }
+        cursorCompleted.close();
+
+        //Ngurus recyclerview completed-activity
+        recyclerViewCompleted = findViewById(R.id.rvCompleted);
+
+        layoutManagerCompleted = new LinearLayoutManager(this);
+        recyclerViewCompleted.setLayoutManager(layoutManagerCompleted);
+
+        String[] activityNameStringCompleted = activityNameListCompleted.toArray(new String[0]);
+        String[] activityLocationStringCompleted = activityLocationListCompleted.toArray(new String[0]);
+        String[] activityDateStringCompleted = activityDateListCompleted.toArray(new String[0]);
+        String[] activityTimeStringCompleted = activityTimeListCompleted.toArray(new String[0]);
+
+        programAdapterCompleted = new CompletedAdapter(this, activityNameStringCompleted, activityLocationStringCompleted, activityDateStringCompleted, activityTimeStringCompleted, this);
+        recyclerView.setAdapter(programAdapterCompleted);
 
         //----------------------------------------------------------------------------------------------------------
         //Ambil data dari database untuk senin

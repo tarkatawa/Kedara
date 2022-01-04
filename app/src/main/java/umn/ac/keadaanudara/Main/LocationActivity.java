@@ -7,13 +7,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import com.airbnb.lottie.L;
+
 import umn.ac.keadaanudara.Adapter.CityAdapter;
 import umn.ac.keadaanudara.Model.City;
+import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.R;
 
 import org.json.JSONArray;
@@ -84,11 +88,10 @@ public class LocationActivity extends AppCompatActivity {
 
             for (int i = 0; i<jsonArray.length(); ++i) {
                 JSONObject zeroJsonObject = jsonArray.getJSONObject(i);
-                String kabko = zeroJsonObject.getString("kabko");
-                String lat = zeroJsonObject.getString("lat");
-                String lon = zeroJsonObject.getString("lon");
-
-                City cities = new City(kabko, lat, lon);
+                City cities = new City();
+                cities.setKabko(zeroJsonObject.getString("kabko"));
+                cities.setLat(zeroJsonObject.getDouble("lat"));
+                cities.setLon(zeroJsonObject.getDouble("lon"));
                 cityArrayList.add(cities);
             }
 
@@ -128,11 +131,9 @@ public class LocationActivity extends AppCompatActivity {
         cityAdapter.setOnItemClickListener((view, position) -> {
             Intent intent = new Intent(LocationActivity.this, MainActivity.class);
             City changeCity = cityArrayList.get(position);
-//            intent.putExtra("kabko", changeCity.getKabko());
             intent.putExtra("lat", changeCity.getLat());
             intent.putExtra("lon", changeCity.getLon());
-            setResult(RESULT_OK, intent);
-
+            intent.putExtra("condition", true);
             startActivity(intent);
         });
     }
