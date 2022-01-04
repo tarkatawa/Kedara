@@ -43,9 +43,10 @@ import umn.ac.keadaanudara.DatabaseHelper.WeeklyThursdayDatabaseHelper;
 import umn.ac.keadaanudara.Adapter.WeeklyTuesdayAdapter;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyTuesdayDatabaseHelper;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyWednesdayDatabaseHelper;
+import umn.ac.keadaanudara.Model.CompletedActivityModel;
 import umn.ac.keadaanudara.R;
 
-public class ListActivity extends AppCompatActivity implements OneTimeAdapter.OnNoteListener {
+public class ListActivity extends AppCompatActivity implements OneTimeAdapter.OnNoteListener, CompletedAdapter.OnNoteListener {
     Button toRepetitive, toOneTime, btndelete, btncancel;
     ImageButton back;
     FloatingActionButton fab1, fab2;
@@ -140,7 +141,7 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
                     CompletedActivityModel completedActivityModel;
                     completedActivityModel = new CompletedActivityModel (activityNameCompleted, activityLocationCompleted, activityDateCompleted, activityTimeCompleted, 0, 0.0, 0.0);
 
-                    oneTimeDatabaseHelper.deleteOne(activityNameList.get(position));
+                    oneTimeDatabaseHelper.deleteOne(activityNameCompleted);
                     continue;
                 }
 
