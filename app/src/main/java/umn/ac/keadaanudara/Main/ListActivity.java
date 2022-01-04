@@ -208,7 +208,7 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
         recyclerViewCompleted = findViewById(R.id.rvCompleted);
 
         layoutManagerCompleted = new LinearLayoutManager(this);
-        recyclerViewCompleted.setLayoutManager(layoutmanager);
+        recyclerViewCompleted.setLayoutManager(layoutManagerCompleted);
 
         String[] activityNameStringCompleted = activityNameListCompleted.toArray(new String[0]);
         String[] activityLocationStringCompleted = activityLocationListCompleted.toArray(new String[0]);
