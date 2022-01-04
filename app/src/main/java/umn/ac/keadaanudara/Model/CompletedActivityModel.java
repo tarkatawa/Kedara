@@ -1,6 +1,6 @@
 package umn.ac.keadaanudara.Model;
 
-public class OneTimeActivityModel {
+public class CompletedActivityModel {
     private String activity;
     private String location;
     private String date;
@@ -8,7 +8,7 @@ public class OneTimeActivityModel {
     private int reminders;
     private Double lon, lat;
 
-    public OneTimeActivityModel(String activity, String location, String date, String time, int reminders, Double lon, Double lat) {
+    public CompletedActivityModel(String activity, String location, String date, String time, int reminders, Double lon, Double lat) {
         this.activity = activity;
         this.location = location;
         this.date = date;
@@ -18,11 +18,11 @@ public class OneTimeActivityModel {
         this.lat = lat;
     }
 
-    public OneTimeActivityModel(){}
+    public CompletedActivityModel(){}
 
     @Override
     public String toString() {
-        return "OneActivityModel{" +
+        return "CompletedActivityModel{" +
                 "activity='" + activity + '\'' +
                 ", location='" + location + '\'' +
                 ", date='" + date + '\'' +

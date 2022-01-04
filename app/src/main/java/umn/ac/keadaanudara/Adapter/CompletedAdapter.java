@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import umn.ac.keadaanudara.R;
 
-public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHolder>{
+public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.ViewHolder>{
 
     Context context;
     String[] activityNameList;
@@ -48,7 +48,7 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
         void onNoteClick(int position);
     }
 
-    public OneTimeAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityDateList, String[] activityTimeList, OnNoteListener onNoteListener){
+    public CompletedAdapter(Context context, String[] activityNameList, String[] activityLocationList, String[] activityDateList, String[] activityTimeList, OnNoteListener onNoteListener){
         this.context = context;
         this.activityNameList = activityNameList;
         this.activityLocationList = activityLocationList;
@@ -59,7 +59,7 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
 
     @NonNull
     @Override
-    public OneTimeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CompletedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.rv_onetime_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view, mOnNoteListener);
@@ -67,7 +67,7 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OneTimeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CompletedAdapter.ViewHolder holder, int position) {
         holder.rowName.setText(activityNameList[position]);
         holder.rowLocation.setText(activityLocationList[position]);
         holder.rowDate.setText(activityDateList[position]);
@@ -78,5 +78,7 @@ public class OneTimeAdapter extends RecyclerView.Adapter<OneTimeAdapter.ViewHold
     public int getItemCount() {
         return activityNameList.length;
     }
+
+
 
 }
