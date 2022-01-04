@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
+import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
 import umn.ac.keadaanudara.R;
@@ -66,9 +67,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int firstDay, dayCompare;
     private TextView txtDate, txtDayOne, txtDayTwo, txtDayThree, txtDayFour, txtDayFive;
     private ImageView imgFirst, imgSecond, imgThird, imgFourth, imgFifth;
+    private boolean cityCondition;
+    private double cityLat, cityLon;
     RecyclerView recyclerView;
     private WeatherAdapter weatherAdapter;
     private final ArrayList<Modelmain> modelmain = new ArrayList<>();
+    private City city = new City();
     private LocationModel locationModel = new LocationModel();
     FloatingActionButton fab_action1;
     LocationRequest locationRequest;
@@ -135,6 +139,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        Intent cityIntent = getIntent();
+        cityCondition = cityIntent.getBooleanExtra("condition", false);
+        cityLat = cityIntent.getDoubleExtra("lat", 0.0);
+        cityLon = cityIntent.getDoubleExtra("lon", 0.0);
 
         //getActivityWeatherInfo();
     }
@@ -162,12 +170,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 int index = locationResult.getLocations().size() - 1;
                                 locationModel.setLat(locationResult.getLocations().get(index).getLatitude());
                                 locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
-
-                                dayCompare = firstDay;
-
-                                getCurrentWeather();
-                                getListWeather();
                             }
+
+                            dayCompare = firstDay;
+
+                            if (!cityCondition) {
+                                getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                                getListWeather(locationModel.getLat(), locationModel.getLon());
+                                Log.e("CITY LAT", String.valueOf(cityLat));
+                                Log.e("CITY LON", String.valueOf(cityLon));
+                                Log.e("CITY COND", String.valueOf(city.getCondition()));
+                            } else {
+                                getCurrentWeather(cityLat, cityLon);
+                                getListWeather(cityLat, cityLon);
+                                Log.e("CITY LAT", String.valueOf(cityLat));
+                                Log.e("CITY LON", String.valueOf(cityLon));
+                            }
+
                         }
                     }, Looper.getMainLooper());
                 } else {
@@ -183,11 +202,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 int index = locationResult.getLocations().size() - 1;
                                 locationModel.setLat(locationResult.getLocations().get(index).getLatitude());
                                 locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
+                            }
 
-                                dayCompare = firstDay;
+                            dayCompare = firstDay;
 
-                                getCurrentWeather();
-                                getListWeather();
+                            if (!city.getCondition()) {
+                                getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                                getListWeather(locationModel.getLat(), locationModel.getLon());
+                            } else {
+                                getCurrentWeather(city.getLat(), city.getLon());
+                                getListWeather(city.getLat(), city.getLon());
                             }
                         }
                     }, Looper.getMainLooper());
@@ -252,9 +276,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //return
 //    }
 
-    private void getCurrentWeather() {
-        double lat = locationModel.getLat();
-        double lon = locationModel.getLon();
+    private void getCurrentWeather(double lat, double lon) {
+
         AndroidNetworking.get(BASE_URL + "weather?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -346,9 +369,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    private void getListWeather() {
-        double lat = locationModel.getLat();
-        double lon = locationModel.getLon();
+    private void getListWeather(double lat, double lon) {
         AndroidNetworking.get(BASE_URL + "forecast?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -456,25 +477,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayOne:
                 dayCompare = firstDay;
-                getListWeather();
+                if (!city.getCondition()) {
+                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getCurrentWeather(city.getLat(), city.getLon());
+                    getListWeather(city.getLat(), city.getLon());
+                }
                 Toast.makeText(MainActivity.this, "date one:" + locationModel.getDayFirst(), Toast.LENGTH_SHORT).show();
             case R.id.dayTwo:
                 dayCompare = firstDay + 1;
-                getListWeather();
+                if (!city.getCondition()) {
+                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getCurrentWeather(city.getLat(), city.getLon());
+                    getListWeather(city.getLat(), city.getLon());
+                }
             case R.id.dayThree:
                 dayCompare = firstDay + 2;
-                getListWeather();
+                if (!city.getCondition()) {
+                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getCurrentWeather(city.getLat(), city.getLon());
+                    getListWeather(city.getLat(), city.getLon());
+                }
         }
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            if (data != null) {
-//                  lat = Double.parseDouble(data.getStringExtra("lat"));
-//                  lon = Double.parseDouble(data.getStringExtra("lon"));
-//            }
-//        }
-//    }
 }
