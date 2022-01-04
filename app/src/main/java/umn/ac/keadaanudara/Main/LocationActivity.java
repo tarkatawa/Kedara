@@ -134,9 +134,6 @@ public class LocationActivity extends AppCompatActivity {
             intent.putExtra("lat", changeCity.getLat());
             intent.putExtra("lon", changeCity.getLon());
             intent.putExtra("condition", true);
-            Log.e("LAT VALUE: ", String.valueOf(changeCity.getLat()));
-
-
             startActivity(intent);
         });
     }

@@ -204,8 +204,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
                             }
 
-                            dayCompare = firstDay;
-
                             if (!city.getCondition()) {
                                 getCurrentWeather(locationModel.getLat(), locationModel.getLon());
                                 getListWeather(locationModel.getLat(), locationModel.getLon());
@@ -378,6 +376,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray listJsonArray = response.getJSONArray("list");
+                            modelmain.clear();
                             for (int i = 0; i<listJsonArray.length(); i++) {
                                 Modelmain modelmain1 = new Modelmain();
                                 JSONObject listJsonObject = listJsonArray.getJSONObject(i);
@@ -386,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 JSONObject zeroJsonObject = weatherJsonArray.getJSONObject(0);
                                 String time = listJsonObject.getString("dt_txt");
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                SimpleDateFormat timeFormat = new SimpleDateFormat("kk:mm");
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                                 SimpleDateFormat dayFormat = new SimpleDateFormat("d");
 
                                 String temp = time;
@@ -395,15 +394,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     if (datesFormat != null) {
                                         temp = dayFormat.format(datesFormat);
                                     }
-
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                     Toast.makeText(MainActivity.this, "Date Error", Toast.LENGTH_SHORT).show();
                                 }
-
-                                Log.e("TIME BEFORE", time);
-                                Log.e("TEMP", temp);
-                                Log.e("DATE dayCompare", String.valueOf(dayCompare));
 
                                 if (temp.equals(String.valueOf(dayCompare))) {
                                     try {
@@ -416,7 +410,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         e.printStackTrace();
                                         Toast.makeText(MainActivity.this, "Time Error", Toast.LENGTH_SHORT).show();
                                     }
-                                    Log.e("TIME AFTER", time);
 
                                     modelmain1.setTime(time);
                                     modelmain1.setCurrentTemp(mainJsonObject.getDouble("temp"));
@@ -484,7 +477,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     getCurrentWeather(city.getLat(), city.getLon());
                     getListWeather(city.getLat(), city.getLon());
                 }
-                Toast.makeText(MainActivity.this, "date one:" + locationModel.getDayFirst(), Toast.LENGTH_SHORT).show();
+                break;
             case R.id.dayTwo:
                 dayCompare = firstDay + 1;
                 if (!city.getCondition()) {
@@ -494,6 +487,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     getCurrentWeather(city.getLat(), city.getLon());
                     getListWeather(city.getLat(), city.getLon());
                 }
+                break;
             case R.id.dayThree:
                 dayCompare = firstDay + 2;
                 if (!city.getCondition()) {
@@ -503,6 +497,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     getCurrentWeather(city.getLat(), city.getLon());
                     getListWeather(city.getLat(), city.getLon());
                 }
+                break;
+            case R.id.dayFour:
+                dayCompare = firstDay + 3;
+                if (!city.getCondition()) {
+                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getCurrentWeather(city.getLat(), city.getLon());
+                    getListWeather(city.getLat(), city.getLon());
+                }
+                break;
+            case R.id.dayFive:
+                dayCompare = firstDay + 4;
+                if (!city.getCondition()) {
+                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getCurrentWeather(city.getLat(), city.getLon());
+                    getListWeather(city.getLat(), city.getLon());
+                }
+                break;
         }
     }
 }
