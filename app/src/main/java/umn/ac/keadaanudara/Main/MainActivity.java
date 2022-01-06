@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PERMISSION_FINE_LOCATION = 99;
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static final String appid = "8f415b7021ae02e32442cc8555f6d572";
-    private String today;
+    private String today, cityKabko;
     private int firstDay, dayCompare;
     private TextView txtDate, txtDayOne, txtDayTwo, txtDayThree, txtDayFour, txtDayFive;
     private ImageView imgFirst, imgSecond, imgThird, imgFourth, imgFifth;
@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent cityIntent = getIntent();
         cityCondition = cityIntent.getBooleanExtra("condition", false);
+        cityKabko = cityIntent.getStringExtra("kabko");
         cityLat = cityIntent.getDoubleExtra("lat", 0.0);
         cityLon = cityIntent.getDoubleExtra("lon", 0.0);
 
@@ -177,14 +178,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (!cityCondition) {
                                 getCurrentWeather(locationModel.getLat(), locationModel.getLon());
                                 getListWeather(locationModel.getLat(), locationModel.getLon());
-                                Log.e("CITY LAT", String.valueOf(cityLat));
-                                Log.e("CITY LON", String.valueOf(cityLon));
-                                Log.e("CITY COND", String.valueOf(city.getCondition()));
                             } else {
                                 getCurrentWeather(cityLat, cityLon);
                                 getListWeather(cityLat, cityLon);
-                                Log.e("CITY LAT", String.valueOf(cityLat));
-                                Log.e("CITY LON", String.valueOf(cityLon));
                             }
 
                         }
@@ -204,12 +200,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
                             }
 
-                            if (!city.getCondition()) {
+                            dayCompare = firstDay;
+
+                            if (!cityCondition) {
                                 getCurrentWeather(locationModel.getLat(), locationModel.getLon());
                                 getListWeather(locationModel.getLat(), locationModel.getLon());
                             } else {
-                                getCurrentWeather(city.getLat(), city.getLon());
-                                getListWeather(city.getLat(), city.getLon());
+                                getCurrentWeather(cityLat, cityLon);
+                                getListWeather(cityLat, cityLon);
                             }
                         }
                     }, Looper.getMainLooper());
@@ -349,7 +347,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     break;
                             }
 
-                            txtCityName.setText(name);
+                            if (!cityCondition) {
+                                txtCityName.setText(name);
+                            } else {
+                                txtCityName.setText(cityKabko);
+                            }
                             txtDesc.setText(description);
                             txtTemp.setText(String.format(Locale.getDefault(), "%.0f°C", temp));
 

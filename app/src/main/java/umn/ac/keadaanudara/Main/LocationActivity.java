@@ -131,6 +131,7 @@ public class LocationActivity extends AppCompatActivity {
         cityAdapter.setOnItemClickListener((view, position) -> {
             Intent intent = new Intent(LocationActivity.this, MainActivity.class);
             City changeCity = cityArrayList.get(position);
+            intent.putExtra("kabko", changeCity.getKabko());
             intent.putExtra("lat", changeCity.getLat());
             intent.putExtra("lon", changeCity.getLon());
             intent.putExtra("condition", true);
