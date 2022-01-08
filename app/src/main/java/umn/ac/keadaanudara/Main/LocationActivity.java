@@ -1,20 +1,43 @@
 package umn.ac.keadaanudara.Main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.L;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import umn.ac.keadaanudara.Adapter.CityAdapter;
 import umn.ac.keadaanudara.Model.City;
@@ -36,8 +59,11 @@ import java.util.List;
 public class LocationActivity extends AppCompatActivity {
     private List<City> cityArrayList = new ArrayList<>();
     private CityAdapter cityAdapter = null;
-    SharedPreferences sharedPreferences;
     private static final String SHARED_PREF = "SHARED_PREF";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    LocationRequest locationRequest;
+    private static final int PERMISSION_FINE_LOCATION = 99;
     private static final String KABKO_KEY = "KABKO";
     private static final String LAT_KEY = "LAT";
     private static final String LON_KEY = "LON";
@@ -47,14 +73,29 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Change Location");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
 
+        ImageView imgLocateMe = findViewById(R.id.imgBGLocateMe);
+
         loadCity();
 
         initListener();
+
+        imgLocateMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor = sharedPreferences.edit();
+                editor.putString(KABKO_KEY, null);
+                editor.putString(LAT_KEY, "0.0");
+                editor.putString(LON_KEY, "0.0");
+                editor.apply();
+                Intent intent = new Intent(LocationActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 //        recyclerView.addItemDecoration(dividerItemDecoration);
@@ -139,12 +180,10 @@ public class LocationActivity extends AppCompatActivity {
     public void initListener() {
         cityAdapter.setOnItemClickListener((view, position) -> {
             City changeCity = cityArrayList.get(position);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            String lat = String.valueOf(changeCity.getLat());
-            String lon = String.valueOf(changeCity.getLon());
+            editor = sharedPreferences.edit();
             editor.putString(KABKO_KEY, changeCity.getKabko());
-            editor.putString(LAT_KEY, lat);
-            editor.putString(LON_KEY, lon);
+            editor.putString(LAT_KEY, String.valueOf(changeCity.getLat()));
+            editor.putString(LON_KEY, String.valueOf(changeCity.getLon()));
             editor.apply();
             Intent intent = new Intent(LocationActivity.this, MainActivity.class);
             startActivity(intent);

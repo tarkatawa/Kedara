@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        if (cityKabko == null) {
+        if (cityLat == 0.0) {
             updateGPS();
         } else {
             dayCompare = firstDay;
@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayOne:
                 dayCompare = firstDay;
-                if (cityKabko == null) {
+                if (cityLat == 0.0) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
                     getListWeather(cityLat, cityLon);
@@ -485,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayTwo:
                 dayCompare = firstDay + 1;
-                if (cityKabko == null) {
+                if (cityLat == 0.0) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
                     getListWeather(cityLat, cityLon);
@@ -493,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayThree:
                 dayCompare = firstDay + 2;
-                if (cityKabko == null) {
+                if (cityLat == 0.0) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
                     getListWeather(cityLat, cityLon);
@@ -501,7 +501,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayFour:
                 dayCompare = firstDay + 3;
-                if (cityKabko == null) {
+                if (cityLat == 0.0) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
                     getListWeather(cityLat, cityLon);
@@ -509,7 +509,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayFive:
                 dayCompare = firstDay + 4;
-                if (cityKabko == null) {
+                if (cityLat == 0.0) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
                     getListWeather(cityLat, cityLon);
