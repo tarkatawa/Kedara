@@ -6,7 +6,6 @@ public class City implements Serializable {
     private String kabko;
     private double lat;
     private double lon;
-    private Boolean condition = false;
 
     public String getKabko() {
         return kabko;
@@ -30,13 +29,5 @@ public class City implements Serializable {
 
     public void setLon(double lon) {
         this.lon = lon;
-    }
-
-    public Boolean getCondition() {
-        return condition;
-    }
-
-    public void setCondition(Boolean condition) {
-        this.condition = condition;
     }
 }

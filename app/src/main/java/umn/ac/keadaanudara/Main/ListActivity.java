@@ -43,6 +43,7 @@ import umn.ac.keadaanudara.DatabaseHelper.WeeklyThursdayDatabaseHelper;
 import umn.ac.keadaanudara.Adapter.WeeklyTuesdayAdapter;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyTuesdayDatabaseHelper;
 import umn.ac.keadaanudara.DatabaseHelper.WeeklyWednesdayDatabaseHelper;
+import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.CompletedActivityModel;
 import umn.ac.keadaanudara.R;
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
@@ -63,11 +64,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PERMISSION_FINE_LOCATION = 99;
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static final String appid = "8f415b7021ae02e32442cc8555f6d572";
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF = "SHARED_PREF";
+    private static final String KABKO_KEY = "KABKO";
+    private static final String LAT_KEY = "LAT";
+    private static final String LON_KEY = "LON";
     private String today, cityKabko;
     private int firstDay, dayCompare;
     private TextView txtDate, txtDayOne, txtDayTwo, txtDayThree, txtDayFour, txtDayFive;
     private ImageView imgFirst, imgSecond, imgThird, imgFourth, imgFifth;
-    private boolean cityCondition;
     private double cityLat, cityLon;
     RecyclerView recyclerView;
     private WeatherAdapter weatherAdapter;
@@ -111,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgFourth.setOnClickListener(this);
         imgFifth.setOnClickListener(this);
 
+        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+
+        cityKabko = sharedPreferences.getString(KABKO_KEY, null);
+        cityLat = Double.valueOf(sharedPreferences.getString(LAT_KEY, "0.0"));
+        cityLon = Double.valueOf(sharedPreferences.getString(LON_KEY, "0.0"));
+
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
@@ -121,7 +132,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getToday();
         firstDay = locationModel.getDayFirst();
-        updateGPS();
+
+
+
+        if (cityKabko == null) {
+            updateGPS();
+        } else {
+            dayCompare = firstDay;
+            getCurrentWeather(cityLat, cityLon);
+            getListWeather(cityLat, cityLon);
+        }
 
         txtDayOne.setText(String.valueOf(firstDay));
         txtDayTwo.setText(String.valueOf(firstDay + 1));
@@ -138,12 +158,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
             }
         });
-
-        Intent cityIntent = getIntent();
-        cityCondition = cityIntent.getBooleanExtra("condition", false);
-        cityKabko = cityIntent.getStringExtra("kabko");
-        cityLat = cityIntent.getDoubleExtra("lat", 0.0);
-        cityLon = cityIntent.getDoubleExtra("lon", 0.0);
 
         //getActivityWeatherInfo();
     }
@@ -175,13 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             dayCompare = firstDay;
 
-                            if (!cityCondition) {
-                                getCurrentWeather(locationModel.getLat(), locationModel.getLon());
-                                getListWeather(locationModel.getLat(), locationModel.getLon());
-                            } else {
-                                getCurrentWeather(cityLat, cityLon);
-                                getListWeather(cityLat, cityLon);
-                            }
+                            getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                            getListWeather(locationModel.getLat(), locationModel.getLon());
 
                         }
                     }, Looper.getMainLooper());
@@ -202,13 +211,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             dayCompare = firstDay;
 
-                            if (!cityCondition) {
-                                getCurrentWeather(locationModel.getLat(), locationModel.getLon());
-                                getListWeather(locationModel.getLat(), locationModel.getLon());
-                            } else {
-                                getCurrentWeather(cityLat, cityLon);
-                                getListWeather(cityLat, cityLon);
-                            }
+                            getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                            getListWeather(locationModel.getLat(), locationModel.getLon());
+
                         }
                     }, Looper.getMainLooper());
                 }
@@ -347,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     break;
                             }
 
-                            if (!cityCondition) {
+                            if (cityKabko == null) {
                                 txtCityName.setText(name);
                             } else {
                                 txtCityName.setText(cityKabko);
@@ -364,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(MainActivity.this, "No Internet!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Data error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -427,13 +432,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Failed to show the data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Failed to display the data", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(MainActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -472,52 +477,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.dayOne:
                 dayCompare = firstDay;
-                if (!city.getCondition()) {
-                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                if (cityKabko == null) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
-                    getCurrentWeather(city.getLat(), city.getLon());
-                    getListWeather(city.getLat(), city.getLon());
+                    getListWeather(cityLat, cityLon);
                 }
                 break;
             case R.id.dayTwo:
                 dayCompare = firstDay + 1;
-                if (!city.getCondition()) {
-                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                if (cityKabko == null) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
-                    getCurrentWeather(city.getLat(), city.getLon());
-                    getListWeather(city.getLat(), city.getLon());
+                    getListWeather(cityLat, cityLon);
                 }
                 break;
             case R.id.dayThree:
                 dayCompare = firstDay + 2;
-                if (!city.getCondition()) {
-                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                if (cityKabko == null) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
-                    getCurrentWeather(city.getLat(), city.getLon());
-                    getListWeather(city.getLat(), city.getLon());
+                    getListWeather(cityLat, cityLon);
                 }
                 break;
             case R.id.dayFour:
                 dayCompare = firstDay + 3;
-                if (!city.getCondition()) {
-                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                if (cityKabko == null) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
-                    getCurrentWeather(city.getLat(), city.getLon());
-                    getListWeather(city.getLat(), city.getLon());
+                    getListWeather(cityLat, cityLon);
                 }
                 break;
             case R.id.dayFive:
                 dayCompare = firstDay + 4;
-                if (!city.getCondition()) {
-                    getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                if (cityKabko == null) {
                     getListWeather(locationModel.getLat(), locationModel.getLon());
                 } else {
-                    getCurrentWeather(city.getLat(), city.getLon());
-                    getListWeather(city.getLat(), city.getLon());
+                    getListWeather(cityLat, cityLon);
                 }
                 break;
         }

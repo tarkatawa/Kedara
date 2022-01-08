@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +36,11 @@ import java.util.List;
 public class LocationActivity extends AppCompatActivity {
     private List<City> cityArrayList = new ArrayList<>();
     private CityAdapter cityAdapter = null;
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF = "SHARED_PREF";
+    private static final String KABKO_KEY = "KABKO";
+    private static final String LAT_KEY = "LAT";
+    private static final String LON_KEY = "LON";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +50,14 @@ public class LocationActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+
         loadCity();
 
-        RecyclerView recyclerView = findViewById(R.id.locationRecycler);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        cityAdapter = new CityAdapter(this, cityArrayList);
-        recyclerView.setAdapter(cityAdapter);
+        initListener();
 
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 //        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        initListener();
 
     }
 
@@ -95,6 +95,15 @@ public class LocationActivity extends AppCompatActivity {
                 cityArrayList.add(cities);
             }
 
+            RecyclerView recyclerView = findViewById(R.id.locationRecycler);
+            recyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+
+            cityAdapter = new CityAdapter(this, cityArrayList);
+            recyclerView.setAdapter(cityAdapter);
+            cityAdapter.notifyDataSetChanged();
+
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -129,12 +138,15 @@ public class LocationActivity extends AppCompatActivity {
 
     public void initListener() {
         cityAdapter.setOnItemClickListener((view, position) -> {
-            Intent intent = new Intent(LocationActivity.this, MainActivity.class);
             City changeCity = cityArrayList.get(position);
-            intent.putExtra("kabko", changeCity.getKabko());
-            intent.putExtra("lat", changeCity.getLat());
-            intent.putExtra("lon", changeCity.getLon());
-            intent.putExtra("condition", true);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String lat = String.valueOf(changeCity.getLat());
+            String lon = String.valueOf(changeCity.getLon());
+            editor.putString(KABKO_KEY, changeCity.getKabko());
+            editor.putString(LAT_KEY, lat);
+            editor.putString(LON_KEY, lon);
+            editor.apply();
+            Intent intent = new Intent(LocationActivity.this, MainActivity.class);
             startActivity(intent);
         });
     }
