@@ -84,7 +84,17 @@ public class InputOneTimeActivity extends AppCompatActivity {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int day) {
                 month = month + 1;
-                String date = day+"/"+month+"/"+year;
+                String month2 = String.valueOf(month);
+                String day2 = String.valueOf(day);
+
+                if(month2.length() < 2){
+                    month2 = "0"+month2;
+                }
+                if(day2.length() < 2){
+                    day2 = "0"+day2;
+                }
+
+                String date = day2+"/"+month2+"/"+year;
 //                tvDate.setText(date);
                 theDate.setText(date);
             }
@@ -98,7 +108,19 @@ public class InputOneTimeActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         month = month + 1;
-                        String date = day+"/"+month+"/"+year;
+
+
+                        String month2 = String.valueOf(month);
+                        String day2 = String.valueOf(day);
+
+                        if(month2.length() < 2){
+                            month2 = "0"+month2;
+                        }
+                        if(day2.length() < 2){
+                            day2 = "0"+day2;
+                        }
+
+                        String date = day2+"/"+month2+"/"+year;
                         etDate.setText(date);
                     }
                 },year,month,day);

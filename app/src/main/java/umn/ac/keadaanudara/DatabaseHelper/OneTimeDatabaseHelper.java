@@ -8,8 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import umn.ac.keadaanudara.Model.OneTimeActivityModel;
 
@@ -22,6 +25,8 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ACTIVITY_REMINDER = "ACTIVITY_REMINDER";
     public static final String COLUMN_ACTIVITY_LON = "ACTIVITY_LON";
     public static final String COLUMN_ACTIVITY_LAT = "ACTIVITY_LAT";
+
+    String dateOfToday = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
     public OneTimeDatabaseHelper(@Nullable Context context){
         super(context, "onetimeActivity.db", null, 1);
@@ -60,7 +65,6 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public boolean deleteOne(OneTimeActivityModel oneTimeModel){
     public boolean deleteOne(String activity){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryString = "DELETE FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + COLUMN_ACTIVITY_NAME + " = " + "'"+activity+"'";
@@ -75,15 +79,20 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public List<Cursor> getEveryone(){
+    public Cursor getReminder(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_prior) >= HARI INI
+        String queryString = "SELECT * FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + COLUMN_ACTIVITY_DATE + " = " + "'"+dateOfToday+"'";
+
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        return cursor;
+    }
+
       public Cursor getEveryone(){
-//        String[] activityNameList = {};
         List<String> activityNameList = new ArrayList<>();
-//        String[] activityLocationList ={};
         List<String> activityLocationList = new ArrayList<>();
-//        String[] activityDateList ={};
         List<String> activityDateList = new ArrayList<>();
-//        String[] activityTimeList ={};
         List<String> activityTimeList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + ONE_TIME_ACTIVITY_TABLE;
@@ -92,25 +101,6 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(queryString, null);
 
-//        if(cursor.moveToFirst()){
-//            do{
-//                String activityName = cursor.getString(0);
-//                activityNameList.add(activityName);
-//
-//                String activityLocation = cursor.getString(1);
-//                activityLocationList.add(activityLocation);
-//
-//                String activityDate = cursor.getString(2);
-//                activityDateList.add(activityDate);
-//
-//                String activityTime = cursor.getString(3);
-//                activityTimeList.add(activityTime);
-//            }while(cursor.moveToNext());
-//        }else{ }
-//        cursor.close();
-//        db.close();
-//        return Arrays.asList(activityNameList, activityLocationList, activityDateList, activityTimeList);
-//        return Arrays.asList(cursor);
         return cursor;
     }
     }

@@ -88,18 +88,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTemp" />
 
-<!--    <com.getbase.floatingactionbutton.FloatingActionsMenu-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        app:fab_addButtonColorNormal="@color/blue"-->
-<!--        app:fab_addButtonColorPressed="@color/blue"-->
-<!--        app:fab_addButtonPlusIconColor="@color/white"-->
-<!--        app:fab_labelStyle="@style/custom_fab"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent">-->
-
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width=""-->
+<!--        android:layout_height=""-->
+    
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

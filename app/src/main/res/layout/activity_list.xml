@@ -505,7 +505,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:paddingBottom="20dp"
-                android:background="@drawable/container_activity_border_onetime"
+                android:background="@drawable/container_activity_border_completed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/contUpcoming">

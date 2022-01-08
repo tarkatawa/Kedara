@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -197,12 +198,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return isEnabled;
     }
 
-//    private void getActivityWeatherInfo(){
+    private void getActivityWeatherInfo(){
 //        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_perior) >= HARI INI
+
+//        String queryString = ;
+
 
         //cursor yang dicek sama API
         //return
-//    }
+    }
 
     private void getCurrentWeather() {
         double lat = locationModel.getLat();
