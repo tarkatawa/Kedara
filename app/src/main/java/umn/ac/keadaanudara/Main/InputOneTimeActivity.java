@@ -154,9 +154,88 @@ public class InputOneTimeActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String jam = etTime.getText().toString(); // 13:03
+                String jamJawab = jam.substring(0,2); //13 -> 12, 14 -> 15, 16 -> 15
+                switch (jamJawab) {
+                    case "01":
+                        jamJawab = "00:00";
+                        break;
+                    case "02":
+                        jamJawab = "03:00";
+                        break;
+                    case "03":
+                        jamJawab = "03:00";
+                        break;
+                    case "04":
+                        jamJawab = "03:00";
+                        break;
+                    case "05":
+                        jamJawab = "06:00";
+                        break;
+                    case "06":
+                        jamJawab = "06:00";
+                        break;
+                    case "07":
+                        jamJawab = "06:00";
+                        break;
+                    case "08":
+                        jamJawab = "09:00";
+                        break;
+                    case "09":
+                        jamJawab = "09:00";
+                        break;
+                    case "10":
+                        jamJawab = "09:00";
+                        break;
+                    case "11":
+                        jamJawab = "12:00";
+                        break;
+                    case "12":
+                        jamJawab = "12:00";
+                        break;
+                    case "13":
+                        jamJawab = "12:00";
+                        break;
+                    case "14":
+                        jamJawab = "15:00";
+                        break;
+                    case "15":
+                        jamJawab = "15:00";
+                        break;
+                    case "16":
+                        jamJawab = "15:00";
+                        break;
+                    case "17":
+                        jamJawab = "18:00";
+                        break;
+                    case "18":
+                        jamJawab = "18:00";
+                        break;
+                    case "19":
+                        jamJawab = "18:00";
+                        break;
+                    case "20":
+                        jamJawab = "21:00";
+                        break;
+                    case "21":
+                        jamJawab = "21:00";
+                        break;
+                    case "22":
+                        jamJawab = "21:00";
+                        break;
+                    case "23":
+                        jamJawab = "00:00";
+                        break;
+                    default:
+                        jamJawab = "00:00";
+                        break;
+                }
+
+
                 OneTimeActivityModel oneTimeActivityModel;
                 if (etActivity.length() != 0 && etLocation.length() != 0 && etDate.length() != 0 && etTime.length() != 0 && etReminder.length() != 0) {
-                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), etTime.getText().toString(), Integer.parseInt(etReminder.getText().toString()), 106.8451, -6.2146);
+                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), jamJawab, Integer.parseInt(etReminder.getText().toString()), 106.8451, -6.2146);
                     Toast.makeText(InputOneTimeActivity.this, oneTimeActivityModel.toString(), Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(InputOneTimeActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();

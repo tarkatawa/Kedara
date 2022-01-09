@@ -1,5 +1,7 @@
 package umn.ac.keadaanudara.DatabaseHelper;
 
+import static android.provider.Settings.System.DATE_FORMAT;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -82,6 +84,7 @@ public class OneTimeDatabaseHelper extends SQLiteOpenHelper {
     public Cursor getReminder(){
         SQLiteDatabase db = this.getWritableDatabase();
         //        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_prior) >= HARI INI
+//        String queryString = "SELECT * FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + DATE_FORMAT( DATE_SUB(COLUMN_ACTIVITY_DATE, INTERVAL COLUMN_ACTIVITY_REMINDER), '%d/%M/%Y' ) + " = " + "'"+dateOfToday+"'";
         String queryString = "SELECT * FROM " + ONE_TIME_ACTIVITY_TABLE + " WHERE " + COLUMN_ACTIVITY_DATE + " = " + "'"+dateOfToday+"'";
 
         Cursor cursor = db.rawQuery(queryString, null);

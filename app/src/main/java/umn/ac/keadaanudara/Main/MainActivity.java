@@ -43,6 +43,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import umn.ac.keadaanudara.Adapter.ReminderAdapter;
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
 import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+        getActivityReminder();
         //getActivityWeatherInfo();
     }
 
@@ -358,6 +360,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    private void getActivityReminder(){
+        RecyclerView recyclerView;
+        RecyclerView.Adapter reminderAdapter;
+        RecyclerView.LayoutManager layoutmanager;
+        int[] programWeatherList = {R.drawable.ic_baseline_wb_sunny_24};
+        String[] programConditionList = {"Sunny","Mist","Thunderstorm"};
+        String[] programNameList = {"Tennis with friends","Go to a concert","Dinner at Angkringan"};
+        String[] programLocationList = {"Jagakarsa","Kemayoran","Cangakan"};
+        String[] programDateList = {"10/01/2022","12/01/2022","15/01/2022"};
+        String[] programTimeList = {"09:00","18:30","20:00"};
+
+        recyclerView = findViewById(R.id.recyclerReminder);
+        layoutmanager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutmanager);
+        reminderAdapter = new ReminderAdapter(this, programWeatherList, programConditionList, programNameList, programLocationList, programDateList, programTimeList);
+        recyclerView.setAdapter(reminderAdapter);
+    }
+
     @Override
     public void onBackPressed() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -392,6 +412,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
