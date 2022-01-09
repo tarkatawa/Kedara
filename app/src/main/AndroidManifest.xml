@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="umn.ac.keadaanudara">
+    package="umn.ac.keadaanudara">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,6 +13,9 @@ package="umn.ac.keadaanudara">
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KeadaanUdara">
+        <activity
+            android:name=".LocationActivityPick"
+            android:exported="false" />
         <activity
             android:name=".Main.IntroActivity"
             android:exported="false" />
@@ -31,11 +34,11 @@ package="umn.ac.keadaanudara">
         <activity
             android:name=".Main.Feedback"
             android:exported="true"
-            android:parentActivityName=".Main.MainActivity"></activity>
+            android:parentActivityName=".Main.MainActivity" />
         <activity
             android:name=".Main.LocationActivity"
             android:exported="false"
-            android:parentActivityName=".Main.MainActivity"></activity>
+            android:parentActivityName=".Main.MainActivity" />
         <activity android:name=".Main.InputRepetitive" />
         <activity android:name=".Main.InputOneTimeActivity" />
         <activity android:name=".Main.ListActivity" />
