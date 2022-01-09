@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import umn.ac.keadaanudara.Adapter.ReminderAdapter;
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
 import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.LocationModel;
@@ -159,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+        getActivityReminder();
         //getActivityWeatherInfo();
     }
 
@@ -270,12 +274,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return isEnabled;
     }
 
-//    private void getActivityWeatherInfo(){
+    private void getActivityWeatherInfo(){
 //        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_perior) >= HARI INI
+
+//        String queryString = ;
+
 
         //cursor yang dicek sama API
         //return
-//    }
+    }
 
     private void getCurrentWeather(double lat, double lon) {
 
@@ -441,6 +448,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void getActivityReminder(){
+        RecyclerView recyclerView;
+        RecyclerView.Adapter reminderAdapter;
+        RecyclerView.LayoutManager layoutmanager;
+        int[] programWeatherList = {R.drawable.ic_baseline_wb_sunny_24};
+        String[] programConditionList = {"Sunny","Mist","Thunderstorm"};
+        String[] programNameList = {"Tennis with friends","Go to a concert","Dinner at Angkringan"};
+        String[] programLocationList = {"Jagakarsa","Kemayoran","Cangakan"};
+        String[] programDateList = {"10/01/2022","12/01/2022","15/01/2022"};
+        String[] programTimeList = {"09:00","18:30","20:00"};
+
+        recyclerView = findViewById(R.id.recyclerReminder);
+        layoutmanager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutmanager);
+        reminderAdapter = new ReminderAdapter(this, programWeatherList, programConditionList, programNameList, programLocationList, programDateList, programTimeList);
+        recyclerView.setAdapter(reminderAdapter);
     }
 
     @Override

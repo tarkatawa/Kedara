@@ -214,6 +214,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switchDays" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerWeather"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="300dp"
+                android:layout_height="110dp"
+                android:background="@drawable/container_reminder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/fab_action1"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="8dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
         <!--    <com.getbase.floatingactionbutton.FloatingActionsMenu-->
         <!--        android:layout_width="wrap_content"-->
         <!--        android:layout_height="wrap_content"-->
@@ -227,30 +260,18 @@
         <!--        app:layout_constraintEnd_toEndOf="parent">-->
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_action1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:id="@+id/fab_action1"
+            android:layout_marginBottom="12dp"
             app:fab_colorNormal="#FABE24"
             app:fab_colorPressed="#FABE24"
             app:fab_icon="@drawable/activitie"
             app:fab_title="On Time Activity"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
-        <!--            android:id="@+id/fab_action2"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:fab_colorNormal="@color/blue"-->
-        <!--            app:fab_colorPressed="@color/blue"-->
-        <!--            app:fab_icon="@drawable/regular_activity"-->
-        <!--            app:fab_size="mini"-->
-        <!--            app:fab_title="Regular Activity" />-->
-
-        <!--    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
-
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout></ScrollView>

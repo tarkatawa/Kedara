@@ -116,7 +116,17 @@ public class InputOneTimeActivity extends AppCompatActivity {
             @Override
             public void onDateSet(android.widget.DatePicker view, int year, int month, int day) {
                 month = month + 1;
-                String date = day+"/"+month+"/"+year;
+                String month2 = String.valueOf(month);
+                String day2 = String.valueOf(day);
+
+                if(month2.length() < 2){
+                    month2 = "0"+month2;
+                }
+                if(day2.length() < 2){
+                    day2 = "0"+day2;
+                }
+
+                String date = day2+"/"+month2+"/"+year;
 //                tvDate.setText(date);
                 theDate.setText(date);
             }
@@ -130,7 +140,19 @@ public class InputOneTimeActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         month = month + 1;
-                        String date = day+"/"+month+"/"+year;
+
+
+                        String month2 = String.valueOf(month);
+                        String day2 = String.valueOf(day);
+
+                        if(month2.length() < 2){
+                            month2 = "0"+month2;
+                        }
+                        if(day2.length() < 2){
+                            day2 = "0"+day2;
+                        }
+
+                        String date = day2+"/"+month2+"/"+year;
                         etDate.setText(date);
                     }
                 },year,month,day);
@@ -169,6 +191,85 @@ public class InputOneTimeActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String jam = etTime.getText().toString(); // 13:03
+                String jamJawab = jam.substring(0,2); //13 -> 12, 14 -> 15, 16 -> 15
+                switch (jamJawab) {
+                    case "01":
+                        jamJawab = "00:00";
+                        break;
+                    case "02":
+                        jamJawab = "03:00";
+                        break;
+                    case "03":
+                        jamJawab = "03:00";
+                        break;
+                    case "04":
+                        jamJawab = "03:00";
+                        break;
+                    case "05":
+                        jamJawab = "06:00";
+                        break;
+                    case "06":
+                        jamJawab = "06:00";
+                        break;
+                    case "07":
+                        jamJawab = "06:00";
+                        break;
+                    case "08":
+                        jamJawab = "09:00";
+                        break;
+                    case "09":
+                        jamJawab = "09:00";
+                        break;
+                    case "10":
+                        jamJawab = "09:00";
+                        break;
+                    case "11":
+                        jamJawab = "12:00";
+                        break;
+                    case "12":
+                        jamJawab = "12:00";
+                        break;
+                    case "13":
+                        jamJawab = "12:00";
+                        break;
+                    case "14":
+                        jamJawab = "15:00";
+                        break;
+                    case "15":
+                        jamJawab = "15:00";
+                        break;
+                    case "16":
+                        jamJawab = "15:00";
+                        break;
+                    case "17":
+                        jamJawab = "18:00";
+                        break;
+                    case "18":
+                        jamJawab = "18:00";
+                        break;
+                    case "19":
+                        jamJawab = "18:00";
+                        break;
+                    case "20":
+                        jamJawab = "21:00";
+                        break;
+                    case "21":
+                        jamJawab = "21:00";
+                        break;
+                    case "22":
+                        jamJawab = "21:00";
+                        break;
+                    case "23":
+                        jamJawab = "00:00";
+                        break;
+                    default:
+                        jamJawab = "00:00";
+                        break;
+                }
+
+
                 OneTimeActivityModel oneTimeActivityModel;
                 Intent intent1 = getIntent();
 
@@ -177,7 +278,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 Double LON = intent1.getDoubleExtra("LON", 00);
 
                 if (etActivity.length() != 0 && etLocation.length() != 0 && etDate.length() != 0 && etTime.length() != 0 && etReminder.length() != 0) {
-                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), etTime.getText().toString(), Integer.parseInt(etReminder.getText().toString()), LAT, LON);
+                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), jamJawab, Integer.parseInt(etReminder.getText().toString()), LAT, LON);
                     OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(InputOneTimeActivity.this);
                     boolean success = oneTimeDatabaseHelper.addOne(oneTimeActivityModel);
                     Intent intent = new Intent(InputOneTimeActivity.this, ListActivity.class);
