@@ -23,6 +23,7 @@
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbarLayout"
@@ -116,7 +117,7 @@
                 tools:text="99" />
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/dayThree"
                 android:layout_toEndOf="@id/dayOne"

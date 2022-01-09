@@ -231,6 +231,7 @@
                 android:layout_marginBottom="28dp"
                 android:maxLength="2"
                 android:layout_marginTop="7dp"
+                android:drawableStart="@drawable/ic_baseline_notifications_none_24"
                 android:background="@drawable/for_edittext"
                 android:drawableTint="#727272"
                 android:ems="10"
