@@ -1,8 +1,10 @@
 package umn.ac.keadaanudara.Main;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,18 +17,27 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.text.InputFilter;
+import android.text.Spanned;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
+import umn.ac.keadaanudara.LocationActivityPick;
 import umn.ac.keadaanudara.Model.OneTimeActivityModel;
 import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.R;
 
+
 public class InputOneTimeActivity extends AppCompatActivity {
-    TextView tvDate, theTime, etTime, theDate, etDate;
-    EditText etActivity, etLocation, etReminder;
+    private static final String SHARED_PREF = "SHARED_PREF";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+    TextView tvDate, theTime, etTime, theDate, etDate, etLocation;
+    EditText etActivity, etReminder;
     Button btnSave;
     ImageButton btnBack;
 
@@ -69,6 +80,27 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        etLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InputOneTimeActivity.this, LocationActivityPick.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
+
+        Intent intent = getIntent();
+
+        String KABKO = intent.getStringExtra("KABKO");
+        Double LAT = intent.getDoubleExtra("LAT", 0.00);
+        Double LON = intent.getDoubleExtra("LON", 0.00);
+//        String CONDITION = intent.getStringExtra("CONDITION");
+        etLocation.setText(KABKO);
+//        etLocation.setText(LAT);
+
+
 
         theDate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -150,6 +182,11 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 timePckerDialog.show();
             }
         });
+
+        @SuppressLint("CutPasteId") EditText et = (EditText) findViewById(R.id.theReminder);
+        et.setFilters(new InputFilter[]{ new InputMax("1", "5")});
+
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,22 +271,29 @@ public class InputOneTimeActivity extends AppCompatActivity {
 
 
                 OneTimeActivityModel oneTimeActivityModel;
+                Intent intent1 = getIntent();
+
+                String KABKO = intent1.getStringExtra("KABKO");
+                Double LAT = intent1.getDoubleExtra("LAT", 0.00);
+                Double LON = intent1.getDoubleExtra("LON", 00);
+
                 if (etActivity.length() != 0 && etLocation.length() != 0 && etDate.length() != 0 && etTime.length() != 0 && etReminder.length() != 0) {
-                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), jamJawab, Integer.parseInt(etReminder.getText().toString()), 106.8451, -6.2146);
+                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), jamJawab, Integer.parseInt(etReminder.getText().toString()), LAT, LON);
+                    OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(InputOneTimeActivity.this);
+                    boolean success = oneTimeDatabaseHelper.addOne(oneTimeActivityModel);
+                    Intent intent = new Intent(InputOneTimeActivity.this, ListActivity.class);
+                    startActivity(intent);
                     Toast.makeText(InputOneTimeActivity.this, oneTimeActivityModel.toString(), Toast.LENGTH_SHORT).show();
+                    finish();
                 }else{
                     Toast.makeText(InputOneTimeActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                    oneTimeActivityModel = new OneTimeActivityModel("NaN", "NaN", "NaN", "NaN", 0, 0.0, 0.0);
+//                    oneTimeActivityModel = new OneTimeActivityModel("NaN", "NaN", "NaN", "NaN", 0, 0.0, 0.0);
                 }
-                OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(InputOneTimeActivity.this);
-                boolean success = oneTimeDatabaseHelper.addOne(oneTimeActivityModel);
+
 
 //                Toast.makeText(InputOneTimeActivity.this, "Success= " + success, Toast.LENGTH_SHORT).show();
 //                Toast.makeText(InputOneTimeActivity.this, oneTimeActivityModel.toString(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(InputOneTimeActivity.this, ListActivity.class);
-                startActivity(intent);
-                finish();
                 return;
             }
         });

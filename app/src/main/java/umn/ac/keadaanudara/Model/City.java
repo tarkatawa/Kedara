@@ -4,14 +4,8 @@ import java.io.Serializable;
 
 public class City implements Serializable {
     private String kabko;
-    private String lat;
-    private String lon;
-
-    public City(String kabko, String lat, String lon) {
-        this.kabko = kabko;
-        this.lat = lat;
-        this.lon = lon;
-    }
+    private double lat;
+    private double lon;
 
     public String getKabko() {
         return kabko;
@@ -21,19 +15,19 @@ public class City implements Serializable {
         this.kabko = kabko;
     }
 
-    public String getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 }

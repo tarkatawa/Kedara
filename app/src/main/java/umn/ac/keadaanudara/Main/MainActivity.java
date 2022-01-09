@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
@@ -12,13 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -45,6 +46,7 @@ import com.google.android.gms.tasks.Task;
 
 import umn.ac.keadaanudara.Adapter.ReminderAdapter;
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
+import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
 import umn.ac.keadaanudara.R;
@@ -64,11 +66,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PERMISSION_FINE_LOCATION = 99;
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static final String appid = "8f415b7021ae02e32442cc8555f6d572";
-    private String today;
-    private TextView txtDate;
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF = "SHARED_PREF";
+    private static final String KABKO_KEY = "KABKO";
+    private static final String LAT_KEY = "LAT";
+    private static final String LON_KEY = "LON";
+    private String today, cityKabko;
+    private int firstDay, dayCompare;
+    private TextView txtDate, txtDayOne, txtDayTwo, txtDayThree, txtDayFour, txtDayFive;
+    private ImageView imgFirst, imgSecond, imgThird, imgFourth, imgFifth;
+    private double cityLat, cityLon;
     RecyclerView recyclerView;
     private WeatherAdapter weatherAdapter;
     private final ArrayList<Modelmain> modelmain = new ArrayList<>();
+    private City city = new City();
     private LocationModel locationModel = new LocationModel();
     FloatingActionButton fab_action1;
     LocationRequest locationRequest;
@@ -89,6 +100,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView = findViewById(R.id.recyclerWeather);
 
         txtDate = findViewById(R.id.txtDate);
+        imgFirst = findViewById(R.id.dayOne);
+        imgSecond = findViewById(R.id.dayTwo);
+        imgThird = findViewById(R.id.dayThree);
+        imgFourth = findViewById(R.id.dayFour);
+        imgFifth = findViewById(R.id.dayFive);
+
+        txtDayOne = findViewById(R.id.txtDayOne);
+        txtDayTwo = findViewById(R.id.txtDayTwo);
+        txtDayThree = findViewById(R.id.txtDayThree);
+        txtDayFour = findViewById(R.id.txtDayFour);
+        txtDayFive = findViewById(R.id.txtDayFive);
+
+        imgFirst.setOnClickListener(this);
+        imgSecond.setOnClickListener(this);
+        imgThird.setOnClickListener(this);
+        imgFourth.setOnClickListener(this);
+        imgFifth.setOnClickListener(this);
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+
+        cityKabko = sharedPreferences.getString(KABKO_KEY, null);
+        cityLat = Double.valueOf(sharedPreferences.getString(LAT_KEY, "0.0"));
+        cityLon = Double.valueOf(sharedPreferences.getString(LON_KEY, "0.0"));
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -98,7 +132,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Date dateNow = Calendar.getInstance().getTime();
         today = (String) DateFormat.format("EEE", dateNow);
 
-        updateGPS();
+        getToday();
+        firstDay = locationModel.getDayFirst();
+
+
+
+        if (cityLat == 0.0) {
+            updateGPS();
+        } else {
+            dayCompare = firstDay;
+            getCurrentWeather(cityLat, cityLon);
+            getListWeather(cityLat, cityLon);
+        }
+
+        txtDayOne.setText(String.valueOf(firstDay));
+        txtDayTwo.setText(String.valueOf(firstDay + 1));
+        txtDayThree.setText(String.valueOf(firstDay + 2));
+        txtDayFour.setText(String.valueOf(firstDay + 3));
+        txtDayFive.setText(String.valueOf(firstDay + 4));
 
         fab_action1 = findViewById(R.id.fab_action1);
         fab_action1.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void getToday() {
         Date dateTime = Calendar.getInstance().getTime();
         String date = (String) DateFormat.format("d MMM yyyy", dateTime);
+        locationModel.setDayFirst(Integer.parseInt(String.valueOf((DateFormat.format("d", dateTime)))));
         String formatDate = today + ", " + date;
         txtDate.setText(formatDate);
     }
@@ -137,15 +189,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 int index = locationResult.getLocations().size() - 1;
                                 locationModel.setLat(locationResult.getLocations().get(index).getLatitude());
                                 locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
-
-                                getToday();
-                                getCurrentWeather();
-                                getListWeather();
                             }
+
+                            dayCompare = firstDay;
+
+                            getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                            getListWeather(locationModel.getLat(), locationModel.getLon());
+
                         }
                     }, Looper.getMainLooper());
                 } else {
                     turnOnGPS();
+                    LocationServices.getFusedLocationProviderClient(MainActivity.this).requestLocationUpdates(locationRequest, new LocationCallback() {
+                        @Override
+                        public void onLocationResult(@NonNull LocationResult locationResult) {
+                            super.onLocationResult(locationResult);
+
+                            LocationServices.getFusedLocationProviderClient(MainActivity.this).removeLocationUpdates(this);
+
+                            if (locationResult.getLocations().size() > 0) {
+                                int index = locationResult.getLocations().size() - 1;
+                                locationModel.setLat(locationResult.getLocations().get(index).getLatitude());
+                                locationModel.setLon(locationResult.getLocations().get(index).getLongitude());
+                            }
+
+                            dayCompare = firstDay;
+
+                            getCurrentWeather(locationModel.getLat(), locationModel.getLon());
+                            getListWeather(locationModel.getLat(), locationModel.getLon());
+
+                        }
+                    }, Looper.getMainLooper());
                 }
             } else {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
@@ -168,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try {
                     LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(MainActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "GPS is already turned on", Toast.LENGTH_SHORT).show();
 
                 } catch (ApiException e) {
 
@@ -210,9 +284,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //return
     }
 
-    private void getCurrentWeather() {
-        double lat = locationModel.getLat();
-        double lon = locationModel.getLon();
+    private void getCurrentWeather(double lat, double lon) {
+
         AndroidNetworking.get(BASE_URL + "weather?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -286,7 +359,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     break;
                             }
 
-                            txtCityName.setText(name);
+                            if (cityKabko == null) {
+                                txtCityName.setText(name);
+                            } else {
+                                txtCityName.setText(cityKabko);
+                            }
                             txtDesc.setText(description);
                             txtTemp.setText(String.format(Locale.getDefault(), "%.0f°C", temp));
 
@@ -299,14 +376,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(MainActivity.this, "No Internet!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Data error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void getListWeather() {
-        double lat = locationModel.getLat();
-        double lon = locationModel.getLon();
+    private void getListWeather(double lat, double lon) {
         AndroidNetworking.get(BASE_URL + "forecast?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -315,7 +390,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray listJsonArray = response.getJSONArray("list");
-                            for (int i = 0; i<6; i++) {
+                            modelmain.clear();
+                            for (int i = 0; i<listJsonArray.length(); i++) {
                                 Modelmain modelmain1 = new Modelmain();
                                 JSONObject listJsonObject = listJsonArray.getJSONObject(i);
                                 JSONObject mainJsonObject = listJsonObject.getJSONObject("main");
@@ -323,24 +399,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 JSONObject zeroJsonObject = weatherJsonArray.getJSONObject(0);
                                 String time = listJsonObject.getString("dt_txt");
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                SimpleDateFormat timeFormat = new SimpleDateFormat("kk:mm");
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                                SimpleDateFormat dayFormat = new SimpleDateFormat("d");
 
+                                String temp = time;
                                 try {
-                                    Date timesFormat = dateFormat.parse(time);
-                                    if (timesFormat != null) {
-                                        time = timeFormat.format(timesFormat);
+                                    Date datesFormat = dateFormat.parse(time);
+                                    if (datesFormat != null) {
+                                        temp = dayFormat.format(datesFormat);
                                     }
-
                                 } catch (ParseException e) {
                                     e.printStackTrace();
+                                    Toast.makeText(MainActivity.this, "Date Error", Toast.LENGTH_SHORT).show();
                                 }
 
-                                modelmain1.setTime(time);
-                                modelmain1.setCurrentTemp(mainJsonObject.getDouble("temp"));
-                                modelmain1.setIcon(zeroJsonObject.getString("icon"));
-                                modelmain.add(modelmain1);
-                            }
+                                if (temp.equals(String.valueOf(dayCompare))) {
+                                    try {
+                                        Date timesFormat = dateFormat.parse(time);
+                                        if (timesFormat != null) {
+                                            time = timeFormat.format(timesFormat);
+                                        }
 
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(MainActivity.this, "Time Error", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    modelmain1.setTime(time);
+                                    modelmain1.setCurrentTemp(mainJsonObject.getDouble("temp"));
+                                    modelmain1.setIcon(zeroJsonObject.getString("icon"));
+                                    modelmain.add(modelmain1);
+                                }
+                            }
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
                             recyclerView.setHasFixedSize(true);
                             weatherAdapter = new WeatherAdapter(modelmain);
@@ -349,13 +439,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Failed to show the data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Failed to display the data", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(MainActivity.this, "No Internet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -410,19 +500,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent changeLocationIntent = new Intent(MainActivity.this, LocationActivity.class);
                 startActivity(changeLocationIntent);
                 break;
+            case R.id.dayOne:
+                dayCompare = firstDay;
+                if (cityLat == 0.0) {
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getListWeather(cityLat, cityLon);
+                }
+                break;
+            case R.id.dayTwo:
+                dayCompare = firstDay + 1;
+                if (cityLat == 0.0) {
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getListWeather(cityLat, cityLon);
+                }
+                break;
+            case R.id.dayThree:
+                dayCompare = firstDay + 2;
+                if (cityLat == 0.0) {
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getListWeather(cityLat, cityLon);
+                }
+                break;
+            case R.id.dayFour:
+                dayCompare = firstDay + 3;
+                if (cityLat == 0.0) {
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getListWeather(cityLat, cityLon);
+                }
+                break;
+            case R.id.dayFive:
+                dayCompare = firstDay + 4;
+                if (cityLat == 0.0) {
+                    getListWeather(locationModel.getLat(), locationModel.getLon());
+                } else {
+                    getListWeather(cityLat, cityLon);
+                }
+                break;
         }
     }
-
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            if (data != null) {
-//                  lat = Double.parseDouble(data.getStringExtra("lat"));
-//                  lon = Double.parseDouble(data.getStringExtra("lon"));
-//            }
-//        }
-//    }
 }

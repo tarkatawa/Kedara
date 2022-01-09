@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
-    tools:context=".Main.LocationActivity"
+    tools:context=".LocationActivityPick"
     android:background="@color/blue">
 
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:id="@+id/imgBGLocateMe"
             android:layout_width="125dp"
             android:layout_height="24dp"
-            android:background="@color/blue"/>
+            android:background="@color/blue" />
 
         <ImageView
             android:id="@+id/imgLocateMe"
