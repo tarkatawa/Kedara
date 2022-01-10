@@ -122,7 +122,6 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
                 Intent intent = new Intent(ListActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-                return;
             }
         });
 

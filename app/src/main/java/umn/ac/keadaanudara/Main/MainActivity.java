@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,9 +46,11 @@ import com.google.android.gms.tasks.Task;
 
 import umn.ac.keadaanudara.Adapter.ReminderAdapter;
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
+import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
+import umn.ac.keadaanudara.Model.ReminderModel;
 import umn.ac.keadaanudara.R;
 
 import org.json.JSONArray;
@@ -76,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txtDate, txtDayOne, txtDayTwo, txtDayThree, txtDayFour, txtDayFive;
     private ImageView imgFirst, imgSecond, imgThird, imgFourth, imgFifth;
     private double cityLat, cityLon;
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewFiveDays, recyclerViewReminder;
     private WeatherAdapter weatherAdapter;
+    private ReminderAdapter reminderAdapter;
     private final ArrayList<Modelmain> modelmain = new ArrayList<>();
+    private final ArrayList<ReminderModel> reminderModels = new ArrayList<>();
     private City city = new City();
     private LocationModel locationModel = new LocationModel();
     FloatingActionButton fab_action1;
@@ -97,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgFeed.setOnClickListener(this);
         imgChangeLocation.setOnClickListener(this);
 
-        recyclerView = findViewById(R.id.recyclerWeather);
+        recyclerViewFiveDays = findViewById(R.id.recyclerWeather);
+        recyclerViewReminder = findViewById(R.id.recyclerReminder);
 
         txtDate = findViewById(R.id.txtDate);
         imgFirst = findViewById(R.id.dayOne);
@@ -431,10 +436,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     modelmain.add(modelmain1);
                                 }
                             }
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
-                            recyclerView.setHasFixedSize(true);
+                            recyclerViewFiveDays.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
+                            recyclerViewFiveDays.setHasFixedSize(true);
                             weatherAdapter = new WeatherAdapter(modelmain);
-                            recyclerView.setAdapter(weatherAdapter);
+                            recyclerViewFiveDays.setAdapter(weatherAdapter);
                             weatherAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
@@ -451,21 +456,91 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getActivityReminder(){
-        RecyclerView recyclerView;
-        RecyclerView.Adapter reminderAdapter;
-        RecyclerView.LayoutManager layoutmanager;
-        int[] programWeatherList = {R.drawable.ic_baseline_wb_sunny_24};
-        String[] programConditionList = {"Sunny","Mist","Thunderstorm"};
-        String[] programNameList = {"Tennis with friends","Go to a concert","Dinner at Angkringan"};
-        String[] programLocationList = {"Jagakarsa","Kemayoran","Cangakan"};
-        String[] programDateList = {"10/01/2022","12/01/2022","15/01/2022"};
-        String[] programTimeList = {"09:00","18:30","20:00"};
+        String activityDate = "null", activityTime = "null";
+        double activityLat = 0.0, activityLon = 0.0;
 
-        recyclerView = findViewById(R.id.recyclerReminder);
-        layoutmanager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutmanager);
-        reminderAdapter = new ReminderAdapter(this, programWeatherList, programConditionList, programNameList, programLocationList, programDateList, programTimeList);
-        recyclerView.setAdapter(reminderAdapter);
+        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
+        Cursor cursor = oneTimeDatabaseHelper.getReminder();
+
+        if (cursor.moveToFirst()) {
+            do {
+                activityDate = cursor.getString(2);
+                activityTime = cursor.getString(3);
+                activityLat = cursor.getDouble(5);
+                activityLon = cursor.getDouble(6);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        String finalActivityDate = activityDate;
+        String finalActivityTime = activityTime;
+        AndroidNetworking.get(BASE_URL + "forecast?lat=" + activityLat + "&lon=" + activityLon + "&units=metric&appid=" + appid)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray listJsonArray = response.getJSONArray("list");
+                            reminderModels.clear();
+                            for (int i = 0; i<listJsonArray.length(); i++) {
+                                ReminderModel reminderModel = new ReminderModel();
+                                JSONObject listJsonObject = listJsonArray.getJSONObject(i);
+                                JSONArray weatherJsonArray = listJsonObject.getJSONArray("weather");
+                                JSONObject zeroJsonObject = weatherJsonArray.getJSONObject(0);
+                                String time = listJsonObject.getString("dt_txt");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                                SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                                String temp = time;
+                                try {
+                                    Date datesFormat = dateFormat.parse(time);
+                                    if (datesFormat != null) {
+                                        temp = dayFormat.format(datesFormat);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(MainActivity.this, "Date Error", Toast.LENGTH_SHORT).show();
+                                }
+
+                                try {
+                                    Date timesFormat = dateFormat.parse(time);
+                                    if (timesFormat != null) {
+                                        time = timeFormat.format(timesFormat);
+                                    }
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(MainActivity.this, "Time Error", Toast.LENGTH_SHORT).show();
+                                }
+
+                                if (temp.equals(finalActivityDate)) {
+                                    if (time.equals(finalActivityTime)) {
+                                        reminderModel.setDescription(zeroJsonObject.getString("description"));
+                                        reminderModel.setIcon(zeroJsonObject.getString("icon"));
+                                        reminderModels.add(reminderModel);
+                                    }
+                                }
+                            }
+
+                            recyclerViewReminder.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
+                            recyclerViewReminder.setHasFixedSize(true);
+                            reminderAdapter = new ReminderAdapter(reminderModels);
+                            recyclerViewReminder.setAdapter(reminderAdapter);
+                            reminderAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(MainActivity.this, "Failed to display the data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        Toast.makeText(MainActivity.this, "Reminder Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

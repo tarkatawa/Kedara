@@ -30,9 +30,9 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_below="@id/txtTime"
+            android:layout_marginTop="10dp"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:layout_marginTop="16dp"/>
+            app:lottie_loop="true" />
 
         <TextView
             android:id="@+id/txtTemp"
@@ -40,9 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/imgWeatherRecycler"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
+            android:layout_marginTop="10dp"
             android:textColor="@color/black"
+            android:textStyle="bold"
             tools:text="19" />
 
     </RelativeLayout>

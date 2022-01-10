@@ -62,8 +62,6 @@ public class LocationActivity extends AppCompatActivity {
     private static final String SHARED_PREF = "SHARED_PREF";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    LocationRequest locationRequest;
-    private static final int PERMISSION_FINE_LOCATION = 99;
     private static final String KABKO_KEY = "KABKO";
     private static final String LAT_KEY = "LAT";
     private static final String LON_KEY = "LON";
