@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -139,6 +140,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getToday();
         firstDay = locationModel.getDayFirst();
+
+        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
+        Cursor cursor = oneTimeDatabaseHelper.getReminder();
+
+        if(cursor.moveToFirst()){
+            do{
+                String activityDate = cursor.getString(2);
+                Toast.makeText(MainActivity.this, activityDate, Toast.LENGTH_SHORT).show();
+            }while(cursor.moveToNext());
+        }else{ }
+        cursor.close();
+
 
 
 

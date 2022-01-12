@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +55,14 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
     Button toRepetitive, toOneTime, btndelete, btncancel;
     ImageButton back;
     FloatingActionButton fab1, fab2;
-    String dateOfToday = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+//    String dateOfToday = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+    Instant now = Instant.now();
+    Instant yesterday = now.minus(1, ChronoUnit.DAYS);
+    Date myDate = Date.from(yesterday);
+
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    String formattedYesterday = formatter.format(myDate);
+
 
     RecyclerView recyclerView, recyclerViewCompleted, recyclerViewMonday, recyclerViewTuesday, recyclerViewWednesday, recyclerViewThursday, recyclerViewFriday, recyclerViewSaturday, recyclerViewSunday;
     RecyclerView.Adapter programAdapter, programAdapterCompleted, programAdapterMonday, programAdapterTuesday, programAdapterWednesday, programAdapterThursday, programAdapterFriday, programAdapterSaturday, programAdapterSunday;
@@ -132,11 +141,13 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 
         CompletedActivityModel completedActivityModel;
 
-//        Toast.makeText(ListActivity.this, dateOfToday, Toast.LENGTH_LONG).show();
+        Toast.makeText(ListActivity.this, formattedYesterday, Toast.LENGTH_LONG).show();
 
         if(cursor.moveToFirst()){
             do{
-                if(cursor.getString(2).equals(dateOfToday)){
+
+                // 10/01/2022                    10/01/2022
+                if(cursor.getString(2).equals(formattedYesterday)){
                     String activityNameCompleted = cursor.getString(0);
 //                    activityNameListCompleted.add(activityNameCompleted);
 
@@ -200,7 +211,7 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
         recyclerView.setAdapter(programAdapter);
 
 //        System.out.println(cursor.getString(2));
-        System.out.println(dateOfToday);
+//        System.out.println(dateOfToday);
 //        recyclerView.addOnItemTouchListener(new AdapterView.OnItemClickListener(){
 //
 //        });

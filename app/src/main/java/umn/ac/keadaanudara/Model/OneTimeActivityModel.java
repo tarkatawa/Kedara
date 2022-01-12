@@ -5,10 +5,10 @@ public class OneTimeActivityModel {
     private String location;
     private String date;
     private String time;
-    private int reminders;
+    private String reminders;
     private Double lon, lat;
 
-    public OneTimeActivityModel(String activity, String location, String date, String time, int reminders, Double lon, Double lat) {
+    public OneTimeActivityModel(String activity, String location, String date, String time, String reminders, Double lon, Double lat) {
         this.activity = activity;
         this.location = location;
         this.date = date;
@@ -49,7 +49,7 @@ public class OneTimeActivityModel {
         return time;
     }
 
-    public int getReminders() {
+    public String getReminders() {
         return reminders;
     }
 
@@ -77,7 +77,7 @@ public class OneTimeActivityModel {
         this.time = time;
     }
 
-    public void setReminders(int reminders) {
+    public void setReminders(String reminders) {
         this.reminders = reminders;
     }
 

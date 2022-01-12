@@ -8,9 +8,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+//import android.text.format.DateFormat;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,7 +24,12 @@ import android.text.Spanned;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import umn.ac.keadaanudara.LocationActivityPick;
 import umn.ac.keadaanudara.Model.OneTimeActivityModel;
@@ -32,6 +38,8 @@ import umn.ac.keadaanudara.R;
 
 
 public class InputOneTimeActivity extends AppCompatActivity {
+    static class AndroidDateFormat extends android.text.format.DateFormat{
+    }
     private static final String SHARED_PREF = "SHARED_PREF";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -174,7 +182,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(0,0,0, t1Hour, t1Minute);
 
-                                theTime.setText(DateFormat.format("hh:mm aa", calendar));
+                                theTime.setText(AndroidDateFormat.format("hh:mm aa", calendar));
                             }
                         }, 12, 0, false
                 );
@@ -278,7 +286,25 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 Double LON = intent1.getDoubleExtra("LON", 00);
 
                 if (etActivity.length() != 0 && etLocation.length() != 0 && etDate.length() != 0 && etTime.length() != 0 && etReminder.length() != 0) {
-                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), jamJawab, Integer.parseInt(etReminder.getText().toString()), LAT, LON);
+
+                    DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                    Date dateOfBeingReminded = null;
+                    try {
+                        dateOfBeingReminded = df.parse(etDate.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(dateOfBeingReminded);
+                    cal.add(Calendar.DATE, -1);
+                    dateOfBeingReminded = cal.getTime();
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    String formattedDate = formatter.format(dateOfBeingReminded);
+
+                    Log.e("TANGGALOEI", formattedDate);
+
+                    oneTimeActivityModel = new OneTimeActivityModel(etActivity.getText().toString(), etLocation.getText().toString(), etDate.getText().toString(), jamJawab, formattedDate, LAT, LON);
                     OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(InputOneTimeActivity.this);
                     boolean success = oneTimeDatabaseHelper.addOne(oneTimeActivityModel);
                     Intent intent = new Intent(InputOneTimeActivity.this, ListActivity.class);
