@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Build;
@@ -46,6 +47,7 @@ import com.google.android.gms.tasks.Task;
 
 import umn.ac.keadaanudara.Adapter.ReminderAdapter;
 import umn.ac.keadaanudara.Adapter.WeatherAdapter;
+import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
@@ -134,6 +136,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getToday();
         firstDay = locationModel.getDayFirst();
+
+        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
+        Cursor cursor = oneTimeDatabaseHelper.getReminder();
+
+        if(cursor.moveToFirst()){
+            do{
+                String activityDate = cursor.getString(2);
+                Toast.makeText(MainActivity.this, activityDate, Toast.LENGTH_SHORT).show();
+            }while(cursor.moveToNext());
+        }else{ }
+        cursor.close();
+
 
 
 
