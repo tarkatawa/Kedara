@@ -585,8 +585,10 @@ public void onNoteClick(int position) {
     dialog.show();
     }
 
-//    public void showToast(String message){
-//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-//    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ListActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }

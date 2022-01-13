@@ -187,4 +187,10 @@ public class LocationActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(LocationActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }
