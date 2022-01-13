@@ -30,6 +30,7 @@ import java.util.List;
 
 import umn.ac.keadaanudara.Adapter.CityAdapter;
 import umn.ac.keadaanudara.Main.InputOneTimeActivity;
+import umn.ac.keadaanudara.Main.ListActivity;
 import umn.ac.keadaanudara.Main.LocationActivity;
 import umn.ac.keadaanudara.Main.MainActivity;
 import umn.ac.keadaanudara.Model.City;
@@ -170,5 +171,10 @@ public class LocationActivityPick extends AppCompatActivity {
 //            Intent intent = new Intent(LocationActivityPick.this, InputOneTimeActivity.class);
             startActivity(intent);
         });
+    }
+    @Override
+    public void onBackPressed() {
+    Intent intent = new Intent(LocationActivityPick.this, InputOneTimeActivity.class);
+    startActivity(intent);
     }
 }

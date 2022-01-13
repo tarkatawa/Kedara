@@ -558,6 +558,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
+                finishAffinity();
+                System.exit(0);
             }
         });
         AlertDialog alertDialog = builder.create();

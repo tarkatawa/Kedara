@@ -237,4 +237,10 @@ public class InputRepetitive extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(InputRepetitive.this, ListActivity.class);
+        startActivity(intent);
+    }
 }

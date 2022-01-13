@@ -1,8 +1,11 @@
 package umn.ac.keadaanudara.Main;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -24,6 +27,7 @@ import android.text.Spanned;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import umn.ac.keadaanudara.LocationActivityPick;
 import umn.ac.keadaanudara.Model.OneTimeActivityModel;
@@ -33,15 +37,21 @@ import umn.ac.keadaanudara.R;
 
 public class InputOneTimeActivity extends AppCompatActivity {
     private static final String SHARED_PREF = "SHARED_PREF";
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
     TextView tvDate, theTime, etTime, theDate, etDate, etLocation;
     EditText etActivity, etReminder;
     Button btnSave;
     ImageButton btnBack;
+    private final String Value = "edittextValue";
+    private static final String KABKO_KEY = "KABKO";
+    private static final String LAT_KEY = "LAT";
+    private static final String LON_KEY = "LON";
+    private String cityKabko;
+    private double cityLat, cityLon;
 
-    int t1Hour, t1Minute;
+    int hour, minute;
     DatePickerDialog.OnDateSetListener setListener;
 
     @Override
@@ -53,6 +63,8 @@ public class InputOneTimeActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.back);
 
         etActivity = findViewById(R.id.theActivity);
+        etActivity.setText(getValue());
+
         etLocation = findViewById(R.id.theLocation);
 
         tvDate = findViewById(R.id.tv_date);
@@ -84,6 +96,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
         etLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveFromEditText(etActivity.getText().toString());
                 Intent intent = new Intent(InputOneTimeActivity.this, LocationActivityPick.class);
                 startActivity(intent);
                 finish();
@@ -99,6 +112,13 @@ public class InputOneTimeActivity extends AppCompatActivity {
 //        String CONDITION = intent.getStringExtra("CONDITION");
         etLocation.setText(KABKO);
 //        etLocation.setText(LAT);
+
+//        sharedPref = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+//
+//        cityKabko = sharedPref.getString(KABKO_KEY, null);
+//        cityLat = Double.valueOf(sharedPref.getString(LAT_KEY, "0.0"));
+//        cityLon = Double.valueOf(sharedPref.getString(LON_KEY, "0.0"));
+//        etLocation.setText(cityKabko);
 
 
 
@@ -163,35 +183,27 @@ public class InputOneTimeActivity extends AppCompatActivity {
         theTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timePckerDialog = new TimePickerDialog(
-                        InputOneTimeActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-                                t1Hour = hourOfDay;
-                                t1Minute = minute;
-
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(0,0,0, t1Hour, t1Minute);
-
-                                theTime.setText(DateFormat.format("hh:mm aa", calendar));
-                            }
-                        }, 12, 0, false
-                );
-                timePckerDialog.updateTime(t1Hour, t1Minute);
-                timePckerDialog.show();
+                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        hour = selectedHour;
+                        minute = selectedMinute;
+                        theTime.setText(String.format(Locale.getDefault(),"%02d:%02d", hour, minute));
+                    }
+                };
+                TimePickerDialog timePickerDialog = new TimePickerDialog(InputOneTimeActivity.this, onTimeSetListener, hour, minute, true);
+                timePickerDialog.show();;
             }
         });
 
         @SuppressLint("CutPasteId") EditText et = (EditText) findViewById(R.id.theReminder);
         et.setFilters(new InputFilter[]{ new InputMax("1", "5")});
 
-
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                sharedPref.edit().clear().commit();
                 String jam = etTime.getText().toString(); // 13:03
                 String jamJawab = jam.substring(0,2); //13 -> 12, 14 -> 15, 16 -> 15
                 switch (jamJawab) {
@@ -297,5 +309,27 @@ public class InputOneTimeActivity extends AppCompatActivity {
                 return;
             }
         });
+    }
+
+    private String getValue() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String savedValue = sharedPref.getString(Value, ""); //the 2 argument return default value
+
+        return savedValue;
+    }
+
+    private void saveFromEditText(String text) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Value, text);
+        editor.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref.edit().clear().commit();
+        Intent intent = new Intent(InputOneTimeActivity.this, ListActivity.class);
+        startActivity(intent);
     }
 }
