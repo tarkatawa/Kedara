@@ -70,6 +70,7 @@ public class IntroActivity extends AppCompatActivity {
         btn_got_it.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveData();
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
             }
