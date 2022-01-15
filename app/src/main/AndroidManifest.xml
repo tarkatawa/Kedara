@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KeadaanUdara">
         <activity
-            android:name=".LocationActivityPick"
+            android:name=".Main.LocationActivityPick"
             android:exported="false" />
         <activity
             android:name=".Main.IntroActivity"

@@ -31,6 +31,10 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
     public void onBindViewHolder(@NonNull ReminderAdapter.ViewHolder holder, int position) {
         ReminderModel model = reminderModels.get(position);
 
+        holder.activityReminder.setText(model.getActivityName());
+        holder.locationReminder.setText(model.getActivityLocation());
+        holder.dateReminder.setText(model.getActivityDate());
+        holder.timeReminder.setText(model.getActivityTime());
         holder.conditionReminder.setText(model.getDescription());
 
         switch (model.getIcon()) {
@@ -94,12 +98,16 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         LottieAnimationView iconReminder;
-        TextView conditionReminder;
+        TextView conditionReminder, activityReminder, locationReminder, dateReminder, timeReminder;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iconReminder = itemView.findViewById(R.id.iconReminder);
             conditionReminder = itemView.findViewById(R.id.conditionReminder);
+            activityReminder = itemView.findViewById(R.id.activityReminder);
+            locationReminder = itemView.findViewById(R.id.locationReminder);
+            dateReminder = itemView.findViewById(R.id.dateReminder);
+            timeReminder = itemView.findViewById(R.id.timeReminder);
         }
     }
 }

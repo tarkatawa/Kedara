@@ -1,11 +1,9 @@
 package umn.ac.keadaanudara.Main;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -21,7 +19,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.text.InputFilter;
-import android.text.Spanned;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +30,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import umn.ac.keadaanudara.LocationActivityPick;
 import umn.ac.keadaanudara.Model.OneTimeActivityModel;
 import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.R;

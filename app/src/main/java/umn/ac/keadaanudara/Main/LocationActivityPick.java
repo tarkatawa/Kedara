@@ -1,4 +1,4 @@
-package umn.ac.keadaanudara;
+package umn.ac.keadaanudara.Main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,11 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import umn.ac.keadaanudara.Adapter.CityAdapter;
-import umn.ac.keadaanudara.Main.InputOneTimeActivity;
-import umn.ac.keadaanudara.Main.ListActivity;
-import umn.ac.keadaanudara.Main.LocationActivity;
-import umn.ac.keadaanudara.Main.MainActivity;
 import umn.ac.keadaanudara.Model.City;
+import umn.ac.keadaanudara.R;
 
 public class LocationActivityPick extends AppCompatActivity {
     private List<City> cityArrayList = new ArrayList<>();

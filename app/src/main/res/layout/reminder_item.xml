@@ -35,7 +35,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="Thunderstorm"
+                tools:text="Thunderstorm"
                 android:layout_gravity="center"/>
         </LinearLayout>
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_gravity="center">
             <TextView
                 android:id="@+id/activityReminder"
@@ -52,28 +52,28 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="Golf with clients"/>
+                tools:text="Golf with clients"/>
             <TextView
                 android:id="@+id/locationReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:textColor="@color/black"
-                android:text="Cempaka-udik"/>
+                tools:text="Cempaka-udik"/>
             <TextView
                 android:id="@+id/dateReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:textColor="@color/black"
-                android:text="October 18th 2021"/>
+                tools:text="October 18th 2021"/>
             <TextView
                 android:id="@+id/timeReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:textColor="@color/black"
-                android:text="09:00"/>
+                tools:text="09:00"/>
 
         </LinearLayout>
 

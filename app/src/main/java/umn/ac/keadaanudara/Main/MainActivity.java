@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getActivityReminder(){
-        String activityDate = "null", activityTime = "null";
+        String activityDate = "null", activityTime = "null", activityName = "null", activityLocation = "null";
         double activityLat = 0.0, activityLon = 0.0;
 
         OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
@@ -477,6 +477,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (cursor.moveToFirst()) {
             do {
+                activityName = cursor.getString(0);
+                activityLocation = cursor.getString(1);
                 activityDate = cursor.getString(2);
                 activityTime = cursor.getString(3);
                 activityLat = cursor.getDouble(5);
@@ -487,6 +489,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String finalActivityDate = activityDate;
         String finalActivityTime = activityTime;
+        String finalActivityName = activityName;
+        String finalActivityLocation = activityLocation;
         AndroidNetworking.get(BASE_URL + "forecast?lat=" + activityLat + "&lon=" + activityLon + "&units=metric&appid=" + appid)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -530,6 +534,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if (temp.equals(finalActivityDate)) {
                                     if (time.equals(finalActivityTime)) {
+                                        reminderModel.setActivityName(finalActivityName);
+                                        reminderModel.setActivityLocation(finalActivityLocation);
+                                        reminderModel.setActivityDate(finalActivityDate);
+                                        reminderModel.setActivityTime(finalActivityTime);
                                         reminderModel.setDescription(zeroJsonObject.getString("description"));
                                         reminderModel.setIcon(zeroJsonObject.getString("icon"));
                                         reminderModels.add(reminderModel);
