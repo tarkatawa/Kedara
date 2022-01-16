@@ -288,6 +288,10 @@ public class InputOneTimeActivity extends AppCompatActivity {
 
                 if (etActivity.length() != 0 && etLocation.length() != 0 && etDate.length() != 0 && etTime.length() != 0 && etReminder.length() != 0) {
 
+                    String temp1 = etReminder.getText().toString();
+                    int temp2 = Integer.parseInt(temp1);
+                    int reminderSubtract = temp2 * -1;
+
                     DateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                     Date dateOfBeingReminded = null;
                     try {
@@ -297,7 +301,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
                     }
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(dateOfBeingReminded);
-                    cal.add(Calendar.DATE, -1);
+                    cal.add(Calendar.DATE, reminderSubtract);
                     dateOfBeingReminded = cal.getTime();
 
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -314,12 +318,7 @@ public class InputOneTimeActivity extends AppCompatActivity {
                     finish();
                 }else{
                     Toast.makeText(InputOneTimeActivity.this, "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-//                    oneTimeActivityModel = new OneTimeActivityModel("NaN", "NaN", "NaN", "NaN", 0, 0.0, 0.0);
                 }
-
-
-//                Toast.makeText(InputOneTimeActivity.this, "Success= " + success, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(InputOneTimeActivity.this, oneTimeActivityModel.toString(), Toast.LENGTH_SHORT).show();
 
                 return;
             }
