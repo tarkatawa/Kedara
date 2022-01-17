@@ -49,6 +49,13 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
         holder.dateReminder.setText(activityDateString[position]);
         holder.timeReminder.setText(activityTimeString[position]);
 
+        Log.e("HAHAHA", activityNameString[0]);
+        Log.e("HAHAHA", activityLocationString[0]);
+        Log.e("HAHAHA", activityDateString[0]);
+        Log.e("HAHAHA", activityTimeString[0]);
+
+        Log.e("HiHiHi", activityIconString[0]);
+
         switch (activityIconString[position]) {
             case "01d":
                 holder.iconReminder.setAnimation(R.raw.clear_01d);

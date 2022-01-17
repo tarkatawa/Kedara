@@ -61,6 +61,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -532,6 +533,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 activityConditionList.add(zeroJsonObject.getString("description"));
                                                 Log.e("activityIconListA", String.valueOf(activityIconList));
                                                 Log.e("activityConditionList", String.valueOf(activityConditionList));
+                                                String[] activityIconString = activityIconList.toArray(new String[0]);
+                                                Log.e("activityIconString", Arrays.toString(activityIconString));
+                                                String[] activityConditionString = activityConditionList.toArray(new String[0]);
+                                                Log.e("activityConditionString", Arrays.toString(activityConditionString));
                                             }
                                         }
                                     }
@@ -555,16 +560,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerViewReminder.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
         recyclerViewReminder.setHasFixedSize(true);
 
-
         String[] activityNameString = activityNameList.toArray(new String[0]);
         String[] activityLocationString = activityLocationList.toArray(new String[0]);
         String[] activityDateString = activityDateList.toArray(new String[0]);
-        //Log.e("activityDateString", activityDateString[0]);
         String[] activityTimeString = activityTimeList.toArray(new String[0]);
-        //Log.e("activityIconListB", activityIconList.get(0));
-        String[] activityIconString = activityIconList.toArray(new String[0]);
-        //Log.e("activityIconString", activityIconString[0]);
-        String[] activityConditionString = activityConditionList.toArray(new String[0]);
 
         reminderAdapter = new ReminderAdapter(activityNameString, activityLocationString, activityDateString, activityTimeString, activityNameString, activityNameString);
         recyclerViewReminder.setAdapter(reminderAdapter);
