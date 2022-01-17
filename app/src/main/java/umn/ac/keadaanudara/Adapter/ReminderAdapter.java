@@ -1,6 +1,5 @@
 package umn.ac.keadaanudara.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import com.airbnb.lottie.LottieAnimationView;
-import umn.ac.keadaanudara.Model.ReminderModel;
+
 import umn.ac.keadaanudara.R;
 
 public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewHolder>{
-
     String [] activityNameString;
     String [] activityLocationString;
     String [] activityDateString;
@@ -41,20 +38,10 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ReminderAdapter.ViewHolder holder, int position) {
-
-        Log.e("position", String.valueOf(position));
-
         holder.activityReminder.setText(activityNameString[position]);
         holder.locationReminder.setText(activityLocationString[position]);
         holder.dateReminder.setText(activityDateString[position]);
         holder.timeReminder.setText(activityTimeString[position]);
-
-        Log.e("HAHAHA", activityNameString[0]);
-        Log.e("HAHAHA", activityLocationString[0]);
-        Log.e("HAHAHA", activityDateString[0]);
-        Log.e("HAHAHA", activityTimeString[0]);
-
-        Log.e("HiHiHi", activityIconString[0]);
 
         switch (activityIconString[position]) {
             case "01d":
@@ -109,7 +96,6 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
         }
 
         holder.conditionReminder.setText(activityConditionString[position]);
-
     }
 
     @Override
