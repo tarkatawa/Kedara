@@ -1,5 +1,6 @@
 package umn.ac.keadaanudara.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,21 @@ import umn.ac.keadaanudara.Model.ReminderModel;
 import umn.ac.keadaanudara.R;
 
 public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewHolder>{
-    private final ArrayList<ReminderModel> reminderModels;
 
-    public ReminderAdapter(ArrayList<ReminderModel> reminderModels) {
-        this.reminderModels = reminderModels;
+    String [] activityNameString;
+    String [] activityLocationString;
+    String [] activityDateString;
+    String [] activityTimeString;
+    String [] activityIconString;
+    String [] activityConditionString;
+
+    public ReminderAdapter(String[] activityNameString, String[] activityLocationString, String[] activityDateString, String[] activityTimeString, String[] activityIconString, String[] activityConditionString) {
+        this.activityNameString = activityNameString;
+        this.activityLocationString = activityLocationString;
+        this.activityDateString = activityDateString;
+        this.activityTimeString = activityTimeString;
+        this.activityIconString = activityIconString;
+        this.activityConditionString = activityConditionString;
     }
 
     @NonNull
@@ -29,15 +41,15 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull ReminderAdapter.ViewHolder holder, int position) {
-        ReminderModel model = reminderModels.get(position);
 
-        holder.activityReminder.setText(model.getActivityName());
-        holder.locationReminder.setText(model.getActivityLocation());
-        holder.dateReminder.setText(model.getActivityDate());
-        holder.timeReminder.setText(model.getActivityTime());
-        holder.conditionReminder.setText(model.getDescription());
+        Log.e("position", String.valueOf(position));
 
-        switch (model.getIcon()) {
+        holder.activityReminder.setText(activityNameString[position]);
+        holder.locationReminder.setText(activityLocationString[position]);
+        holder.dateReminder.setText(activityDateString[position]);
+        holder.timeReminder.setText(activityTimeString[position]);
+
+        switch (activityIconString[position]) {
             case "01d":
                 holder.iconReminder.setAnimation(R.raw.clear_01d);
                 break;
@@ -89,11 +101,13 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
                 break;
         }
 
+        holder.conditionReminder.setText(activityConditionString[position]);
+
     }
 
     @Override
     public int getItemCount() {
-        return reminderModels.size();
+        return activityNameString.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

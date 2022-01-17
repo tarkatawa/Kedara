@@ -63,6 +63,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -88,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LocationModel locationModel = new LocationModel();
     FloatingActionButton fab_action1;
     LocationRequest locationRequest;
+    List<String> activityNameList = new ArrayList<String>();
+    List<String> activityLocationList = new ArrayList<String>();
+    List<String> activityDateList = new ArrayList<String>();
+    List<String> activityTimeList = new ArrayList<String>();
+    List<String> activityIconList = new ArrayList<String>();
+    List<String> activityConditionList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,9 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{ }
         cursor.close();
 
-
-
-
         if (cityLat == 0.0) {
             updateGPS();
         } else {
@@ -179,9 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
         getActivityReminder();
-        //getActivityWeatherInfo();
     }
 
     private void getToday() {
@@ -270,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             try {
                                 ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                                 resolvableApiException.startResolutionForResult(MainActivity.this, 2);
+
                             } catch (IntentSender.SendIntentException ex) {
                                 ex.printStackTrace();
                             }
@@ -290,16 +293,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         return isEnabled;
-    }
-
-    private void getActivityWeatherInfo(){
-//        QUERY DARI MODEL ACTIVITY DENGAN LOGIC DATE_SUB(event_date, INTERVAL days_perior) >= HARI INI
-
-//        String queryString = ;
-
-
-        //cursor yang dicek sama API
-        //return
     }
 
     private void getCurrentWeather(double lat, double lon) {
@@ -469,99 +462,113 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getActivityReminder(){
-        String activityDate = "null", activityTime = "null", activityName = "null", activityLocation = "null";
-        double activityLat = 0.0, activityLon = 0.0;
-
         OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
         Cursor cursor = oneTimeDatabaseHelper.getReminder();
 
         if (cursor.moveToFirst()) {
             do {
-                activityName = cursor.getString(0);
-                activityLocation = cursor.getString(1);
-                activityDate = cursor.getString(2);
-                activityTime = cursor.getString(3);
-                activityLat = cursor.getDouble(5);
-                activityLon = cursor.getDouble(6);
+                String activityName = cursor.getString(0);
+                activityNameList.add(activityName);
+
+                String activityLocation = cursor.getString(1);
+                activityLocationList.add(activityLocation);
+
+                String activityDate = cursor.getString(2);
+                activityDateList.add(activityDate);
+
+                String activityTime = cursor.getString(3);
+                activityTimeList.add(activityTime);
+
+                double activityLat = cursor.getDouble(5);
+                double activityLon = cursor.getDouble(6);
+
+                Log.e("LAT", String.valueOf(activityLat));
+                Log.e("LON", String.valueOf(activityLon));
+
+                Log.e("DATE", activityDate);
+
+                AndroidNetworking.get(BASE_URL + "forecast?lat=" + activityLat + "&lon=" + activityLon + "&units=metric&appid=" + appid)
+                        .setPriority(Priority.MEDIUM)
+                        .build()
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray listJsonArray = response.getJSONArray("list");
+                                    for (int i = 0; i<listJsonArray.length(); i++) {
+                                        JSONObject listJsonObject = listJsonArray.getJSONObject(i);
+                                        JSONArray weatherJsonArray = listJsonObject.getJSONArray("weather");
+                                        JSONObject zeroJsonObject = weatherJsonArray.getJSONObject(0);
+                                        String time = listJsonObject.getString("dt_txt");
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                                        SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                                        String temp = time;
+                                        try {
+                                            Date datesFormat = dateFormat.parse(time);
+                                            if (datesFormat != null) {
+                                                temp = dayFormat.format(datesFormat);
+                                            }
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(MainActivity.this, "Date Error", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        try {
+                                            Date timesFormat = dateFormat.parse(time);
+                                            if (timesFormat != null) {
+                                                time = timeFormat.format(timesFormat);
+                                            }
+
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(MainActivity.this, "Time Error", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        if (temp.equals(activityDate)) {
+                                            if (time.equals(activityTime)) {
+                                                activityIconList.add(zeroJsonObject.getString("icon"));
+                                                activityConditionList.add(zeroJsonObject.getString("description"));
+                                                Log.e("activityIconListA", String.valueOf(activityIconList));
+                                                Log.e("activityConditionList", String.valueOf(activityConditionList));
+                                            }
+                                        }
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(MainActivity.this, "Failed to display the data", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(ANError anError) {
+                                Toast.makeText(MainActivity.this, "Reminder Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                
             } while (cursor.moveToNext());
         }
         cursor.close();
 
-        String finalActivityDate = activityDate;
-        String finalActivityTime = activityTime;
-        String finalActivityName = activityName;
-        String finalActivityLocation = activityLocation;
-        AndroidNetworking.get(BASE_URL + "forecast?lat=" + activityLat + "&lon=" + activityLon + "&units=metric&appid=" + appid)
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray listJsonArray = response.getJSONArray("list");
-                            reminderModels.clear();
-                            for (int i = 0; i<listJsonArray.length(); i++) {
-                                ReminderModel reminderModel = new ReminderModel();
-                                JSONObject listJsonObject = listJsonArray.getJSONObject(i);
-                                JSONArray weatherJsonArray = listJsonObject.getJSONArray("weather");
-                                JSONObject zeroJsonObject = weatherJsonArray.getJSONObject(0);
-                                String time = listJsonObject.getString("dt_txt");
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                                SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
+        recyclerViewReminder.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
+        recyclerViewReminder.setHasFixedSize(true);
 
-                                String temp = time;
-                                try {
-                                    Date datesFormat = dateFormat.parse(time);
-                                    if (datesFormat != null) {
-                                        temp = dayFormat.format(datesFormat);
-                                    }
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(MainActivity.this, "Date Error", Toast.LENGTH_SHORT).show();
-                                }
 
-                                try {
-                                    Date timesFormat = dateFormat.parse(time);
-                                    if (timesFormat != null) {
-                                        time = timeFormat.format(timesFormat);
-                                    }
+        String[] activityNameString = activityNameList.toArray(new String[0]);
+        String[] activityLocationString = activityLocationList.toArray(new String[0]);
+        String[] activityDateString = activityDateList.toArray(new String[0]);
+        //Log.e("activityDateString", activityDateString[0]);
+        String[] activityTimeString = activityTimeList.toArray(new String[0]);
+        //Log.e("activityIconListB", activityIconList.get(0));
+        String[] activityIconString = activityIconList.toArray(new String[0]);
+        //Log.e("activityIconString", activityIconString[0]);
+        String[] activityConditionString = activityConditionList.toArray(new String[0]);
 
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(MainActivity.this, "Time Error", Toast.LENGTH_SHORT).show();
-                                }
-
-                                if (temp.equals(finalActivityDate)) {
-                                    if (time.equals(finalActivityTime)) {
-                                        reminderModel.setActivityName(finalActivityName);
-                                        reminderModel.setActivityLocation(finalActivityLocation);
-                                        reminderModel.setActivityDate(finalActivityDate);
-                                        reminderModel.setActivityTime(finalActivityTime);
-                                        reminderModel.setDescription(zeroJsonObject.getString("description"));
-                                        reminderModel.setIcon(zeroJsonObject.getString("icon"));
-                                        reminderModels.add(reminderModel);
-                                    }
-                                }
-                            }
-
-                            recyclerViewReminder.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
-                            recyclerViewReminder.setHasFixedSize(true);
-                            reminderAdapter = new ReminderAdapter(reminderModels);
-                            recyclerViewReminder.setAdapter(reminderAdapter);
-                            reminderAdapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Failed to display the data", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        Toast.makeText(MainActivity.this, "Reminder Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        reminderAdapter = new ReminderAdapter(activityNameString, activityLocationString, activityDateString, activityTimeString, activityNameString, activityNameString);
+        recyclerViewReminder.setAdapter(reminderAdapter);
+        reminderAdapter.notifyDataSetChanged();
     }
 
     @Override
