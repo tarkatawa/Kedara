@@ -175,8 +175,6 @@ public class IntroActivity extends AppCompatActivity {
         editor.putBoolean(SWITCH1, true);
 
         editor.apply();
-
-        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
 
 }

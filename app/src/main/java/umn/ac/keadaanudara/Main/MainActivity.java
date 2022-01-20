@@ -465,10 +465,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (cursor.moveToFirst()){
-            if(!cursor.isNull(0)){
-                reminderShow.setVisibility(View.VISIBLE);
-            }
+            int i = 0;
             do {
+                if(!cursor.isNull(i)){
+                    reminderShow.setVisibility(View.VISIBLE);
+                }
                 String activityName = cursor.getString(0);
                 activityNameList.add(activityName);
 
@@ -551,7 +552,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Toast.makeText(MainActivity.this, "Reminder Error", Toast.LENGTH_SHORT).show();
                             }
                         });
-
+                i++;
             } while (cursor.moveToNext());
         }
         cursor.close();
