@@ -547,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Toast.makeText(MainActivity.this, "Reminder Error", Toast.LENGTH_SHORT).show();
                             }
                         });
-                
+
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -566,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Log.e("activityIconString", activityIconString[0]);
         String[] activityConditionString = activityConditionList.toArray(new String[0]);
 
-        reminderAdapter = new ReminderAdapter(activityNameString, activityLocationString, activityDateString, activityTimeString, activityNameString, activityNameString);
+        reminderAdapter = new ReminderAdapter(activityNameString, activityLocationString, activityDateString, activityTimeString, activityIconString, activityConditionString);
         recyclerViewReminder.setAdapter(reminderAdapter);
         reminderAdapter.notifyDataSetChanged();
     }

@@ -1,24 +1,21 @@
 package umn.ac.keadaanudara.Main;
 
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -139,26 +136,29 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
         OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(ListActivity.this);
         Cursor cursor = oneTimeDatabaseHelper.getEveryone();
 
-        CompletedActivityModel completedActivityModel;
+//        Date dateToday = null;
+//        Date dateBeforeToday = null;
+//        try {
+//            dateToday = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(2));
+//            dateBeforeToday = new SimpleDateFormat("dd/MM/yyyy").parse(formattedYesterday);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
-        Toast.makeText(ListActivity.this, formattedYesterday, Toast.LENGTH_LONG).show();
+
+        CompletedActivityModel completedActivityModel;
 
         if(cursor.moveToFirst()){
             do{
-
                 // 10/01/2022                    10/01/2022
                 if(cursor.getString(2).equals(formattedYesterday)){
                     String activityNameCompleted = cursor.getString(0);
-//                    activityNameListCompleted.add(activityNameCompleted);
 
                     String activityLocationCompleted = cursor.getString(1);
-//                    activityLocationListCompleted.add(activityLocationCompleted);
 
                     String activityDateCompleted = cursor.getString(2);
-//                    activityDateListCompleted.add(activityDateCompleted);
 
                     String activityTimeCompleted = cursor.getString(3);
-//                    activityTimeListCompleted.add(activityTimeCompleted);
 
                     completedActivityModel = new CompletedActivityModel(activityNameCompleted, activityLocationCompleted, activityDateCompleted, activityTimeCompleted, 0, 0.0, 0.0);
 
@@ -172,27 +172,21 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
                 }
                 String activityName = cursor.getString(0);
                 activityNameList.add(activityName);
-//                activityNameListCompleted.add(activityName);
 
                 String activityLocation = cursor.getString(1);
                 activityLocationList.add(activityLocation);
-//                activityLocationListCompleted.add(activityLocation);
 
                 String activityDate = cursor.getString(2);
                 activityDateList.add(activityDate);
-//                activityDateListCompleted.add(activityDate);
 
                 String activityTime = cursor.getString(3);
                 activityTimeList.add(activityTime);
-//                activityTimeListCompleted.add(activityTime);
 
 
 
 
             }while(cursor.moveToNext());
-//            for(int i = 0; i < cursor.getColumnCount(); i++){
-//               System.out.println(cursor.getString(i));
-//            }
+
         }else{ }
         cursor.close();
 
@@ -209,13 +203,6 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 
         programAdapter = new OneTimeAdapter(this, activityNameString, activityLocationString, activityDateString, activityTimeString, this);
         recyclerView.setAdapter(programAdapter);
-
-//        System.out.println(cursor.getString(2));
-//        System.out.println(dateOfToday);
-//        recyclerView.addOnItemTouchListener(new AdapterView.OnItemClickListener(){
-//
-//        });
-//        });
 
         //----------------------------------------------------------------------------------------------------------
         //Ambil data dari database untuk completed
@@ -253,221 +240,221 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
         programAdapterCompleted = new CompletedAdapter(this, activityNameStringCompleted, activityLocationStringCompleted, activityDateStringCompleted, activityTimeStringCompleted, this);
         recyclerViewCompleted.setAdapter(programAdapterCompleted);
 
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk senin
-        WeeklyMondayDatabaseHelper weeklyMondayDatabaseHelper = new WeeklyMondayDatabaseHelper(ListActivity.this);
-        Cursor cursorMonday = weeklyMondayDatabaseHelper.getEveryone();
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk senin
+//        WeeklyMondayDatabaseHelper weeklyMondayDatabaseHelper = new WeeklyMondayDatabaseHelper(ListActivity.this);
+//        Cursor cursorMonday = weeklyMondayDatabaseHelper.getEveryone();
+//
+//        if(cursorMonday.moveToFirst()){
+//            do{
+//                String activityName = cursorMonday.getString(0);
+//                activityNameListMonday.add(activityName);
+//
+//                String activityLocation = cursorMonday.getString(1);
+//                activityLocationListMonday.add(activityLocation);
+//
+//                String activityTime = cursorMonday.getString(2);
+//                activityTimeListMonday.add(activityTime);
+//            }while(cursorMonday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewMonday = findViewById(R.id.rvMonday);
+//
+//        layoutManagerMonday = new LinearLayoutManager(this);
+//        recyclerViewMonday.setLayoutManager(layoutManagerMonday);
+//
+//        String[] activityNameStringMonday = activityNameListMonday.toArray(new String[0]);
+//        String[] activityLocationStringMonday = activityLocationListMonday.toArray(new String[0]);
+//        String[] activityTimeStringMonday = activityTimeListMonday.toArray(new String[0]);
+//
+//        programAdapterMonday = new WeeklyMondayAdapter(this, activityNameStringMonday, activityLocationStringMonday, activityTimeStringMonday);
+//        recyclerViewMonday.setAdapter(programAdapterMonday);
+//
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk selasa
+//        WeeklyTuesdayDatabaseHelper weeklyTuesdayDatabaseHelper = new WeeklyTuesdayDatabaseHelper(ListActivity.this);
+//        Cursor cursorTuesday = weeklyTuesdayDatabaseHelper.getEveryone();
+//
+//        if(cursorTuesday.moveToFirst()){
+//            do{
+//                String activityName = cursorTuesday.getString(0);
+//                activityNameListTuesday.add(activityName);
+//
+//                String activityLocation = cursorTuesday.getString(1);
+//                activityLocationListTuesday.add(activityLocation);
+//
+//                String activityTime = cursorTuesday.getString(2);
+//                activityTimeListTuesday.add(activityTime);
+//            }while(cursorMonday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewTuesday = findViewById(R.id.rvTuesday);
+//
+//        layoutManagerTuesday = new LinearLayoutManager(this);
+//        recyclerViewTuesday.setLayoutManager(layoutManagerTuesday);
+//
+//        String[] activityNameStringTuesday = activityNameListTuesday.toArray(new String[0]);
+//        String[] activityLocationStringTuesday = activityLocationListTuesday.toArray(new String[0]);
+//        String[] activityTimeStringTuesday = activityTimeListTuesday.toArray(new String[0]);
+//
+//        programAdapterTuesday = new WeeklyTuesdayAdapter(this, activityNameStringTuesday, activityLocationStringTuesday, activityTimeStringTuesday);
+//        recyclerViewTuesday.setAdapter(programAdapterTuesday);
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk rabu
+//        WeeklyWednesdayDatabaseHelper weeklyWednesdayDatabaseHelper = new WeeklyWednesdayDatabaseHelper(ListActivity.this);
+//        Cursor cursorWednesday = weeklyWednesdayDatabaseHelper.getEveryone();
+//
+//        if(cursorWednesday.moveToFirst()){
+//            do{
+//                String activityName = cursorWednesday.getString(0);
+//                activityNameListWednesday.add(activityName);
+//
+//                String activityLocation = cursorWednesday.getString(1);
+//                activityLocationListWednesday.add(activityLocation);
+//
+//                String activityTime = cursorWednesday.getString(2);
+//                activityTimeListWednesday.add(activityTime);
+//            }while(cursorWednesday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewWednesday = findViewById(R.id.rvWednesday);
+//
+//        layoutManagerWednesday = new LinearLayoutManager(this);
+//        recyclerViewWednesday.setLayoutManager(layoutManagerWednesday);
+//
+//        String[] activityNameStringWednesday = activityNameListWednesday.toArray(new String[0]);
+//        String[] activityLocationStringWednesday = activityLocationListWednesday.toArray(new String[0]);
+//        String[] activityTimeStringWednesday = activityTimeListWednesday.toArray(new String[0]);
+//
+//        programAdapterWednesday = new WeeklyTuesdayAdapter(this, activityNameStringWednesday, activityLocationStringWednesday, activityTimeStringWednesday);
+//        recyclerViewWednesday.setAdapter(programAdapterWednesday);
+//
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk kamis
+//        WeeklyThursdayDatabaseHelper weeklyThursdayDatabaseHelper = new WeeklyThursdayDatabaseHelper(ListActivity.this);
+//        Cursor cursorThursday = weeklyThursdayDatabaseHelper.getEveryone();
+//
+//        if(cursorThursday.moveToFirst()){
+//            do{
+//                String activityName = cursorThursday.getString(0);
+//                activityNameListThursday.add(activityName);
+//
+//                String activityLocation = cursorThursday.getString(1);
+//                activityLocationListThursday.add(activityLocation);
+//
+//                String activityTime = cursorThursday.getString(2);
+//                activityTimeListThursday.add(activityTime);
+//            }while(cursorThursday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewThursday = findViewById(R.id.rvThursday);
+//
+//        layoutManagerThursday = new LinearLayoutManager(this);
+//        recyclerViewThursday.setLayoutManager(layoutManagerThursday);
+//
+//        String[] activityNameStringThursday = activityNameListThursday.toArray(new String[0]);
+//        String[] activityLocationStringThursday = activityLocationListThursday.toArray(new String[0]);
+//        String[] activityTimeStringThursday = activityTimeListThursday.toArray(new String[0]);
+//
+//        programAdapterThursday = new WeeklyThursdayAdapter(this, activityNameStringThursday, activityLocationStringThursday, activityTimeStringThursday);
+//        recyclerViewThursday.setAdapter(programAdapterThursday);
+//
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk jumat
+//        WeeklyFridayDatabaseHelper weeklyFridayDatabaseHelper = new WeeklyFridayDatabaseHelper(ListActivity.this);
+//        Cursor cursorFriday = weeklyFridayDatabaseHelper.getEveryone();
+//
+//        if(cursorFriday.moveToFirst()){
+//            do{
+//                String activityName = cursorFriday.getString(0);
+//                activityNameListFriday.add(activityName);
+//
+//                String activityLocation = cursorFriday.getString(1);
+//                activityLocationListFriday.add(activityLocation);
+//
+//                String activityTime = cursorFriday.getString(2);
+//                activityTimeListFriday.add(activityTime);
+//            }while(cursorFriday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewFriday = findViewById(R.id.rvFriday);
+//
+//        layoutManagerFriday = new LinearLayoutManager(this);
+//        recyclerViewFriday.setLayoutManager(layoutManagerFriday);
+//
+//        String[] activityNameStringFriday = activityNameListFriday.toArray(new String[0]);
+//        String[] activityLocationStringFriday = activityLocationListFriday.toArray(new String[0]);
+//        String[] activityTimeStringFriday = activityTimeListFriday.toArray(new String[0]);
+//
+//        programAdapterFriday = new WeeklyFridayAdapter(this, activityNameStringFriday, activityLocationStringFriday, activityTimeStringFriday);
+//        recyclerViewFriday.setAdapter(programAdapterFriday);
+//
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk sabtu
+//        WeeklySaturdayDatabaseHelper weeklySaturdayDatabaseHelper = new WeeklySaturdayDatabaseHelper(ListActivity.this);
+//        Cursor cursorSaturday = weeklySaturdayDatabaseHelper.getEveryone();
+//
+//        if(cursorSaturday.moveToFirst()){
+//            do{
+//                String activityName = cursorSaturday.getString(0);
+//                activityNameListSaturday.add(activityName);
+//
+//                String activityLocation = cursorSaturday.getString(1);
+//                activityLocationListSaturday.add(activityLocation);
+//
+//                String activityTime = cursorSaturday.getString(2);
+//                activityTimeListSaturday.add(activityTime);
+//            }while(cursorSaturday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewSaturday = findViewById(R.id.rvSaturday);
+//
+//        layoutManagerSaturday = new LinearLayoutManager(this);
+//        recyclerViewSaturday.setLayoutManager(layoutManagerSaturday);
+//
+//        String[] activityNameStringSaturday = activityNameListSaturday.toArray(new String[0]);
+//        String[] activityLocationStringSaturday = activityLocationListSaturday.toArray(new String[0]);
+//        String[] activityTimeStringSaturday = activityTimeListSaturday.toArray(new String[0]);
+//
+//        programAdapterSaturday = new WeeklySaturdayAdapter(this, activityNameStringSaturday, activityLocationStringSaturday, activityTimeStringSaturday);
+//        recyclerViewSaturday.setAdapter(programAdapterSaturday);
+//
+//        //----------------------------------------------------------------------------------------------------------
+//        //Ambil data dari database untuk minggu
+//        WeeklySundayDatabaseHelper weeklySundayDatabaseHelper = new WeeklySundayDatabaseHelper(ListActivity.this);
+//        Cursor cursorSunday = weeklySundayDatabaseHelper.getEveryone();
+//
+//        if(cursorSunday.moveToFirst()){
+//            do{
+//                String activityName = cursorSunday.getString(0);
+//                activityNameListSunday.add(activityName);
+//
+//                String activityLocation = cursorSunday.getString(1);
+//                activityLocationListSunday.add(activityLocation);
+//
+//                String activityTime = cursorSunday.getString(2);
+//                activityTimeListSunday.add(activityTime);
+//            }while(cursorSunday.moveToNext());
+//        }else{ }
+//        cursor.close();
+//        //Ngurus recyclerview repetitive-activity monday
+//        recyclerViewSunday = findViewById(R.id.rvSunday);
+//
+//        layoutManagerSunday = new LinearLayoutManager(this);
+//        recyclerViewSunday.setLayoutManager(layoutManagerSunday);
+//
+//        String[] activityNameStringSunday = activityNameListSunday.toArray(new String[0]);
+//        String[] activityLocationStringSunday = activityLocationListSunday.toArray(new String[0]);
+//        String[] activityTimeStringSunday = activityTimeListSunday.toArray(new String[0]);
 
-        if(cursorMonday.moveToFirst()){
-            do{
-                String activityName = cursorMonday.getString(0);
-                activityNameListMonday.add(activityName);
-
-                String activityLocation = cursorMonday.getString(1);
-                activityLocationListMonday.add(activityLocation);
-
-                String activityTime = cursorMonday.getString(2);
-                activityTimeListMonday.add(activityTime);
-            }while(cursorMonday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewMonday = findViewById(R.id.rvMonday);
-
-        layoutManagerMonday = new LinearLayoutManager(this);
-        recyclerViewMonday.setLayoutManager(layoutManagerMonday);
-
-        String[] activityNameStringMonday = activityNameListMonday.toArray(new String[0]);
-        String[] activityLocationStringMonday = activityLocationListMonday.toArray(new String[0]);
-        String[] activityTimeStringMonday = activityTimeListMonday.toArray(new String[0]);
-
-        programAdapterMonday = new WeeklyMondayAdapter(this, activityNameStringMonday, activityLocationStringMonday, activityTimeStringMonday);
-        recyclerViewMonday.setAdapter(programAdapterMonday);
-
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk selasa
-        WeeklyTuesdayDatabaseHelper weeklyTuesdayDatabaseHelper = new WeeklyTuesdayDatabaseHelper(ListActivity.this);
-        Cursor cursorTuesday = weeklyTuesdayDatabaseHelper.getEveryone();
-
-        if(cursorTuesday.moveToFirst()){
-            do{
-                String activityName = cursorTuesday.getString(0);
-                activityNameListTuesday.add(activityName);
-
-                String activityLocation = cursorTuesday.getString(1);
-                activityLocationListTuesday.add(activityLocation);
-
-                String activityTime = cursorTuesday.getString(2);
-                activityTimeListTuesday.add(activityTime);
-            }while(cursorMonday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewTuesday = findViewById(R.id.rvTuesday);
-
-        layoutManagerTuesday = new LinearLayoutManager(this);
-        recyclerViewTuesday.setLayoutManager(layoutManagerTuesday);
-
-        String[] activityNameStringTuesday = activityNameListTuesday.toArray(new String[0]);
-        String[] activityLocationStringTuesday = activityLocationListTuesday.toArray(new String[0]);
-        String[] activityTimeStringTuesday = activityTimeListTuesday.toArray(new String[0]);
-
-        programAdapterTuesday = new WeeklyTuesdayAdapter(this, activityNameStringTuesday, activityLocationStringTuesday, activityTimeStringTuesday);
-        recyclerViewTuesday.setAdapter(programAdapterTuesday);
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk rabu
-        WeeklyWednesdayDatabaseHelper weeklyWednesdayDatabaseHelper = new WeeklyWednesdayDatabaseHelper(ListActivity.this);
-        Cursor cursorWednesday = weeklyWednesdayDatabaseHelper.getEveryone();
-
-        if(cursorWednesday.moveToFirst()){
-            do{
-                String activityName = cursorWednesday.getString(0);
-                activityNameListWednesday.add(activityName);
-
-                String activityLocation = cursorWednesday.getString(1);
-                activityLocationListWednesday.add(activityLocation);
-
-                String activityTime = cursorWednesday.getString(2);
-                activityTimeListWednesday.add(activityTime);
-            }while(cursorWednesday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewWednesday = findViewById(R.id.rvWednesday);
-
-        layoutManagerWednesday = new LinearLayoutManager(this);
-        recyclerViewWednesday.setLayoutManager(layoutManagerWednesday);
-
-        String[] activityNameStringWednesday = activityNameListWednesday.toArray(new String[0]);
-        String[] activityLocationStringWednesday = activityLocationListWednesday.toArray(new String[0]);
-        String[] activityTimeStringWednesday = activityTimeListWednesday.toArray(new String[0]);
-
-        programAdapterWednesday = new WeeklyTuesdayAdapter(this, activityNameStringWednesday, activityLocationStringWednesday, activityTimeStringWednesday);
-        recyclerViewWednesday.setAdapter(programAdapterWednesday);
-
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk kamis
-        WeeklyThursdayDatabaseHelper weeklyThursdayDatabaseHelper = new WeeklyThursdayDatabaseHelper(ListActivity.this);
-        Cursor cursorThursday = weeklyThursdayDatabaseHelper.getEveryone();
-
-        if(cursorThursday.moveToFirst()){
-            do{
-                String activityName = cursorThursday.getString(0);
-                activityNameListThursday.add(activityName);
-
-                String activityLocation = cursorThursday.getString(1);
-                activityLocationListThursday.add(activityLocation);
-
-                String activityTime = cursorThursday.getString(2);
-                activityTimeListThursday.add(activityTime);
-            }while(cursorThursday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewThursday = findViewById(R.id.rvThursday);
-
-        layoutManagerThursday = new LinearLayoutManager(this);
-        recyclerViewThursday.setLayoutManager(layoutManagerThursday);
-
-        String[] activityNameStringThursday = activityNameListThursday.toArray(new String[0]);
-        String[] activityLocationStringThursday = activityLocationListThursday.toArray(new String[0]);
-        String[] activityTimeStringThursday = activityTimeListThursday.toArray(new String[0]);
-
-        programAdapterThursday = new WeeklyThursdayAdapter(this, activityNameStringThursday, activityLocationStringThursday, activityTimeStringThursday);
-        recyclerViewThursday.setAdapter(programAdapterThursday);
-
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk jumat
-        WeeklyFridayDatabaseHelper weeklyFridayDatabaseHelper = new WeeklyFridayDatabaseHelper(ListActivity.this);
-        Cursor cursorFriday = weeklyFridayDatabaseHelper.getEveryone();
-
-        if(cursorFriday.moveToFirst()){
-            do{
-                String activityName = cursorFriday.getString(0);
-                activityNameListFriday.add(activityName);
-
-                String activityLocation = cursorFriday.getString(1);
-                activityLocationListFriday.add(activityLocation);
-
-                String activityTime = cursorFriday.getString(2);
-                activityTimeListFriday.add(activityTime);
-            }while(cursorFriday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewFriday = findViewById(R.id.rvFriday);
-
-        layoutManagerFriday = new LinearLayoutManager(this);
-        recyclerViewFriday.setLayoutManager(layoutManagerFriday);
-
-        String[] activityNameStringFriday = activityNameListFriday.toArray(new String[0]);
-        String[] activityLocationStringFriday = activityLocationListFriday.toArray(new String[0]);
-        String[] activityTimeStringFriday = activityTimeListFriday.toArray(new String[0]);
-
-        programAdapterFriday = new WeeklyFridayAdapter(this, activityNameStringFriday, activityLocationStringFriday, activityTimeStringFriday);
-        recyclerViewFriday.setAdapter(programAdapterFriday);
-
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk sabtu
-        WeeklySaturdayDatabaseHelper weeklySaturdayDatabaseHelper = new WeeklySaturdayDatabaseHelper(ListActivity.this);
-        Cursor cursorSaturday = weeklySaturdayDatabaseHelper.getEveryone();
-
-        if(cursorSaturday.moveToFirst()){
-            do{
-                String activityName = cursorSaturday.getString(0);
-                activityNameListSaturday.add(activityName);
-
-                String activityLocation = cursorSaturday.getString(1);
-                activityLocationListSaturday.add(activityLocation);
-
-                String activityTime = cursorSaturday.getString(2);
-                activityTimeListSaturday.add(activityTime);
-            }while(cursorSaturday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewSaturday = findViewById(R.id.rvSaturday);
-
-        layoutManagerSaturday = new LinearLayoutManager(this);
-        recyclerViewSaturday.setLayoutManager(layoutManagerSaturday);
-
-        String[] activityNameStringSaturday = activityNameListSaturday.toArray(new String[0]);
-        String[] activityLocationStringSaturday = activityLocationListSaturday.toArray(new String[0]);
-        String[] activityTimeStringSaturday = activityTimeListSaturday.toArray(new String[0]);
-
-        programAdapterSaturday = new WeeklySaturdayAdapter(this, activityNameStringSaturday, activityLocationStringSaturday, activityTimeStringSaturday);
-        recyclerViewSaturday.setAdapter(programAdapterSaturday);
-
-        //----------------------------------------------------------------------------------------------------------
-        //Ambil data dari database untuk minggu
-        WeeklySundayDatabaseHelper weeklySundayDatabaseHelper = new WeeklySundayDatabaseHelper(ListActivity.this);
-        Cursor cursorSunday = weeklySundayDatabaseHelper.getEveryone();
-
-        if(cursorSunday.moveToFirst()){
-            do{
-                String activityName = cursorSunday.getString(0);
-                activityNameListSunday.add(activityName);
-
-                String activityLocation = cursorSunday.getString(1);
-                activityLocationListSunday.add(activityLocation);
-
-                String activityTime = cursorSunday.getString(2);
-                activityTimeListSunday.add(activityTime);
-            }while(cursorSunday.moveToNext());
-        }else{ }
-        cursor.close();
-        //Ngurus recyclerview repetitive-activity monday
-        recyclerViewSunday = findViewById(R.id.rvSunday);
-
-        layoutManagerSunday = new LinearLayoutManager(this);
-        recyclerViewSunday.setLayoutManager(layoutManagerSunday);
-
-        String[] activityNameStringSunday = activityNameListSunday.toArray(new String[0]);
-        String[] activityLocationStringSunday = activityLocationListSunday.toArray(new String[0]);
-        String[] activityTimeStringSunday = activityTimeListSunday.toArray(new String[0]);
-
-        programAdapterSunday = new WeeklySundayAdapter(this, activityNameStringSunday, activityLocationStringSunday, activityTimeStringSunday);
-        recyclerViewSunday.setAdapter(programAdapterSunday);
+//        programAdapterSunday = new WeeklySundayAdapter(this, activityNameStringSunday, activityLocationStringSunday, activityTimeStringSunday);
+//        recyclerViewSunday.setAdapter(programAdapterSunday);
 
 
         //Pindah
@@ -524,28 +511,6 @@ public class ListActivity extends AppCompatActivity implements OneTimeAdapter.On
 
 
     }
-
-//    @Override
-//    public void onNoteClick(int position) {
-//        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(ListActivity.this);
-////        OneTimeActivityModel clickedActivity = activityNameList.get(position);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
-//
-//        builder.setMessage("Your activity will be deleted permanently")
-//                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        oneTimeDatabaseHelper.deleteOne(activityNameList.get(position));
-//                        finish();
-//                        overridePendingTransition(0, 0);
-//                        startActivity(getIntent());
-//                        overridePendingTransition(0, 0);
-//                    }
-//                }).setNegativeButton("Cancel", null);
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
 
 @Override
 public void onNoteClick(int position) {

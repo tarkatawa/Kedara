@@ -42,7 +42,7 @@ public class ReminderAdapter extends RecyclerView.Adapter <ReminderAdapter.ViewH
     @Override
     public void onBindViewHolder(@NonNull ReminderAdapter.ViewHolder holder, int position) {
 
-        Log.e("position", String.valueOf(position));
+//        Log.e("position", String.valueOf(position));
 
         holder.activityReminder.setText(activityNameString[position]);
         holder.locationReminder.setText(activityLocationString[position]);
