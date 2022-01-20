@@ -568,15 +568,15 @@
                 app:fab_addButtonPlusIconColor="@color/black"
                 app:fab_labelStyle="@style/custom_fab">
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_action1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:fab_colorNormal="#FABE24"
-                    app:fab_colorPressed="#FABE24"
-                    app:fab_icon="@drawable/ic_360_fab"
-                    app:fab_size="mini"
-                    app:fab_title="Repetitive" />
+<!--                <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--                    android:id="@+id/fab_action1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:fab_colorNormal="#FABE24"-->
+<!--                    app:fab_colorPressed="#FABE24"-->
+<!--                    app:fab_icon="@drawable/ic_360_fab"-->
+<!--                    app:fab_size="mini"-->
+<!--                    app:fab_title="Repetitive" />-->
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_action2"

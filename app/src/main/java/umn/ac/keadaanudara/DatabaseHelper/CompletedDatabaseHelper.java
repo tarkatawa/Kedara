@@ -74,15 +74,10 @@ public class CompletedDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public List<Cursor> getEveryone(){
       public Cursor getEveryone(){
-//        String[] activityNameList = {};
         List<String> activityNameList = new ArrayList<>();
-//        String[] activityLocationList ={};
         List<String> activityLocationList = new ArrayList<>();
-//        String[] activityDateList ={};
         List<String> activityDateList = new ArrayList<>();
-//        String[] activityTimeList ={};
         List<String> activityTimeList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + COMPLETED_ACTIVITY_TABLE;
@@ -91,25 +86,6 @@ public class CompletedDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(queryString, null);
 
-//        if(cursor.moveToFirst()){
-//            do{
-//                String activityName = cursor.getString(0);
-//                activityNameList.add(activityName);
-//
-//                String activityLocation = cursor.getString(1);
-//                activityLocationList.add(activityLocation);
-//
-//                String activityDate = cursor.getString(2);
-//                activityDateList.add(activityDate);
-//
-//                String activityTime = cursor.getString(3);
-//                activityTimeList.add(activityTime);
-//            }while(cursor.moveToNext());
-//        }else{ }
-//        cursor.close();
-//        db.close();
-//        return Arrays.asList(activityNameList, activityLocationList, activityDateList, activityTimeList);
-//        return Arrays.asList(cursor);
         return cursor;
     }
     }

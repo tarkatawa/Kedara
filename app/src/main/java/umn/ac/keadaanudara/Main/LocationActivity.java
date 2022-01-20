@@ -94,10 +94,6 @@ public class LocationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(dividerItemDecoration);
-
     }
 
     private String readJSONDataFromFile() throws IOException {

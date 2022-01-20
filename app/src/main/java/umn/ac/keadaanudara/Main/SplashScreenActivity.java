@@ -37,7 +37,6 @@ public class SplashScreenActivity extends AppCompatActivity{
     }
 
     public boolean loadData() {
-//        IntroActivity introActivity = new IntroActivity();
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         return sharedPreferences.getBoolean("switch1", false);
     }

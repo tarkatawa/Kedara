@@ -178,11 +178,5 @@ public class IntroActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
-//    public boolean loadData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-//        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false);
-//
-//        return switchOnOff;
-//    }
 
 }

@@ -71,10 +71,6 @@ public class LocationActivityPick extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(dividerItemDecoration);
-
     }
 
     private String readJSONDataFromFile() throws IOException {
@@ -159,13 +155,6 @@ public class LocationActivityPick extends AppCompatActivity {
             intent.putExtra("KABKO", changeCity.getKabko());
             intent.putExtra("LAT", Double.valueOf(changeCity.getLat()));
             intent.putExtra("LON", Double.valueOf(changeCity.getLon()));
-//            intent.putExtra("CONDITION", true);
-//            editor = sharedPreferences.edit();
-//            editor.putString(KABKO_KEY, changeCity.getKabko());
-//            editor.putString(LAT_KEY, String.valueOf(changeCity.getLat()));
-//            editor.putString(LON_KEY, String.valueOf(changeCity.getLon()));
-//            editor.apply();
-//            Intent intent = new Intent(LocationActivityPick.this, InputOneTimeActivity.class);
             startActivity(intent);
         });
     }

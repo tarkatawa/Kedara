@@ -12,8 +12,8 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.Layout;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -139,17 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getToday();
         firstDay = locationModel.getDayFirst();
-
-        OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
-        Cursor cursor = oneTimeDatabaseHelper.getReminder();
-
-        if(cursor.moveToFirst()){
-            do{
-                String activityDate = cursor.getString(2);
-                Toast.makeText(MainActivity.this, activityDate, Toast.LENGTH_SHORT).show();
-            }while(cursor.moveToNext());
-        }
-        cursor.close();
 
         if (cityLat == 0.0) {
             updateGPS();
@@ -468,10 +457,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getActivityReminder(){
+        View reminderShow;
+        reminderShow = findViewById(R.id.constraintLayout);
+
         OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
         Cursor cursor = oneTimeDatabaseHelper.getReminder();
 
+
         if (cursor.moveToFirst()){
+            if(!cursor.isNull(0)){
+                reminderShow.setVisibility(View.VISIBLE);
+            }
             do {
                 String activityName = cursor.getString(0);
                 activityNameList.add(activityName);
@@ -488,10 +484,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 double activityLat = cursor.getDouble(5);
                 double activityLon = cursor.getDouble(6);
 
-                Log.e("LAT", String.valueOf(activityLat));
-                Log.e("LON", String.valueOf(activityLon));
-
-                Log.e("DATE", activityDate);
 
                 AndroidNetworking.get(BASE_URL + "forecast?lat=" + activityLat + "&lon=" + activityLon + "&units=metric&appid=" + appid)
                         .setPriority(Priority.HIGH)

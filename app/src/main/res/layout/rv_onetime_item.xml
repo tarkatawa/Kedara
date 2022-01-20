@@ -73,28 +73,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end">
-<!--        <ImageView-->
-<!--            android:id="@+id/deleteActivity"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            tools:srcCompat="@drawable/ic_baseline_close_24"-->
-<!--            android:layout_margin="10dp" />-->
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="54dp"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:backgroundTint="@color/white"
-            android:drawableRight="@drawable/ic_baseline_edit_24"
-            style="?android:attr/borderlessButtonStyle"/>
-         <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="54dp"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:backgroundTint="@color/white"
-            android:drawableRight="@drawable/ic_baseline_delete_24"
-            style="?android:attr/borderlessButtonStyle"/>
     </LinearLayout>
     </LinearLayout>
     <LinearLayout
