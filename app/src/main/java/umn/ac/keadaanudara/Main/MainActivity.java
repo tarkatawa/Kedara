@@ -8,7 +8,6 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,7 +50,6 @@ import umn.ac.keadaanudara.DatabaseHelper.OneTimeDatabaseHelper;
 import umn.ac.keadaanudara.Model.City;
 import umn.ac.keadaanudara.Model.LocationModel;
 import umn.ac.keadaanudara.Model.Modelmain;
-import umn.ac.keadaanudara.Model.ReminderModel;
 import umn.ac.keadaanudara.R;
 
 import org.json.JSONArray;
@@ -77,24 +75,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String LON_KEY = "LON";
     private String today, cityKabko;
     private int firstDay, dayCompare;
-    private TextView txtDate, txtDayOne, txtDayTwo, txtDayThree, txtDayFour, txtDayFive;
-    private ImageView imgFirst, imgSecond, imgThird, imgFourth, imgFifth;
+    private TextView txtDate;
     private double cityLat, cityLon;
     RecyclerView recyclerViewFiveDays, recyclerViewReminder;
     private WeatherAdapter weatherAdapter;
     private ReminderAdapter reminderAdapter;
     private final ArrayList<Modelmain> modelmain = new ArrayList<>();
-    private final ArrayList<ReminderModel> reminderModels = new ArrayList<>();
-    private City city = new City();
-    private LocationModel locationModel = new LocationModel();
+    private final LocationModel locationModel = new LocationModel();
     FloatingActionButton fab_action1;
     LocationRequest locationRequest;
-    List<String> activityNameList = new ArrayList<String>();
-    List<String> activityLocationList = new ArrayList<String>();
-    List<String> activityDateList = new ArrayList<String>();
-    List<String> activityTimeList = new ArrayList<String>();
-    List<String> activityIconList = new ArrayList<String>();
-    List<String> activityConditionList = new ArrayList<String>();
+    List<String> activityNameList = new ArrayList<>();
+    List<String> activityLocationList = new ArrayList<>();
+    List<String> activityDateList = new ArrayList<>();
+    List<String> activityTimeList = new ArrayList<>();
+    List<String> activityIconList = new ArrayList<>();
+    List<String> activityConditionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,28 +97,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-
-        ImageView imgFeed = findViewById(R.id.imgFeed);
         ImageView imgChangeLocation = findViewById(R.id.imgChangeLocation);
 
-        imgFeed.setOnClickListener(this);
         imgChangeLocation.setOnClickListener(this);
 
         recyclerViewFiveDays = findViewById(R.id.recyclerWeather);
         recyclerViewReminder = findViewById(R.id.recyclerReminder);
 
         txtDate = findViewById(R.id.txtDate);
-        imgFirst = findViewById(R.id.dayOne);
-        imgSecond = findViewById(R.id.dayTwo);
-        imgThird = findViewById(R.id.dayThree);
-        imgFourth = findViewById(R.id.dayFour);
-        imgFifth = findViewById(R.id.dayFive);
+        ImageView imgFirst = findViewById(R.id.dayOne);
+        ImageView imgSecond = findViewById(R.id.dayTwo);
+        ImageView imgThird = findViewById(R.id.dayThree);
+        ImageView imgFourth = findViewById(R.id.dayFour);
+        ImageView imgFifth = findViewById(R.id.dayFive);
 
-        txtDayOne = findViewById(R.id.txtDayOne);
-        txtDayTwo = findViewById(R.id.txtDayTwo);
-        txtDayThree = findViewById(R.id.txtDayThree);
-        txtDayFour = findViewById(R.id.txtDayFour);
-        txtDayFive = findViewById(R.id.txtDayFive);
+        TextView txtDayOne = findViewById(R.id.txtDayOne);
+        TextView txtDayTwo = findViewById(R.id.txtDayTwo);
+        TextView txtDayThree = findViewById(R.id.txtDayThree);
+        TextView txtDayFour = findViewById(R.id.txtDayFour);
+        TextView txtDayFive = findViewById(R.id.txtDayFive);
 
         imgFirst.setOnClickListener(this);
         imgSecond.setOnClickListener(this);
@@ -134,8 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
 
         cityKabko = sharedPreferences.getString(KABKO_KEY, null);
-        cityLat = Double.valueOf(sharedPreferences.getString(LAT_KEY, "0.0"));
-        cityLon = Double.valueOf(sharedPreferences.getString(LON_KEY, "0.0"));
+        cityLat = Double.parseDouble(sharedPreferences.getString(LAT_KEY, "0.0"));
+        cityLon = Double.parseDouble(sharedPreferences.getString(LON_KEY, "0.0"));
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -156,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String activityDate = cursor.getString(2);
                 Toast.makeText(MainActivity.this, activityDate, Toast.LENGTH_SHORT).show();
             }while(cursor.moveToNext());
-        }else{ }
+        }
         cursor.close();
 
         if (cityLat == 0.0) {
@@ -242,7 +234,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }, Looper.getMainLooper());
                 }
             } else {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_FINE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                updateGPS();
+            } else {
+                finish();
+                finishAffinity();
+                System.exit(0);
             }
         }
     }
@@ -465,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         OneTimeDatabaseHelper oneTimeDatabaseHelper = new OneTimeDatabaseHelper(MainActivity.this);
         Cursor cursor = oneTimeDatabaseHelper.getReminder();
 
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst()){
             do {
                 String activityName = cursor.getString(0);
                 activityNameList.add(activityName);
@@ -488,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("DATE", activityDate);
 
                 AndroidNetworking.get(BASE_URL + "forecast?lat=" + activityLat + "&lon=" + activityLon + "&units=metric&appid=" + appid)
-                        .setPriority(Priority.MEDIUM)
+                        .setPriority(Priority.HIGH)
                         .build()
                         .getAsJSONObject(new JSONObjectRequestListener() {
                             @Override
@@ -530,10 +536,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             if (time.equals(activityTime)) {
                                                 activityIconList.add(zeroJsonObject.getString("icon"));
                                                 activityConditionList.add(zeroJsonObject.getString("description"));
-                                                Log.e("activityIconListA", String.valueOf(activityIconList));
-                                                Log.e("activityConditionList", String.valueOf(activityConditionList));
                                             }
                                         }
+                                    }
+
+                                    if (cursor.isAfterLast()){
+                                        recyclerViewReminder.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
+                                        recyclerViewReminder.setHasFixedSize(true);
+                                        reminderAdapter = new ReminderAdapter(activityNameList.toArray(new String[0]), activityLocationList.toArray(new String[0]), activityDateList.toArray(new String[0]), activityTimeList.toArray(new String[0]), activityIconList.toArray(new String[0]), activityConditionList.toArray(new String[0]));
+                                        recyclerViewReminder.setAdapter(reminderAdapter);
+                                        reminderAdapter.notifyDataSetChanged();
                                     }
 
                                 } catch (JSONException e) {
@@ -551,24 +563,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } while (cursor.moveToNext());
         }
         cursor.close();
-
-        recyclerViewReminder.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL,false));
-        recyclerViewReminder.setHasFixedSize(true);
-
-
-        String[] activityNameString = activityNameList.toArray(new String[0]);
-        String[] activityLocationString = activityLocationList.toArray(new String[0]);
-        String[] activityDateString = activityDateList.toArray(new String[0]);
-        //Log.e("activityDateString", activityDateString[0]);
-        String[] activityTimeString = activityTimeList.toArray(new String[0]);
-        //Log.e("activityIconListB", activityIconList.get(0));
-        String[] activityIconString = activityIconList.toArray(new String[0]);
-        //Log.e("activityIconString", activityIconString[0]);
-        String[] activityConditionString = activityConditionList.toArray(new String[0]);
-
-        reminderAdapter = new ReminderAdapter(activityNameString, activityLocationString, activityDateString, activityTimeString, activityIconString, activityConditionString);
-        recyclerViewReminder.setAdapter(reminderAdapter);
-        reminderAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -597,10 +591,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.imgFeed:
-                Intent feedIntent = new Intent(MainActivity.this, Feedback.class);
-                startActivity(feedIntent);
-                break;
             case R.id.imgChangeLocation:
                 Intent changeLocationIntent = new Intent(MainActivity.this, LocationActivity.class);
                 startActivity(changeLocationIntent);

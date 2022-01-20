@@ -32,10 +32,6 @@
             android:name=".Main.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Main.Feedback"
-            android:exported="true"
-            android:parentActivityName=".Main.MainActivity" />
-        <activity
             android:name=".Main.LocationActivity"
             android:exported="false"
             android:parentActivityName=".Main.MainActivity" />

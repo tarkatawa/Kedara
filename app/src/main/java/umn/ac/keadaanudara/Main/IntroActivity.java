@@ -31,11 +31,11 @@ public class IntroActivity extends AppCompatActivity {
     private Button btn_got_it;
     private String[] title_array = {
             "Check Weather Conditions", "Have Outdoor activity?",
-            "View It In Radar!",
+            "Weather Conditions For A Week",
     };
     private String[] description_array = {
             "Check the Weather for your location and specific time easily.", "Don’t Worry! We will remind you about the weather conditions of your upcoming activities.",
-            "Introducing Weather Radar feature where you can see weather conditions by maps around the world",
+            "For the next 5 Days, We will Take Care of your Weather Concerns.",
     };
     private int[] about_images_array = {
             R.drawable.on_boarding_one, R.drawable.on_boarding_two,
