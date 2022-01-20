@@ -97,11 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-
-        ImageView imgFeed = findViewById(R.id.imgFeed);
         ImageView imgChangeLocation = findViewById(R.id.imgChangeLocation);
 
-        imgFeed.setOnClickListener(this);
         imgChangeLocation.setOnClickListener(this);
 
         recyclerViewFiveDays = findViewById(R.id.recyclerWeather);
@@ -237,7 +234,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }, Looper.getMainLooper());
                 }
             } else {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_FINE_LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_FINE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                updateGPS();
+            } else {
+                finish();
+                finishAffinity();
+                System.exit(0);
             }
         }
     }
@@ -580,10 +591,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.imgFeed:
-                Intent feedIntent = new Intent(MainActivity.this, Feedback.class);
-                startActivity(feedIntent);
-                break;
             case R.id.imgChangeLocation:
                 Intent changeLocationIntent = new Intent(MainActivity.this, LocationActivity.class);
                 startActivity(changeLocationIntent);

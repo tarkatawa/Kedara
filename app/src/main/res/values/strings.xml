@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Keadaan Udara</string>
+    <string name="app_name">Kedara</string>
     <string name="current_temp">Current Temp</string>
     <string name="locate_me">Locate me</string>
 </resources>

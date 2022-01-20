@@ -7,6 +7,16 @@
     android:background="@color/colorBlue"
     tools:context=".Main.SplashScreenActivity">
 
+    <ImageView
+        android:id="@+id/kedara"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/kedara" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,38 +35,30 @@
         android:layout_height="wrap_content"
         android:text="by"
         android:textColor="@color/colorWhite"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:fontFamily="@font/robotoslab"
         app:layout_constraintBottom_toTopOf="@+id/macro_infinity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/kedara"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_kedara" />
-
-    <ImageView
         android:id="@+id/macro_infinity"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/infinity" />
+        app:srcCompat="@drawable/macroni" />
 
     <TextView
         android:id="@+id/infinity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="infinity"
+        android:text="Macroni"
         android:textColor="@color/colorWhite"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:fontFamily="@font/robotoslab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/macro_infinity" />
