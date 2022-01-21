@@ -58,6 +58,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -466,10 +468,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (cursor.moveToFirst()){
             int i = 0;
+            Instant now = Instant.now();
+            Instant yesterday = now.minus(1, ChronoUnit.DAYS);
+            Date myDate = Date.from(yesterday);
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedYesterday = formatter.format(myDate);
+
             do {
+                if(cursor.getString(2).equals(formattedYesterday)){
+                    String activityNameCompleted = cursor.getString(0);
+                    oneTimeDatabaseHelper.deleteOne(activityNameCompleted);
+                    cursor.moveToNext();
+                    continue;
+                }
+
                 if(!cursor.isNull(i)){
                     reminderShow.setVisibility(View.VISIBLE);
                 }
+
                 String activityName = cursor.getString(0);
                 activityNameList.add(activityName);
 
